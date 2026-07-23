@@ -1,0 +1,127 @@
+SAVE SWIMMER - PROTOCOLO PRUEBA GATEWAY GSM V001
+Fecha: 2026-06-01
+
+Objetivo:
+Simular el dispositivo Save Swimmer final sin modulo GSM interno.
+El telefono A funciona como gateway: recibe BLE del ESP32, toma GPS propio y sube datos por red movil al backend.
+El telefono B visualiza el dashboard en vivo.
+
+Actualizacion 2026-06-02:
+El boton Gateway GSM ON funciona como "Comenzar" manual de la sesion.
+Ese momento fija el punto base de salida con el GPS del telefono.
+Hasta tener sensor de agua, esta es la forma de iniciar pruebas como si fuera un reloj deportivo: comenzar, caminar/nadar, observar ruta y estado.
+
+Arquitectura:
+
+ESP32 Save Swimmer
+-> BLE
+-> Telefono A dedicado en boya/bolsa seca
+-> datos moviles GSM/4G
+-> backend Save Swimmer
+-> Telefono B navegador/dashboard
+
+Requisitos:
+
+1. ESP32 con firmware actual de campo.
+2. Telefono A con app Save Swimmer Field Viewer v0.3.30 o superior.
+3. Telefono A con:
+   - Bluetooth activo
+   - ubicacion/GPS activo
+   - datos moviles activos
+   - permisos de ubicacion concedidos a la app
+4. Telefono B con navegador.
+5. Backend Save Swimmer accesible desde internet.
+
+Opciones de backend:
+
+A. Prueba local misma red WiFi:
+   - PC ejecuta backend en http://IP_DE_LA_PC:8787
+   - Celular A y B deben estar en la misma red WiFi
+   - No sirve para medir cobertura GSM real en mar
+
+B. Prueba GSM real:
+   - PC ejecuta backend local
+   - Se crea una URL publica con tunel temporal
+   - Celular A usa datos moviles y envia a la URL publica /api/telemetry
+   - Celular B abre la URL publica del dashboard coach
+
+Flujo de prueba:
+
+1. Encender ESP32 Save Swimmer.
+2. Abrir app Field Viewer en telefono A.
+3. Conectar BLE al ESP32.
+4. Enviar perfil de atleta.
+5. Iniciar sesion microSD.
+6. En el bloque Gateway GSM:
+   - pegar URL completa del servidor:
+     https://URL_PUBLICA/api/telemetry
+   - tocar Gateway GSM: ON
+   - ese toque fija la base/punto de comienzo de la sesion
+7. Confirmar que la app muestre:
+   - GPS telefono con coordenadas
+   - Gateway OK -> 201 o 200
+8. En telefono B abrir vista entrenador:
+   https://URL_PUBLICA/coach.html
+9. Verificar en dashboard:
+   - dispositivo activo
+   - atleta correcto
+   - ultima actualizacion menor a 10 s
+   - mapa real OpenStreetMap
+   - punto actual en coordenadas reales
+   - ruta o movimiento
+   - distancia a playa/base
+   - distancia al punto de comienzo si la prueba es caminando
+   - lectura para entrenador
+10. Alejar telefono A progresivamente hacia zona de prueba.
+11. Registrar:
+   - hora inicio
+   - distancia aproximada desde playa
+   - ultima actualizacion OK
+   - primer fallo de envio si ocurre
+   - punto donde se recupera senal
+   - estado BLE con ESP
+   - estado bateria telefono
+
+Datos que sube la app v0.3.30:
+
+- serial
+- atleta
+- modo GATEWAY_FIELD_TEST
+- timestamp
+- LR
+- FB
+- UD
+- MAG
+- latitud telefono
+- longitud telefono
+- precision GPS
+- water=true
+- motion=MOVING
+- risk=NORMAL
+- raw BLE
+
+Criterios de exito:
+
+Minimo:
+- Telefono B ve actualizaciones en vivo desde telefono A.
+- Cada envio aparece en backend sin cerrar la app.
+
+Bueno:
+- El sistema sostiene actualizaciones cada 5-10 s durante caminata o playa.
+- GPS tiene precision razonable.
+- Si se pierde internet, vuelve a enviar al recuperar senal.
+
+Pendiente despues de V001:
+- Agregar cola offline si no hay internet.
+- Al tener sensor de agua, reemplazar comienzo manual por WATER_BUFFERING -> RECORDING.
+- Agregar RSSI BLE real si Android lo expone durante conexion.
+- Agregar bateria real del telefono.
+- Agregar estado SIN_AVANCE usando GPS.
+- Agregar geocerca simple Agua Dulce.
+
+Riesgos:
+
+- El telefono A no debe ir sumergido.
+- Una bolsa seca dentro del agua puede degradar senal celular.
+- Si el telefono bloquea la app en segundo plano, detener optimizacion de bateria.
+- Si la URL es http y no https, Android lo permite en esta version por usesCleartextTraffic=true, pero para campo real conviene HTTPS.

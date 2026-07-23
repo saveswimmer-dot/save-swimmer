@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Swimmer Training Dashboard</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061016;
+      --panel: #0d2029;
+      --panel2: #102a35;
+      --line: #244854;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --yellow: #ffd166;
+      --green: #49e285;
+      --red: #ff536a;
+      --blue: #82aaff;
+      --orange: #ff6a18;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #061016, #081820 55%, #050c11);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: #071922;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    button,
+    label.file {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-height: 40px;
+      padding: 10px 12px;
+      background: var(--panel2);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    label.file { display: inline-flex; align-items: center; }
+    input[type="file"] { display: none; }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 14px;
+    }
+
+    .panel,
+    .metric {
+      background: rgba(13, 32, 41, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 25px;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 320px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #07151c;
+    }
+
+    .small-canvas { height: 245px; }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      margin-top: 10px;
+    }
+
+    .readout {
+      display: grid;
+      gap: 10px;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .num {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #07151c;
+      padding: 9px 10px;
+      min-width: 0;
+    }
+
+    .num span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .num strong {
+      font-size: 17px;
+      overflow-wrap: anywhere;
+    }
+
+    .read {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #07151c;
+      padding: 12px;
+    }
+
+    .read strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .read p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .ok { color: var(--green); }
+    .warn { color: var(--yellow); }
+    .bad { color: var(--red); }
+
+    .status-band {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .status-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .status-copy {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .grid,
+      .two,
+      .status-band { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Save Swimmer Training Dashboard</h1>
+      <div class="sub" id="fileName">Cargando datasets/latest.csv...</div>
+    </div>
+    <div>
+      <label class="file">
+        Cargar CSV
+        <input id="fileInput" type="file" accept=".csv,text/csv" />
+      </label>
+      <button id="validatedBtn">Abrir SS000013 valida</button>
+      <button id="reloadBtn">Recargar latest</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel status-band">
+      <div>
+        <h2>Calidad de archivo</h2>
+        <div class="status-value" id="sessionStatus">--</div>
+      </div>
+      <div class="status-copy" id="sessionUse">Carga una sesion para comenzar la lectura.</div>
+    </section>
+
+    <section class="grid">
+      <div class="metric"><span>Atleta</span><strong id="athlete">--</strong></div>
+      <div class="metric"><span>Duración</span><strong id="duration">--</strong></div>
+      <div class="metric"><span>Ritmo brazada</span><strong id="strokePace">--</strong></div>
+      <div class="metric"><span>Regularidad</span><strong id="regularity">--</strong></div>
+      <div class="metric"><span>Rotación torso</span><strong id="rotation">--</strong></div>
+      <div class="metric"><span>Impulso efectivo</span><strong id="impulse">--</strong></div>
+      <div class="metric"><span>Estabilidad vertical</span><strong id="vertical">--</strong></div>
+      <div class="metric"><span>Lectura general</span><strong id="general">--</strong></div>
+    </section>
+
+    <section class="two">
+      <div class="panel">
+        <h2>Loop de rotación corporal</h2>
+        <canvas id="rotationLoop" width="760" height="360"></canvas>
+        <div class="numbers">
+          <div class="num"><span>Cero auto LR / FB</span><strong id="nLrRange">--</strong></div>
+          <div class="num"><span>Giro bajo / sobre 0</span><strong id="nFbRange">--</strong></div>
+          <div class="num"><span>Prom sobre 0</span><strong id="nAvgUp">--</strong></div>
+          <div class="num"><span>Prom bajo 0</span><strong id="nAvgDown">--</strong></div>
+        </div>
+        <div class="note" id="zeroRead">El cero corporal se calcula automáticamente con el movimiento registrado.</div>
+      </div>
+      <div class="panel">
+        <h2>Lectura entrenador</h2>
+        <div class="readout">
+          <div class="read"><strong id="rTechnique">Técnica</strong><p id="rTechniqueText">--</p></div>
+          <div class="read"><strong id="rStrength">Fuerza / impulso</strong><p id="rStrengthText">--</p></div>
+          <div class="read"><strong id="rFatigue">Fatiga</strong><p id="rFatigueText">--</p></div>
+          <div class="read"><strong id="rAdvice">Enfoque sugerido</strong><p id="rAdviceText">--</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="two">
+      <div class="panel">
+        <h2>Promedio por brazada</h2>
+        <canvas id="strokeBars" class="small-canvas" width="760" height="260"></canvas>
+        <div class="numbers">
+          <div class="num"><span>Ciclos</span><strong id="nCycles">--</strong></div>
+          <div class="num"><span>Tiempo prom</span><strong id="nStrokeTime">--</strong></div>
+          <div class="num"><span>Más fuerte</span><strong id="nStrongest">--</strong></div>
+          <div class="num"><span>Más débil</span><strong id="nWeakest">--</strong></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Impulso UD + MAG</h2>
+        <canvas id="impulseChart" class="small-canvas" width="760" height="260"></canvas>
+        <div class="numbers">
+          <div class="num"><span>UD mín / máx</span><strong id="nUdRange">--</strong></div>
+          <div class="num"><span>MAG mín / máx</span><strong id="nMagRange">--</strong></div>
+          <div class="num"><span>Impulso prom</span><strong id="nImpulseAvg">--</strong></div>
+          <div class="num"><span>Energía prom</span><strong id="nEnergyAvg">--</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Ritmo y caída de rendimiento</h2>
+      <canvas id="paceChart" class="small-canvas" width="1180" height="260"></canvas>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let samples = [];
+    let meta = {};
+    let parseInfo = {};
+
+    function parseCsv(text) {
+      meta = {};
+      parseInfo = { isSd: false, invalidRows: 0, hasFooter: false };
+      const lines = text.trim().split(/\r?\n/);
+      while (lines.length && lines[0].startsWith("#")) {
+        const line = lines.shift().substring(1);
+        const comma = line.indexOf(",");
+        if (comma > 0) meta[line.substring(0, comma).trim()] = line.substring(comma + 1).trim();
+      }
+      if (!lines.length) return [];
+      const headers = lines.shift().split(",").map(h => h.trim().toLowerCase());
+      const idx = Object.fromEntries(headers.map((h, i) => [h, i]));
+      parseInfo.isSd = idx.elapsed_s !== undefined || idx.local_time !== undefined;
+      if (idx.lr === undefined || idx.fb === undefined || idx.ud === undefined || idx.mag === undefined) {
+        throw new Error("CSV sin columnas de sensores LR, FB, UD y MAG.");
+      }
+      const parsed = [];
+      lines.forEach(line => {
+        if (!line.trim()) return;
+        if (line.startsWith("#END_SESSION")) {
+          parseInfo.hasFooter = true;
+          meta.end_session = line.substring(1);
+          return;
+        }
+        if (line.startsWith("#")) return;
+        const c = line.split(",");
+        const timeText = idx.local_time !== undefined ? c[idx.local_time] : c[idx.time];
+        const elapsed = idx.elapsed_s !== undefined ? Number(c[idx.elapsed_s]) : NaN;
+        const point = {
+          timeText,
+          t: Number.isFinite(elapsed) ? elapsed * 1000 : new Date(timeText.replace(" ", "T")).getTime(),
+          lr: Number(c[idx.lr]),
+          fb: Number(c[idx.fb]),
+          ud: Number(c[idx.ud]),
+          mag: Number(c[idx.mag]),
+          raw: idx.raw === undefined ? "" : c.slice(idx.raw).join(",")
+        };
+        if (Number.isFinite(point.t) && Number.isFinite(point.lr) && Number.isFinite(point.fb) &&
+            Number.isFinite(point.ud) && Number.isFinite(point.mag)) {
+          parsed.push(point);
+        } else {
+          parseInfo.invalidRows += 1;
+        }
+      });
+      return parsed;
+    }
+
+    function fmt(n, d = 1) {
+      return Number.isFinite(n) ? n.toFixed(d) : "--";
+    }
+
+    function avg(arr) {
+      return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : NaN;
+    }
+
+    function smooth(key, radius = 2) {
+      return samples.map((_, i) => {
+        let sum = 0, count = 0;
+        for (let j = i - radius; j <= i + radius; j++) {
+          if (samples[j]) {
+            sum += samples[j][key];
+            count++;
+          }
+        }
+        return count ? sum / count : 0;
+      });
+    }
+
+    function energyAt(i) {
+      if (i <= 0 || !samples[i] || !samples[i - 1]) return 0;
+      const s = samples[i], p = samples[i - 1];
+      return Math.abs(s.lr - p.lr) + Math.abs(s.fb - p.fb) + Math.abs(s.ud - p.ud);
+    }
+
+    function buildBodyFrame(lr, fb) {
+      const zeroLR = avg(lr);
+      const zeroFB = avg(fb);
+      const dx = lr.map(v => v - zeroLR);
+      const dy = fb.map(v => v - zeroFB);
+      const varX = avg(dx.map(v => v * v));
+      const varY = avg(dy.map(v => v * v));
+      const covariance = avg(dx.map((v, i) => v * dy[i]));
+      let angle = 0.5 * Math.atan2(2 * covariance, varX - varY);
+      let lateral = dx.map((v, i) => v * Math.cos(angle) + dy[i] * Math.sin(angle));
+      let vertical = dx.map((v, i) => -v * Math.sin(angle) + dy[i] * Math.cos(angle));
+
+      if (avg(lateral.map((v, i) => v * dx[i])) < 0) {
+        angle += Math.PI;
+        lateral = lateral.map(v => -v);
+        vertical = vertical.map(v => -v);
+      }
+
+      return { zeroLR, zeroFB, angleDeg: angle * 180 / Math.PI, lateral, vertical };
+    }
+
+    function buildSegments(lateral, baseline) {
+      const centered = lateral.map(v => v - baseline);
+      const crossings = [0];
+      let lastSign = centered[0] >= 0 ? 1 : -1;
+      for (let i = 1; i < centered.length; i++) {
+        const sign = centered[i] >= 0 ? 1 : -1;
+        if (sign !== lastSign) {
+          crossings.push(i);
+          lastSign = sign;
+        }
+      }
+      crossings.push(centered.length - 1);
+
+      const segments = [];
+      for (let i = 0; i < crossings.length - 1; i++) {
+        const start = crossings[i];
+        const end = crossings[i + 1];
+        if (end - start < 2) continue;
+        const slice = centered.slice(start, end + 1);
+        segments.push({
+          start,
+          end,
+          maxUp: Math.max(0, Math.max(...slice)),
+          maxDown: Math.max(0, Math.abs(Math.min(...slice))),
+          duration: (samples[end].t - samples[start].t) / 1000,
+          impulse: avg(samples.slice(start, end + 1).map((s, k) => Math.abs(s.ud - avgUd) + Math.max(0, s.mag - avgMag))),
+          energy: avg(samples.slice(start, end + 1).map((_, k) => energyAt(start + k)))
+        });
+      }
+      return segments.filter(s => s.maxUp > 0.25 || s.maxDown > 0.25);
+    }
+
+    let avgUd = 0;
+    let avgMag = 0;
+
+    function analyze() {
+      if (!samples.length) return;
+      avgUd = avg(samples.map(s => s.ud));
+      avgMag = avg(samples.map(s => s.mag));
+
+      const lr = smooth("lr", 1);
+      const fb = smooth("fb", 1);
+      const ud = smooth("ud", 1);
+      const mag = smooth("mag", 1);
+      const frame = buildBodyFrame(lr, fb);
+      const segments = buildSegments(frame.lateral, 0);
+      const duration = (samples[samples.length - 1].t - samples[0].t) / 1000;
+      const avgUp = avg(segments.map(s => s.maxUp));
+      const avgDown = avg(segments.map(s => s.maxDown));
+      const avgStroke = avg(segments.map(s => s.duration));
+      const strongest = segments.length ? Math.max(...segments.map(s => s.maxUp + s.maxDown)) : NaN;
+      const weakest = segments.length ? Math.min(...segments.map(s => s.maxUp + s.maxDown)) : NaN;
+      const impulseAvg = avg(segments.map(s => s.impulse));
+      const energyAvg = avg(segments.map(s => s.energy));
+      const strokeStd = segments.length ? Math.sqrt(avg(segments.map(s => Math.pow(s.duration - avgStroke, 2)))) : NaN;
+      const regularity = Number.isFinite(avgStroke) && avgStroke > 0 ? Math.max(0, Math.min(100, 100 - (strokeStd / avgStroke) * 120)) : NaN;
+      const rotationScore = Math.max(0, Math.min(100, ((avgUp + avgDown) / 2 / 5.5) * 100));
+      const impulseScore = Math.max(0, Math.min(100, (impulseAvg / 3.8) * 100));
+      const udRange = Math.max(...ud) - Math.min(...ud);
+      const magRange = Math.max(...mag) - Math.min(...mag);
+      const verticalScore = Math.max(0, Math.min(100, 100 - Math.abs(udRange - 2.5) * 15));
+      const fatigue = fatigueScore(segments);
+      const cleanSession = !parseInfo.isSd || (parseInfo.hasFooter && parseInfo.invalidRows === 0);
+      const referenceReady = cleanSession && duration >= 60 && /nado|swim/i.test(meta.mode || "");
+
+      $("sessionStatus").textContent = cleanSession ? "VALIDA" : "INCOMPLETA";
+      $("sessionStatus").className = `status-value ${cleanSession ? "ok" : "bad"}`;
+      $("sessionUse").textContent = cleanSession
+        ? referenceReady
+          ? "Sesion apta para iniciar comparaciones de ritmo, rotacion e impulso del atleta."
+          : `Archivo integro con ${samples.length} muestras. Es una prueba corta o modo TEST: sirve para verificar movimiento y graficos, no como patron de nado.`
+        : `Archivo recuperado con ${samples.length} muestras validas, pero sin cierre limpio o con filas invalidas. Solo se usa para diagnostico, no para evaluar tecnica.`;
+
+      $("athlete").textContent = meta.user || "--";
+      $("duration").textContent = `${fmt(duration, 0)} s`;
+      $("strokePace").textContent = Number.isFinite(avgStroke) ? `${fmt(avgStroke, 2)} s` : "--";
+      $("regularity").textContent = Number.isFinite(regularity) ? `${fmt(regularity, 0)}%` : "--";
+      $("rotation").textContent = `${fmt(rotationScore, 0)}%`;
+      $("impulse").textContent = `${fmt(impulseScore, 0)}%`;
+      $("vertical").textContent = `${fmt(verticalScore, 0)}%`;
+      $("general").textContent = referenceReady ? "Base" : cleanSession ? "Prueba" : "Diagnostico";
+      $("nLrRange").textContent = `${fmt(frame.zeroLR, 2)} / ${fmt(frame.zeroFB, 2)}`;
+      $("nFbRange").textContent = `${fmt(Math.min(...frame.lateral), 2)} / +${fmt(Math.max(...frame.lateral), 2)}`;
+      $("nAvgUp").textContent = fmt(avgUp, 2);
+      $("nAvgDown").textContent = fmt(avgDown, 2);
+      $("nCycles").textContent = segments.length;
+      $("nStrokeTime").textContent = Number.isFinite(avgStroke) ? `${fmt(avgStroke, 2)} s` : "--";
+      $("nStrongest").textContent = fmt(strongest, 2);
+      $("nWeakest").textContent = fmt(weakest, 2);
+      $("nUdRange").textContent = `${fmt(Math.min(...ud), 2)} / ${fmt(Math.max(...ud), 2)}`;
+      $("nMagRange").textContent = `${fmt(Math.min(...mag), 2)} / ${fmt(Math.max(...mag), 2)}`;
+      $("nImpulseAvg").textContent = fmt(impulseAvg, 2);
+      $("nEnergyAvg").textContent = fmt(energyAvg, 2);
+
+      renderReads(rotationScore, impulseScore, regularity, fatigue, avgStroke, referenceReady, cleanSession);
+      drawLoop(frame);
+      drawBars(segments);
+      drawImpulse(ud, mag);
+      drawPace(segments);
+    }
+
+    function fatigueScore(segments) {
+      if (segments.length < 4) return NaN;
+      const mid = Math.floor(segments.length / 2);
+      const first = avg(segments.slice(0, mid).map(s => (s.maxUp + s.maxDown + s.impulse) / 3));
+      const last = avg(segments.slice(mid).map(s => (s.maxUp + s.maxDown + s.impulse) / 3));
+      return ((first - last) / Math.max(0.1, first)) * 100;
+    }
+
+    function renderReads(rotation, impulse, regularity, fatigue, pace, referenceReady, cleanSession) {
+      if (!cleanSession) {
+        $("rTechniqueText").textContent = "Archivo incompleto: la forma del movimiento se puede visualizar, pero no se califica.";
+        $("rStrengthText").textContent = "Los valores de impulso se conservan como diagnostico de sensor y grabacion.";
+        $("rFatigueText").textContent = "No corresponde evaluar caida de rendimiento sin cierre validado.";
+        $("rAdviceText").textContent = "Repetir la sesion con alimentacion estable para obtener una muestra util.";
+        return;
+      }
+
+      if (!referenceReady) {
+        $("rTechniqueText").textContent = `Movimiento detectado. Rotacion observada ${fmt(rotation, 0)}%; falta una sesion real de nado de mayor duracion para interpretarla como tecnica.`;
+        $("rStrengthText").textContent = `Respuesta de impulso observada ${fmt(impulse, 0)}%; por ahora es una medida de prueba del dispositivo.`;
+        $("rFatigueText").textContent = "Muestra valida, pero demasiado corta o en modo TEST para leer fatiga.";
+        $("rAdviceText").textContent = "Usar esta sesion para validar graficos; la primera base del atleta debe tomarse nadando y con al menos 1 minuto.";
+        return;
+      }
+
+      $("rTechniqueText").textContent = rotation >= 65
+        ? "Buena rotación de torso. El cuerpo acompaña la brazada."
+        : rotation >= 40
+          ? "Rotación media. Hay base técnica, pero puede ampliarse."
+          : "Rotación baja. Puede estar nadando con espalda plana o poca transferencia del torso.";
+
+      $("rStrengthText").textContent = impulse >= 65
+        ? "Buen impulso efectivo. La brazada genera respuesta clara en el torso."
+        : impulse >= 40
+          ? "Impulso medio. Hay empuje, pero todavía puede sostenerse mejor."
+          : "Impulso bajo. Puede faltar fuerza efectiva, agarre o transferencia.";
+
+      $("rFatigueText").textContent = Number.isFinite(fatigue)
+        ? fatigue > 18
+          ? `Cae ${fmt(fatigue, 0)}% hacia el final. Posible fatiga o pérdida de empuje.`
+          : "No se ve una caída fuerte en esta muestra."
+        : "Muestra corta para leer fatiga.";
+
+      let advice = "Grabar al menos 1 minuto para comparar mejor.";
+      if (rotation >= 60 && impulse < 45) advice = "Técnica aceptable; trabajar fuerza/agarre y empuje por brazada.";
+      if (rotation < 45 && impulse >= 60) advice = "Hay esfuerzo, pero falta acompañar con giro de torso.";
+      if (rotation < 45 && impulse < 45) advice = "Trabajar primero rotación y transferencia, no solo velocidad de brazos.";
+      if (rotation >= 60 && impulse >= 60 && regularity >= 65) advice = "Patrón sólido; objetivo siguiente: sostenerlo más tiempo.";
+      $("rAdviceText").textContent = advice;
+    }
+
+    function baseCanvas(id) {
+      const canvas = $(id);
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width, h = canvas.height, pad = 30;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#07151c";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "#244854";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, h / 2);
+      ctx.lineTo(w - pad, h / 2);
+      ctx.stroke();
+      return { canvas, ctx, w, h, pad };
+    }
+
+    function drawLoop(frame) {
+      const { ctx, w, h, pad } = baseCanvas("rotationLoop");
+      const cx = w / 2, cy = h / 2;
+      const lateral = frame.lateral;
+      const vertical = frame.vertical;
+      const lateralAmp = Math.max(1, Math.max(Math.abs(Math.min(...lateral)), Math.abs(Math.max(...lateral))));
+      const verticalAmp = Math.max(0.4, Math.max(Math.abs(Math.min(...vertical)), Math.abs(Math.max(...vertical))));
+      const plotW = (w - pad * 2) * 0.42;
+      const plotH = (h - pad * 2) * 0.34;
+
+      drawAxisNumbers(ctx, w, h, pad, Math.min(...lateral), Math.max(...lateral), Math.min(...vertical), Math.max(...vertical));
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("IZQ", pad, cy - 10);
+      ctx.fillText("DER", w - pad - 24, cy - 10);
+      ctx.fillText("SOBRE 0", cx + 8, pad + 12);
+      ctx.fillText("BAJO 0", cx + 8, h - pad);
+
+      ctx.strokeStyle = "rgba(255,83,106,0.3)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i <= 240; i++) {
+        const t = Math.PI * 2 * i / 240;
+        const d = 1 + Math.sin(t) ** 2;
+        const x = cx + (Math.cos(t) / d) * plotW * 1.25;
+        const y = cy - ((Math.sin(t) * Math.cos(t)) / d) * plotH * 1.35;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.strokeStyle = "#28d7ec";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      lateral.forEach((v, i) => {
+        const x = cx + Math.max(-1, Math.min(1, v / lateralAmp)) * plotW;
+        const y = cy - Math.max(-1, Math.min(1, vertical[i] / verticalAmp)) * plotH;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      $("zeroRead").textContent =
+        `Cero corporal automático: LR ${fmt(frame.zeroLR, 2)}, FB ${fmt(frame.zeroFB, 2)}. ` +
+        `Eje dominante corregido ${fmt(frame.angleDeg, 1)} grados; la curva se interpreta alrededor de 0 sin nivelación manual.`;
+    }
+
+    function drawBars(segments) {
+      const { ctx, w, h, pad } = baseCanvas("strokeBars");
+      const zeroY = h / 2;
+      const maxValue = Math.max(1, ...segments.map(s => Math.max(s.maxUp, s.maxDown)));
+      const barW = Math.max(8, Math.min(30, (w - pad * 2) / Math.max(1, segments.length) * 0.45));
+      segments.forEach((s, i) => {
+        const x = pad + ((w - pad * 2) * (i + 0.5)) / Math.max(1, segments.length);
+        const upH = (s.maxUp / maxValue) * h * 0.36;
+        const downH = (s.maxDown / maxValue) * h * 0.36;
+        ctx.fillStyle = "#28d7ec";
+        ctx.fillRect(x - barW, zeroY - upH, barW, upH);
+        ctx.fillStyle = "#ffd166";
+        ctx.fillRect(x, zeroY, barW, downH);
+      });
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("subida sobre 0 / bajada bajo 0 por ciclo", pad, 20);
+      ctx.fillText(`escala max ${fmt(maxValue, 2)}`, w - pad - 88, 20);
+    }
+
+    function drawImpulse(ud, mag) {
+      const { ctx, w, h, pad } = baseCanvas("impulseChart");
+      drawLine(ctx, ud.map(v => v - avgUd), "#82aaff", -5, 5, w, h, pad);
+      drawLine(ctx, mag.map(v => v - avgMag), "#49e285", -5, 5, w, h, pad);
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("azul UD respecto promedio · verde MAG respecto promedio", pad, 20);
+      ctx.fillText("escala -5 / +5", w - pad - 82, 20);
+    }
+
+    function drawPace(segments) {
+      const { ctx, w, h, pad } = baseCanvas("paceChart");
+      const values = segments.map(s => s.duration);
+      const max = Math.max(1, ...values);
+      const min = Math.min(...values, 0);
+      drawLine(ctx, values, "#ffd166", min, max, w, h, pad);
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("tiempo por ciclo/brazada: si sube hacia la derecha, el ritmo se hace mas lento", pad, 20);
+      ctx.fillText(`min ${fmt(min, 2)}s · max ${fmt(max, 2)}s`, w - pad - 128, 20);
+    }
+
+    function drawAxisNumbers(ctx, w, h, pad, minX, maxX, minY, maxY) {
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "11px Arial";
+      ctx.fillText(fmt(minX, 1), pad, h / 2 + 16);
+      ctx.fillText(fmt(maxX, 1), w - pad - 28, h / 2 + 16);
+      ctx.fillText(fmt(maxY, 1), w / 2 + 8, pad + 12);
+      ctx.fillText(fmt(minY, 1), w / 2 + 8, h - pad);
+    }
+
+    function drawLine(ctx, values, color, min, max, w, h, pad) {
+      if (values.length < 2) return;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      values.forEach((v, i) => {
+        const x = pad + ((w - pad * 2) * i) / Math.max(1, values.length - 1);
+        const y = h - pad - ((v - min) / Math.max(0.1, max - min)) * (h - pad * 2);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    async function loadLatest() {
+      $("fileName").textContent = "Cargando datasets/latest.csv...";
+      const res = await fetch("datasets/latest.csv?ts=" + Date.now());
+      if (!res.ok) throw new Error("latest no disponible");
+      samples = parseCsv(await res.text());
+      $("fileName").textContent = `datasets/latest.csv · ${samples.length} muestras`;
+      analyze();
+    }
+
+    async function loadValidatedSession() {
+      $("fileName").textContent = "Cargando SS000013 valida...";
+      const res = await fetch("datasets/validacion/SS000013_VALIDADA.CSV?ts=" + Date.now());
+      if (!res.ok) throw new Error("No se pudo abrir SS000013 valida.");
+      samples = parseCsv(await res.text());
+      $("fileName").textContent = `SS000013_VALIDADA.CSV - ${samples.length} muestras`;
+      analyze();
+    }
+
+    $("reloadBtn").addEventListener("click", () => loadLatest().catch(err => $("fileName").textContent = err.message));
+    $("validatedBtn").addEventListener("click", () => loadValidatedSession().catch(err => $("fileName").textContent = err.message));
+    $("fileInput").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      samples = parseCsv(await file.text());
+      $("fileName").textContent = `${file.name} · ${samples.length} muestras`;
+      analyze();
+    });
+
+    loadLatest().catch(() => {
+      $("fileName").textContent = "No se pudo cargar latest.csv. Usa Cargar CSV.";
+    });
+  </script>
+</body>
+</html>

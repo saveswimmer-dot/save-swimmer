@@ -1,0 +1,60 @@
+SAVE SWIMMER - PRUEBA V049
+Firmware: SS-LITE-BLE-SD-V1-049
+Fecha: 2026-06-15
+
+OBJETIVO
+Corregir el bloqueo observado al tocar:
+DETENER Y CERRAR ARCHIVO SD
+
+Sintoma V048:
+- La app queda en "solicitando cierre".
+- No llega confirmacion final de cierre por BLE.
+
+CAMBIO PRINCIPAL
+V049 cambia la estrategia de cierre:
+
+1. Al recibir cierre, avisa de inmediato:
+   SESSION:CLOSING
+
+2. Intenta guardar el buffer final del CSV crudo hasta 3 veces.
+
+3. Intenta guardar el buffer final del resumen SM hasta 3 veces.
+
+4. Ya no lee todo el CSV completo para validar fila por fila durante el cierre.
+   Esa validacion profunda se deja para PC/diagnostico.
+
+5. El cierre queda enfocado en:
+   - guardar ultimos datos
+   - escribir footer #END_SESSION
+   - cerrar resumen rapido
+   - responder a la app sin quedar congelado
+
+QUE PROBAR
+1. Cargar V049.
+2. Enviar perfil desde app.
+3. Iniciar sesion.
+4. Dejar grabar 1 a 3 minutos.
+5. Tocar DETENER Y CERRAR ARCHIVO SD.
+
+RESPUESTA ESPERADA EN APP
+- Primero puede aparecer:
+  SESSION:CLOSING;ROWS=...
+
+- Luego debe aparecer:
+  SESSION:STOPPED;SD=SAVED;FILE=SSxxxxxx.CSV;...
+
+SI FALLA
+Puede responder:
+- SESSION:ERROR;REASON=FINAL_FLUSH_FAILED
+- SESSION:ERROR;REASON=SUMMARY_FLUSH_FAILED
+
+INTERPRETACION
+Si V049 cierra correctamente, el problema estaba en el cierre pesado/validacion
+completa de archivo sobre la microSD.
+
+Si V049 sigue fallando, revisar:
+- contacto microSD
+- estabilidad de alimentacion
+- modulo microSD
+- tarjeta microSD
+- interferencia/cableado SPI con el prototipo cerrado

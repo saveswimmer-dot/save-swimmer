@@ -1,0 +1,16 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "com.saveswimmer.mobiledemo"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.saveswimmer.mobiledemo"
+        minSdk 23
+        targetSdk 35
+        versionCode 2
+        versionName "0.2.0"
+    }
+}

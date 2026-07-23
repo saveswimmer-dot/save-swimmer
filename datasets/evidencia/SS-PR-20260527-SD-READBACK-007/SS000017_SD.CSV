@@ -1,0 +1,12 @@
+#SAVE_SWIMMER_SD_SESSION
+#serial,SS-LT-000001
+#firmware,SS-LITE-BLE-SD-V1-035
+#user,prueba v35
+#age,0
+#height_m,0.00
+#weight_kg,0.00
+#mode,TEST
+#start_local,2026-05-27 10:19:56
+#file_id,/SS000017.CSV
+row,elapsed_s,local_time,lr,fb,ud,mag,pitch,roll,body,motion,risk
+1,1.30,2026-05-27 10:19:57,-0.11,-0.30,9.45,9.45,0.7,-1.8,BACK_UP,MOVING,NORMAL

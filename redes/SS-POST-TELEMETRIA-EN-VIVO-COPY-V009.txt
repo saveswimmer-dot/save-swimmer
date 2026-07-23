@@ -1,0 +1,12 @@
+﻿Save Swimmer sigue avanzando.
+
+Estamos probando telemetría en vivo: un prototipo dorsal registra movimiento y ubicación, el teléfono gateway recibe los datos por Bluetooth y el entrenador puede ver información en tiempo real.
+
+Todavía estamos en desarrollo, pero cada prueba nos acerca a un objetivo concreto: más seguridad y mejor acompañamiento para quienes nadan en aguas abiertas.
+
+Si nadas, entrenas u organizas actividades en mar abierto, seguí el proyecto y contanos qué información te resultaría realmente útil.
+
+Apoya el desarrollo:
+https://startfund.pe/proyectos/save-swimmer-seguridad-para-nadadores-de-aguas-abiertas.php
+
+@saveswimmer

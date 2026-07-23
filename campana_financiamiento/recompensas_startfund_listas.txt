@@ -1,0 +1,154 @@
+RECOMPENSAS LISTAS PARA STARTFUND
+Version: 2026-05-28
+
+Recomendacion:
+No marcar "Recompensa con envio".
+Todas son virtuales/simbolicas para evitar costos de envio y promesas fisicas.
+
+------------------------------------------------------------
+RECOMPENSA 1
+------------------------------------------------------------
+Nombre:
+Impulso inicial
+
+Imagen:
+recompensa_01_impulso_480x270.jpg
+
+Aporte:
+S/ 10
+
+Descripcion:
+Un aporte pequeno que ayuda a mover el prototipo un paso mas.
+
+Items:
+1. Agradecimiento digital.
+2. Acceso a actualizaciones publicas del proyecto.
+
+Envio:
+No
+
+------------------------------------------------------------
+RECOMPENSA 2
+------------------------------------------------------------
+Nombre:
+Ola fundadora
+
+Imagen:
+recompensa_02_ola_480x270.jpg
+
+Aporte:
+S/ 25
+
+Descripcion:
+Para quienes quieren ser parte del inicio de Save Swimmer.
+
+Items:
+1. Agradecimiento digital.
+2. Mencion en historias de redes, si el mecenas lo autoriza.
+3. Actualizaciones del avance del prototipo.
+
+Envio:
+No
+
+------------------------------------------------------------
+RECOMPENSA 3
+------------------------------------------------------------
+Nombre:
+Aliado Save Swimmer
+
+Imagen:
+recompensa_03_aliado_480x270.jpg
+
+Aporte:
+S/ 50
+
+Descripcion:
+Apoyo para avanzar pruebas de campo, app y hardware.
+
+Items:
+1. Agradecimiento digital.
+2. Nombre en lista de fundadores tempranos, si el mecenas lo autoriza.
+3. Acceso a resumen de avances del prototipo.
+
+Envio:
+No
+
+------------------------------------------------------------
+RECOMPENSA 4
+------------------------------------------------------------
+Nombre:
+Equipo de prueba
+
+Imagen:
+recompensa_04_equipo_480x270.jpg
+
+Aporte:
+S/ 100
+
+Descripcion:
+Para nadadores, familias o personas que quieren seguir el desarrollo de cerca.
+
+Items:
+1. Agradecimiento digital.
+2. Nombre en lista de fundadores tempranos, si el mecenas lo autoriza.
+3. Acceso a una demo privada del avance de la app.
+4. Reporte breve de avance del prototipo.
+
+Envio:
+No
+
+------------------------------------------------------------
+RECOMPENSA 5
+------------------------------------------------------------
+Nombre:
+Coach aliado
+
+Imagen:
+recompensa_05_coach_480x270.jpg
+
+Aporte:
+S/ 250
+
+Descripcion:
+Pensado para entrenadores, clubes o aliados que quieran ver la demo y aportar opinion tecnica.
+
+Items:
+1. Agradecimiento digital destacado.
+2. Nombre o marca como aliado temprano, si el mecenas lo autoriza.
+3. Demo privada de la app y vision del sistema.
+4. Espacio de feedback con Vittorio sobre necesidades de entrenamiento.
+5. Reporte breve de avance del prototipo.
+
+Envio:
+No
+
+------------------------------------------------------------
+RECOMPENSA 6
+------------------------------------------------------------
+Nombre:
+Patrocinador prototipo
+
+Imagen:
+recompensa_06_patrocinador_480x270.jpg
+
+Aporte:
+S/ 500
+
+Descripcion:
+Apoyo destacado para acelerar la version Lite de campo.
+
+Items:
+1. Agradecimiento digital destacado.
+2. Nombre, marca o proyecto como patrocinador temprano, si el mecenas lo autoriza.
+3. Demo privada de la app y vision del sistema.
+4. Reporte de avance de prototipo.
+5. Invitacion a conocer una prueba controlada, si la logistica lo permite.
+6. Prioridad informativa si Save Swimmer llega a preventa futura.
+
+Envio:
+No
+
+------------------------------------------------------------
+ACLARACION PARA PEGAR SI STARTFUND PERMITE NOTA GENERAL
+------------------------------------------------------------
+Las recompensas son simbolicas y digitales. Save Swimmer esta en etapa de prototipo y validacion. Los aportes no representan la compra de un dispositivo final ni garantizan entrega futura de producto. Si el proyecto llega a una etapa de preventa, los mecenas tendran prioridad informativa segun el nivel de apoyo.

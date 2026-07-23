@@ -1,0 +1,25 @@
+id,momento,categoria,accion_o_pregunta,registro_esperado,prioridad
+SS-VIS-001,Antes de salir,Equipo,"Cargar ESP32, bateria externa y ambos telefonos; verificar espacio SD y app abierta","Checklist confirmado",Critica
+SS-VIS-002,Antes de salir,Equipo,"Llevar cables, cargador, powerbank, cinta, sujetadores, bolsa seca, lapicero y libreta","Inventario completo",Alta
+SS-VIS-003,Antes de salir,Documentacion,"Llevar una hoja con nombre Save Swimmer, correo, redes, Plin y QR a redes/campaña","Medio simple para contacto",Alta
+SS-VIS-004,Antes de salir,Documentacion,"Llevar fichas breves de contacto voluntario; no solicitar datos innecesarios","Contactos interesados con autorización",Alta
+SS-VIS-005,Antes de salir,Documentacion,"Llevar autorización de prueba solamente si una persona usará el prototipo o permitirá registrar sus datos","Consentimiento firmado antes de prueba",Critica
+SS-VIS-006,Llegada,Organizacion,"Presentarse al organizador o responsable antes de grabar, entrevistar o probar","Nombre, cargo y autorización obtenida",Critica
+SS-VIS-007,Llegada,Mensaje,"Explicar: prototipo peruano en desarrollo; registra movimiento y telemetría; todavía no es sistema certificado ni reemplaza seguridad","Expectativas correctas",Critica
+SS-VIS-008,Observacion,Flujo,"Registrar cómo se inscriben, forman filas, reciben chip, ingresan al agua, controlan salida y confirman llegada","Notas, tiempos aproximados y fotografías autorizadas",Alta
+SS-VIS-009,Observacion,Seguridad,"Observar quién controla a los nadadores, desde dónde, con qué embarcaciones y cómo detectan rezagados","Mapa simple de actores y puntos ciegos",Critica
+SS-VIS-010,Observacion,Comunicacion,"Observar señal celular, radios, silbatos, banderas, boyas, altavoces y procedimientos","Herramientas actuales y limitaciones",Alta
+SS-VIS-011,Entrevista,Atleta,"¿Qué es lo que más te preocupa cuando te alejas de la orilla?","Respuesta textual breve",Alta
+SS-VIS-012,Entrevista,Atleta,"¿Qué información te gustaría que reciba tu familia o entrenador mientras nadas?","Funciones valoradas",Alta
+SS-VIS-013,Entrevista,Atleta,"¿Usarías un dispositivo dorsal pequeño? ¿Qué lo haría incómodo o inaceptable?","Barreras de adopción",Alta
+SS-VIS-014,Entrevista,Coach,"¿Cómo sabes que todos regresaron y quién necesita atención?","Problema operativo real",Critica
+SS-VIS-015,Entrevista,Coach,"¿Qué alerta sería útil y cuál te saturaría o distraería?","Prioridad y falsos positivos tolerables",Alta
+SS-VIS-016,Entrevista,Organizador,"¿Cuál es el momento más difícil de controlar durante una jornada de aguas abiertas?","Necesidad operacional sin revelar roadmap",Alta
+SS-VIS-017,Demostracion,Prototipo,"Mostrar telemetría real y app sin afirmar detección de emergencia validada","Reacción y preguntas del observador",Alta
+SS-VIS-018,Demostracion,Confidencialidad,"No mostrar código fuente, esquemáticos, arquitectura RF, credenciales, URLs privadas ni documentos estratégicos","Información sensible protegida",Critica
+SS-VIS-019,Prueba,Seguridad,"No ingresar el prototipo al agua ni colocarlo en un atleta sin permiso, sujeción segura, consentimiento y plan de recuperación","Prueba autorizada o descartada",Critica
+SS-VIS-020,Prueba,Datos,"Si se prueba, anotar usuario, hora, firmware, alimentación, duración, incidencias y archivo generado","Trazabilidad completa",Critica
+SS-VIS-021,Contenido,Redes,"Pedir permiso antes de fotografiar o publicar rostros, nombres, clubes o menores","Permiso registrado",Critica
+SS-VIS-022,Contenido,Redes,"Grabar tomas cortas del prototipo, entorno y app sin interferir con el evento","Material auténtico para publicación",Media
+SS-VIS-023,Cierre,Contactos,"Agradecer, registrar contacto interesado y acordar solamente el próximo paso concreto","Seguimiento con fecha o acción",Alta
+SS-VIS-024,Cierre,Aprendizaje,"Al retirarse, escribir tres problemas observados, tres frases textuales y tres hipótesis a validar","Resumen de campo",Alta

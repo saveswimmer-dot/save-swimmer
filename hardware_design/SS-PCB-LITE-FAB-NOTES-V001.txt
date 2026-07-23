@@ -1,0 +1,66 @@
+SAVE SWIMMER - PCB LITE CONCEPT V001
+Fecha: 2026-06-04
+Estado: boceto conceptual, NO enviar a fabricar como Gerber final.
+
+Objetivo:
+Definir una primera arquitectura fisica compacta para Save Swimmer Lite, pasando de modulos de prototipo a una PCB integrada.
+
+Medida conceptual:
+- PCB: 78 mm x 38 mm, contorno tipo capsula.
+- Carcasa objetivo inicial: 85 mm x 45 mm x 18 mm aprox.
+- El prototipo actual en caja 110 mm x 70 mm x 30 mm confirma que hay espacio para reducir al integrar modulos.
+
+Version Lite contemplada:
+- ESP32-S3 como cerebro principal.
+- IMU centrada para rotacion dorsal.
+- BLE para configuracion cercana.
+- GSM/LTE/NB-IoT pendiente de seleccion para datos remotos.
+- GNSS/GPS pendiente de validacion real en costa/playa.
+- microSD o flash para registro local.
+- Sensor de agua.
+- LEDs 360 por difusor lateral.
+- Boton sellado o activacion magnetica.
+- Cargador LiPo y regulacion integrados.
+- Bateria LiPo plana separada de antenas.
+
+Zonas criticas:
+1. RF / antenas
+   - No colocar bateria, cobre, tornillos ni masas grandes sobre antenas.
+   - Separar antena celular, GNSS y BLE si se usan antenas diferentes.
+   - Requiere revision RF antes de fabricar.
+
+2. IMU
+   - Debe estar lo mas centrada posible.
+   - Debe tener serigrafia clara de ejes: DER/IZQ/ARRIBA/ABAJO.
+   - La carcasa debe orientar siempre igual el dispositivo en espalda.
+
+3. Energia
+   - El MT3608 modular no debe ser la solucion final.
+   - Usar regulador eficiente, power path y proteccion bateria.
+   - Debe permitir apagado real o ultra bajo consumo.
+
+4. microSD
+   - Es muy util para desarrollo.
+   - Para producto final podria cambiarse por flash interna para mejorar sellado.
+
+5. Sensor de agua
+   - Debe resistir salitre, corrosion y falsos positivos.
+   - La logica debe distinguir mojado breve, inicio real y salida del agua.
+
+6. LEDs
+   - La luz no debe quedar solo en la tapa superior.
+   - Usar difusor lateral/perimetral para visibilidad 360.
+
+No listo para fabrica hasta definir:
+- Modulo celular final y operador/SIM/eSIM.
+- Antena final y prueba RF.
+- Bateria final.
+- Metodo de carga final: magnetico, pogo sellado o Qi.
+- Carcasa y junta de sellado.
+- Huellas exactas de componentes.
+- Esquema electrico completo.
+- Reglas PCB: capas, grosor, impedancia, anchos de pista, corriente, tierra.
+- Prueba de consumo, reposo, temperatura y estanqueidad.
+
+Decision recomendada:
+Usar este V001 como mapa de producto y conversacion con disenador PCB, no como plano final.

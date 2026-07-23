@@ -1,0 +1,123 @@
+SAVE SWIMMER
+NOTA TECNICA - INTERPRETACION CON UN SOLO IMU
+Fecha: 2026-07-08
+Responsable: Save Swimmer / Victor Loza
+
+1. Premisa principal
+
+Save Swimmer usa un IMU ubicado en espalda alta. Con un solo IMU no se mide el cuerpo completo. No se mide directamente mano, brazo, pierna, cabeza, extension del brazo ni fuerza exacta de empuje.
+
+Lo que si se puede medir es la consecuencia corporal del nado:
+- rotacion dorsal derecha/izquierda
+- simetria de rolido
+- alineacion corporal
+- energia del movimiento
+- ritmo/ciclo
+- continuidad del avance
+- patrones compatibles con fatiga, perdida de linea, inmovilidad o comportamiento anormal
+
+2. Convencion actual de ejes del prototipo
+
+Segun pruebas controladas SS000030 a SS000033:
+- LR responde mejor a rotacion dorsal derecha/izquierda.
+- ROLL puede quedar casi plano en algunos movimientos donde LR si cambia fuerte.
+- PITCH/UD se usan como base para alineacion corporal, pendiente de validar con atleta real en agua.
+- MAG no debe interpretarse solo como empuje. MAG representa energia/aceleracion total del movimiento.
+
+Decision actual:
+- ROTACION = LR centrado contra base, usando promedio de picos utiles por lado.
+- ALINEACION = PITCH/UD centrado contra base, usando tendencia sostenida.
+- IMPULSO/CONTINUIDAD = MAG cruzado con rotacion, alineacion, ritmo y GPS cuando exista.
+
+3. Rotacion por picos utiles
+
+La rotacion no debe calcularse como promedio bruto de toda la senal. Si se promedia todo, el retorno al eje 0 aplasta el dato y un movimiento fuerte puede parecer bajo.
+
+La lectura correcta para el reporte es:
+- separar lado derecho e izquierdo
+- detectar valores altos utiles de cada lado
+- promediar la zona alta/picos utiles
+- mostrar DER e IZQ como llegada de rotacion, no como promedio general
+
+Esto corrigio el caso observado:
+- SS000030 y SS000032: derecha fuerte, antes salia plana usando ROLL.
+- SS000031 y SS000033: izquierda fuerte, ya respondia mejor.
+
+4. MAG, empuje y continuidad
+
+MAG no significa automaticamente empuje.
+
+Ejemplo simple:
+- Al iniciar desde quieto, MAG puede subir porque el cuerpo acelera.
+- En ritmo constante, MAG puede bajar porque el atleta ya mantiene avance con menos gasto.
+- MAG bajo + velocidad estable puede ser eficiencia.
+- MAG alto + velocidad sin mejora puede ser gasto alto.
+- MAG bajo + velocidad baja puede indicar perdida de avance o cansancio.
+
+La app no debe decir solo "empuje suave" sin contexto.
+
+Lecturas propuestas:
+- eficiente: poca energia, avance estable
+- fuerte: energia alta y avance subiendo
+- gasto alto: mucha energia, poco avance
+- perdiendo avance: baja energia y baja velocidad/continuidad
+- sin lectura clara: falta GPS o la sesion es corta
+
+5. Respiracion con posible freno
+
+La respiracion puede generar freno si el atleta levanta demasiado la cabeza o rompe la linea corporal.
+
+Con un solo IMU no vemos la cabeza directamente. Se debe inferir con prudencia:
+- cambio de alineacion
+- pico o cambio de MAG
+- caida de continuidad despues del ciclo
+- posible baja de velocidad GPS
+- alteracion del ritmo
+
+Mensaje sugerido:
+"Posible respiracion con freno: en algunos ciclos el cuerpo perdio linea y corto avance. Revisar si estas levantando demasiado la cabeza al respirar."
+
+6. Lenguaje del producto
+
+Save Swimmer no debe hablar como laboratorio biomecanico.
+
+Evitar:
+- "tu mano empujo X"
+- "tu cabeza subio X cm"
+- "tu brazo se extendio X cm"
+- "esto esta mal"
+
+Usar:
+- "posible"
+- "compatible con"
+- "se observa"
+- "comparado con tu base"
+- "en esta sesion"
+- "requiere mas sesiones"
+
+7. Valor real para el atleta
+
+El valor no es mostrar LR/FB/UD/MAG. El valor es traducirlos a:
+- rotacion derecha/izquierda
+- simetria
+- alineacion
+- continuidad
+- ritmo
+- eficiencia
+- cambios por minuto/tramo
+- mejor tramo de la sesion
+- lectura clara para repetir y mejorar
+
+8. Valor real para seguridad
+
+Para seguridad, la lectura es mas fuerte cuando se combinan senales:
+- agua activa
+- sin avance
+- poca/nula movilidad
+- fuera de geocerca
+- tiempo excedido
+- perdida de senal anormal
+- patron corporal incompatible con nado funcional
+
+Premisa final:
+Un solo IMU no mide todo el cuerpo, pero si puede medir la consecuencia corporal del nado. Para Save Swimmer eso es suficiente para generar lectura contextual, evolucion personal y alertas inteligentes, siempre que el lenguaje sea prudente y se valide con datos reales.

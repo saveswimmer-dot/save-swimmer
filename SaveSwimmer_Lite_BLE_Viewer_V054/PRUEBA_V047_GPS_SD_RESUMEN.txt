@@ -1,0 +1,77 @@
+SAVE SWIMMER - PRUEBA V047 GPS + SD + RESUMEN
+=============================================
+
+Firmware:
+SS-LITE-BLE-SD-V1-047
+
+Hardware incluido:
+- ESP32-S3
+- MPU6050
+- INA219
+- microSD
+- GPS NEO-M9N/GY-GPS6MV2
+- BLE
+
+GPS confirmado en test V002:
+- RX ESP32: GPIO17
+- TX ESP32: GPIO18
+- Baud: 38400
+
+Conexion GPS:
+GPS VCC -> ESP32 3V3
+GPS GND -> GND comun
+GPS TX  -> ESP32 GPIO17
+GPS RX  -> ESP32 GPIO18
+
+Al iniciar, monitor serie 115200 debe mostrar:
+- SS-LITE-BLE-SD-V1-047
+- GPS UART READY
+- GPS BAUD: 38400
+- INA219 CONNECTED
+- MPU6050 CONNECTED
+- MICROSD READY
+
+Serial JSON agrega:
+- GPS_STATUS
+- GPS_FIX
+- GPS_SATS
+- GPS_HDOP
+- LAT
+- LON
+- SPEED_KMH
+- GPS_AGE_MS
+
+CSV crudo SSxxxxxx.CSV agrega:
+- gps_status
+- gps_fix
+- gps_sats
+- gps_hdop
+- gps_lat
+- gps_lon
+- gps_speed_kmh
+- gps_course
+- gps_age_ms
+
+Resumen rapido SMxxxxxx.CSV tambien agrega los mismos datos GPS.
+
+Prueba recomendada:
+1. Encender con antena GPS mirando al cielo o cerca de ventana.
+2. Esperar en monitor serie hasta ver GPS_FIX=1 o GPS_STATUS=FIX.
+3. Conectar Field Viewer.
+4. Enviar perfil: GPS_V047_TEST.
+5. Iniciar sesion de 5 a 10 minutos.
+6. Mover el dispositivo o caminar si es posible.
+7. Detener sesion.
+8. Descargar "resumen rapido por BLE".
+9. Retirar microSD solo si queremos revisar el CSV crudo completo.
+
+Criterios esperados:
+- gps_fix = 1 cuando haya posicion valida.
+- gps_sats idealmente >= 6.
+- gps_hdop idealmente menor a 2.0.
+- gps_age_ms debe mantenerse bajo si hay fix reciente.
+- El resumen debe descargar mucho mas rapido que el CSV completo.
+
+Nota:
+El paquete BLE de movimiento A:LR,FB,UD,MAG no cambia en V047.
+La ubicacion GPS queda en Serial JSON, STATUS?, CSV crudo y resumen.

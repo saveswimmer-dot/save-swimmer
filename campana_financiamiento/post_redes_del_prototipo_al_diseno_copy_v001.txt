@@ -1,0 +1,27 @@
+DEL PROTOTIPO AL DISENO
+
+Save Swimmer comenzó con una pregunta:
+
+¿Cómo podemos generar información útil que ayude a reducir el tiempo en el que nadie sabe qué sucede con un nadador de aguas abiertas?
+
+Hoy seguimos avanzando desde un prototipo experimental hacia una arquitectura electrónica más ordenada.
+
+Cada prueba nos permite definir:
+
+- qué componentes realmente aportan valor;
+- cómo mejorar la estabilidad y autonomía;
+- qué información puede interpretarse de forma clara;
+- cómo reducir el tamaño futuro del dispositivo;
+- qué debe validarse antes de pensar en fabricación.
+
+Todavía no estamos mostrando un producto final. Estamos construyendo y documentando cada paso para llegar a uno.
+
+Save Swimmer
+Seguridad conectada para aguas abiertas.
+
+Síguenos y acompaña el desarrollo:
+Instagram: @saveswimmer
+TikTok: @saveswimmer
+Facebook: Save Swimmer
+
+#SaveSwimmer #AguasAbiertas #SeguridadAcuatica #TecnologiaPeruana #Prototipo #Desarrollo

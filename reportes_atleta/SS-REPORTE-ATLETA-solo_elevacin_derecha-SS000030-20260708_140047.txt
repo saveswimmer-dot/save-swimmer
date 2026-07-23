@@ -1,0 +1,14 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: solo elevacin derecha
+Archivo: SS000030.CSV
+Duración: 00:46 | Muestras: 367
+
+Rotación: baja. giraste poco el cuerpo; puede faltar rolido para preparar mejor la brazada.
+Alineación: variable. la postura cambió por momentos.
+Impulso: normal. empuje controlado y parejo.
+Ritmo: sin ciclo claro | Brazadas/ciclos detectados: 0
+GPS: 0 puntos válidos | Distancia aproximada: 0 m
+Mejor tramo: 00:00 a 00:30
+Cambio observado: al final subió el esfuerzo y cambió la alineación; posible fatiga o técnica menos estable.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

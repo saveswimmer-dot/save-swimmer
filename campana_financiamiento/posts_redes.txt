@@ -1,0 +1,129 @@
+POST 1 - LANZAMIENTO
+Estamos construyendo Save Swimmer, un prototipo de seguridad para nadadores de aguas abiertas.
+
+La idea no es crear un reloj deportivo. Buscamos desarrollar un wearable dorsal que registre el comportamiento corporal del nadador y ayude a interpretar si su nado mantiene ritmo, orientacion y movimiento funcional.
+
+Ya tenemos firmware, app de campo, demo visual y primeras pruebas con datos reales. Ahora necesitamos apoyo para avanzar la version Lite de campo: sensor de agua, GPS de prueba, carcasa, energia y validacion en playa.
+
+Si quieres apoyar o conocer mas:
+StartFund: https://startfund.pe/proyectos/save-swimmer-seguridad-para-nadadores-de-aguas-abiertas.php
+saveswimmer@gmail.com
+Instagram: https://www.instagram.com/saveswimmer/
+TikTok: https://www.tiktok.com/@saveswimmer
+
+
+POST 2 - PROBLEMA
+En aguas abiertas, muchas veces el entrenador mira desde la playa, la familia espera noticias y el nadador esta lejos de la orilla.
+
+Save Swimmer busca convertir datos corporales en informacion entendible:
+- esta nadando
+- esta dentro de zona
+- mantiene ritmo
+- bajo el rendimiento
+- se detuvo
+- regreso a playa
+
+Estamos en etapa de prototipo y buscamos apoyo para financiar la siguiente fase.
+
+Campana StartFund:
+https://startfund.pe/proyectos/save-swimmer-seguridad-para-nadadores-de-aguas-abiertas.php
+
+
+POST 3 - AVANCE
+Save Swimmer ya no es solo una idea.
+
+Hoy el prototipo puede:
+- leer movimiento corporal
+- conectarse por Bluetooth
+- grabar sesiones en microSD
+- enviar datos a una app Android
+- visualizar brazada, rotacion y ritmo
+- simular la experiencia final para nadador, coach, familia y evento
+
+El siguiente paso es hacerlo mas robusto para pruebas reales en playa.
+
+
+POST 4 - LLAMADO DIRECTO
+Buscamos apoyo para construir el prototipo Save Swimmer Lite.
+
+Meta inicial sugerida: S/ 5,000
+
+Esto ayudara a cubrir componentes, carcasa de prueba, sensor de agua, GPS/GNSS, baterias, materiales de sellado, app y pruebas de campo.
+
+Cada aporte suma. Cada prueba nos acerca a un dispositivo mas seguro, compacto y util para nadadores de aguas abiertas.
+
+
+POST 5 - PARA ENTRENADORES
+Entrenador: imagina ver a tus nadadores activos en un mapa, dentro de un geocerco, con estados simples como ritmo estable, ritmo bajo, sin avance o fuera de zona.
+
+Save Swimmer busca darle al coach una lectura rapida y accionable sin obligarlo a interpretar datos crudos.
+
+Estamos construyendo el prototipo y buscamos aliados para la fase de pruebas.
+
+
+POST 6 - PARA FAMILIA
+Para la familia no hacen falta graficos tecnicos. Hace falta saber algo simple:
+
+Esta en el agua.
+Esta nadando.
+Esta cerca.
+Ya salio.
+
+Save Swimmer busca transformar sensores y movimiento en estados claros para acompanamiento y seguridad.
+
+
+STORY CORTA 1
+Estamos construyendo Save Swimmer.
+Seguridad conectada para aguas abiertas.
+Prototipo en desarrollo.
+Apoyanos a llegar a la version Lite de campo.
+
+
+STORY CORTA 2
+No es un reloj deportivo.
+Es un wearable dorsal pensado para interpretar comportamiento corporal en el agua.
+
+
+STORY CORTA 3
+Firmware listo.
+App Android lista.
+Datos reales en microSD.
+Ahora necesitamos carcasa, sensor de agua, GPS y pruebas de playa.
+
+
+GUION TIKTOK 30-45 SEG
+Hola, soy Vittorio y estoy desarrollando Save Swimmer.
+Es un prototipo de seguridad para nadadores de aguas abiertas.
+No queremos hacer un reloj fitness. Queremos un dispositivo dorsal que pueda leer el comportamiento corporal del nadador y ayudar a interpretar si mantiene ritmo, si esta dentro de zona y si algo merece atencion.
+Ya tenemos firmware, app, datos reales y una demo de como se veria el sistema final.
+Ahora buscamos apoyo para financiar la version Lite de campo: carcasa, sensor de agua, GPS, energia y pruebas en playa.
+Si nadas, entrenas o tienes familia que nada en mar abierto, ayudanos a construirlo.
+Save Swimmer: seguridad conectada para aguas abiertas.
+
+
+POST 7 - CAMPANA APROBADA STARTFUND
+Save Swimmer ya fue aprobado en StartFund.
+
+Estamos desarrollando en Peru un prototipo de seguridad para nadadores de aguas abiertas: un dispositivo dorsal que registra movimiento, interpreta actividad en el agua y busca ayudar a detectar situaciones de riesgo.
+
+Esta primera campana nos ayuda a seguir probando la version Lite de campo, mejorar el prototipo y avanzar con la app.
+
+Si nadas, entrenas o acompanas a alguien en aguas abiertas, tu apoyo o difusion nos ayuda muchisimo.
+
+Campana:
+https://startfund.pe/proyectos/save-swimmer-seguridad-para-nadadores-de-aguas-abiertas.php
+
+
+POST 8 - ENCUESTA / FEEDBACK
+Estamos escuchando a nadadores, entrenadores y familias antes de seguir avanzando con Save Swimmer.
+
+Ya aparecieron temas clave:
+- ritmo y velocidad
+- ubicacion y geocerca
+- nadador sin avance
+- inmovilidad
+- SOS
+- orientacion en ruta
+- identificacion en emergencia
+
+Si tienes experiencia en aguas abiertas, tu opinion nos ayuda a decidir que funciones son realmente importantes.

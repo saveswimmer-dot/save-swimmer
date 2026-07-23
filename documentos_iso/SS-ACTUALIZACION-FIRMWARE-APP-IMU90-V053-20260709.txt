@@ -1,0 +1,100 @@
+SAVE SWIMMER
+ACTUALIZACION FIRMWARE + APP POR REUBICACION IMU 90 GRADOS
+VERSION: V001
+FECHA: 2026-07-09
+
+1. Motivo
+
+El MPU6050 fue reubicado hacia una posicion mas centrada del prototipo y girado aproximadamente 90 grados por restricciones fisicas de espacio y cableado.
+
+La ubicacion anterior, arriba a la izquierda del dispositivo, podia introducir asimetria mecanica: al rotar el cuerpo, el sensor no giraba exactamente sobre el centro del dispositivo, sino describiendo un arco lateral. Esto podia explicar que un lado apareciera sistematicamente menor que el otro aun cuando visualmente el movimiento parecia similar.
+
+2. Evidencia usada
+
+Archivos de recalibracion:
+
+- SS000002.CSV: IMU a 90 grados, elevacion derecha.
+- SS000003.CSV: IMU a 90 grados, elevacion izquierda.
+- SS000004.CSV: IMU a 90 grados, cabeza arriba.
+- SS000005 (1).CSV: IMU a 90 grados, cabeza abajo.
+
+Resultado observado:
+
+- Rolido derecha/izquierda se expresa principalmente sobre FB.
+- Alineacion cabeza/cuerpo se expresa principalmente sobre LR invertido.
+- UD queda como eje auxiliar de gravedad/estabilidad, no como eje principal de rolido en este montaje.
+
+3. Mapeo aplicado
+
+Firmware V053:
+
+- ROT = FB
+- ALIGN = -LR
+- LR, FB, UD y MAG se mantienen como datos crudos para diagnostico.
+- El CSV y Serial JSON agregan columnas/campos ROT, ALIGN e IMU_MAP.
+
+App Athlete Live + CSV V0.3.1:
+
+- Lectura en vivo y lectura CSV usan ROT = FB y ALIGN = -LR.
+- El boton Tomar base ahora toma base sobre rotAxis/alignAxis, no sobre ROLL/PITCH.
+- El paquete BLE corto A:LR,FB,UD,MAG sigue siendo compatible.
+
+Field Viewer V0.3.46:
+
+- Rotacion estimada usa FB/UD.
+- Alineacion estimada usa -LR/UD.
+- No se modifico la logica de inicio/cierre SD ni descarga.
+
+4. Estado
+
+Compilacion Android:
+
+- Athlete Live + CSV V0.3.1: OK.
+- Field Viewer V0.3.46: OK.
+
+Firmware:
+
+- Se genero carpeta nueva SaveSwimmer_Lite_BLE_Viewer_V053.
+- Debe cargarse en Arduino IDE para validar compilacion/carga sobre ESP32-S3.
+
+5. Nota de calibracion
+
+Esta modificacion no significa que el dispositivo ya haya aprendido el movimiento del atleta.
+Por ahora es un mapeo experimental basado en pruebas controladas en tierra.
+
+Antes de marcarlo como patron aprendido se requieren nuevas sesiones:
+
+- mesa/base quieta,
+- rolido derecho,
+- rolido izquierdo,
+- cabeza arriba,
+- cabeza abajo,
+- simulacro de nado,
+- prueba real en piscina o agua controlada.
+
+6. Criterio de lectura simple
+
+Para comunicacion con atleta/coach:
+
+- Rotacion = cuanto gira el torso a derecha/izquierda.
+- Alineacion = si el cuerpo mantiene una linea estable o empieza a levantar/bajar el eje cabeza-cuerpo.
+- Impulso = variacion de energia/movimiento, no fuerza directa de brazo.
+
+La interpretacion final debe cruzar rotacion, alineacion, impulso, ritmo y GPS cuando exista.
+
+7. Ajuste Athlete V0.3.2
+
+Fecha: 2026-07-09 10:42
+
+Se detecto que laboratorio interpretaba la rotacion como angulo FB/UD, mientras Athlete mostraba la rotacion con el eje directo. Esto generaba diferencias visuales entre ambas apps aun usando el mismo paquete BLE.
+
+Cambio aplicado:
+
+- Athlete Live + CSV pasa a V0.3.2.
+- APK generado: android/SaveSwimmerAthlete/SaveSwimmer_Athlete_LiveCsv_V014.apk.
+- Rotacion = atan2(FB, UD) contra base de colocacion.
+- Alineacion = atan2(-LR, UD) contra base de colocacion.
+- ROT y ALIGN del firmware se conservan como ejes auxiliares, pero la interpretacion visual usa grados.
+- El grafico de tendencia de Athlete ahora muestra tres bandas grandes:
+  rotacion, alineacion e impulso MAG.
+- Se mantiene el grafico de referencia visual de rotacion como apoyo.

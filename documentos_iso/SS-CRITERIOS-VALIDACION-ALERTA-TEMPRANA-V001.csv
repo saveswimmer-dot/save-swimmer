@@ -1,0 +1,10 @@
+id,criterio,objetivo,metrica_o_evidencia,decision_si_falla
+SS-ALT-001,Deteccion persistente,"No alertar por una muestra aislada","Ventana temporal y repeticion del patron antes de escalar","Aumentar observacion y mantener estado preventivo"
+SS-ALT-002,Contexto acuatico,"No generar emergencia fuera del agua","Sensor agua + estado de sesion + ubicacion asociada","Bloquear escalamiento automatico y registrar incidencia"
+SS-ALT-003,Movimiento y avance,"Distinguir inmovilidad corporal de falta de avance GPS","Combinar IMU, GNSS, tiempo y señal","Clasificar como observar hasta confirmar"
+SS-ALT-004,Escalamiento progresivo,"Alertar primero a responsable cercano","Prealerta, vibracion/cancelacion, coach/familia y luego protocolo externo","No escalar automáticamente sin canal autorizado"
+SS-ALT-005,Cancelacion segura,"Permitir cancelar falsa alerta sin ocultar incidente","Boton/gesto/app y registro de cancelacion","Revisar interacción si genera cancelaciones accidentales"
+SS-ALT-006,Falsos positivos,"Evitar saturar y perder confianza","Tasa por hora/sesion y causa registrada","No lanzar alerta automatica comercial hasta alcanzar umbral definido"
+SS-ALT-007,Falsos negativos,"Evitar omitir escenarios simulados de riesgo","Pruebas controladas etiquetadas y revisión de eventos no detectados","Reentrenar reglas y limitar afirmaciones"
+SS-ALT-008,Cobertura local,"Funcionar con condiciones reales de Peru","Pruebas de cobertura, latencia y recuperación de señal","Informar límites y mantener registro local/última señal"
+SS-ALT-009,Auditoria,"Poder explicar por qué se generó una alerta","Guardar variables, reglas, tiempos y receptores","No usar modelos opacos sin trazabilidad"

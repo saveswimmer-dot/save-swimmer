@@ -1,0 +1,37 @@
+SAVE SWIMMER - PRUEBA V045 INA219
+=================================
+
+Firmware:
+SS-LITE-BLE-SD-V1-045
+
+Al iniciar, el monitor serial debe mostrar:
+- I2C DEVICE FOUND AT 0x40
+- I2C DEVICE FOUND AT 0x68
+- I2C SCAN: DEVICES FOUND = 2
+- INA219 CONNECTED
+- MPU6050 CONNECTED
+
+Lecturas esperadas con el sistema encendido:
+- INA219 INPUT V: aproximadamente 5.03 V
+- INA219 LOAD V: aproximadamente 5.01 V
+- INA219 CURRENT MA: debe ser mayor que 0
+- INA219 POWER MW: debe ser mayor que 0
+
+Serial JSON agrega:
+- INPUT_V
+- LOAD_V
+- SHUNT_MV
+- CURRENT_MA
+- POWER_MW
+- INA_OK
+
+Cada CSV V045 agrega al final:
+- load_v
+- current_ma
+- power_mw
+
+IMPORTANTE:
+- BATT continua siendo un valor provisional.
+- El INA219 mide consumo del sistema despues del MT3608.
+- Esta conexion no permite calcular directamente el porcentaje real de la bateria.
+- El paquete BLE corto no cambia para conservar estabilidad y velocidad.

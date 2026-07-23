@@ -1,0 +1,19 @@
+SAVE SWIMMER - VALIDACION DESCARGA BLE DE SESION SD
+Fecha: 2026-05-26
+Prueba: SS-PR-20260526-BLE-DOWNLOAD-001
+
+Firmware: SS-LITE-BLE-SD-V1-031
+App: Field Viewer v0.3.13
+Archivo: SS000008.CSV
+Perfil: envo datos esp a blt
+Duracion registrada: 28.84 s
+Filas: 286
+Bytes: 23987
+
+Resultado:
+- El archivo original de microSD y el archivo descargado por BLE al telefono tienen el mismo tamano.
+- Comparacion binaria: sin diferencias.
+- SHA-256 identico: 67487AEE6541263C0A76B068D08021C010852A6A7F51F6158190F0E4601EC301
+
+Conclusion:
+Se valida la descarga integra de la ultima sesion cerrada desde la microSD del dispositivo hacia la app movil por Bluetooth.

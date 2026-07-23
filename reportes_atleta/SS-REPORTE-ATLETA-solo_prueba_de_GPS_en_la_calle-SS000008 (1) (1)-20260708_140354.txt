@@ -1,0 +1,14 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: solo prueba de GPS en la calle
+Archivo: SS000008 (1) (1).CSV
+Duración: 16:08 | Muestras: 7651
+
+Rotación: baja. giraste poco el cuerpo; puede faltar rolido para preparar mejor la brazada.
+Alineación: irregular. hubo mucha variación; puede aparecer cansancio o pérdida de línea corporal.
+Impulso: alto. hubo picos fuertes; mirar si fue fuerza útil o movimiento brusco.
+Ritmo: 2.3 s/ciclo | Brazadas/ciclos detectados: 417
+GPS: 0 puntos válidos | Distancia aproximada: 0 m
+Mejor tramo: 15:50 a 16:20
+Cambio observado: no hubo un cambio fuerte entre inicio y final.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

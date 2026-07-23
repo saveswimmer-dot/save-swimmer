@@ -1,0 +1,40 @@
+INTERVENCION FISICA: SS-PR-20260527-HW-ENERGIA-008
+FECHA: 2026-05-27
+CONTEXTO: posterior a SD_RECOVERY_FAILED con firmware SS-LITE-BLE-SD-V1-036
+
+MEDICIONES INFORMADAS POR EL USUARIO
+- Salida MT3608: 5.06 V
+- Ingreso ESP32-S3: 5.06 V
+- Ingreso modulo microSD: 5.06 V
+
+ACCION REALIZADA
+- Resoldado de conexiones positivas y negativas.
+
+INTERPRETACION
+Las mediciones descartan una perdida continua visible de tension entre salida,
+ESP32 y microSD. No descartan picos breves de caida durante escritura, porque
+un multimetro puede no capturarlos. El error SD_RECOVERY_FAILED ocurrido antes
+de esta correccion no valida ni invalida los reintentos de V036: la tarjeta no
+llego a iniciar sesion.
+
+SIGUIENTE PRUEBA CONTROLADA
+- Con ESP apagado completamente, insertar la microSD.
+- Encender con bateria y firmware V036 ya cargado.
+- Iniciar sesion con telefono cerca durante 2 minutos.
+- Detener y descargar si la sesion permanece activa.
+- Registrar cualquier error literal mostrado por la app.
+
+RESULTADO POSTERIOR AL RESOLDADO
+- La app envia y el ESP confirma el perfil por BLE correctamente.
+- Al pulsar iniciar sesion vuelve a informar SD_RECOVERY_FAILED.
+- La microSD no llego a crear ni grabar una sesion V036 en esta prueba.
+
+DIAGNOSTICO ACTUAL
+- BLE y ESP se encuentran operativos.
+- El fallo ocurre al intentar montar/acceder a la microSD.
+- Debe aislarse ahora hardware SD/SPI/alimentacion transitoria antes de seguir
+  evaluando la logica de grabacion V036.
+
+PENDIENTE DE HARDWARE SI PERSISTE LA FALLA
+- Agregar capacitor electrolitico de 100 uF a 470 uF entre VCC y GND junto al
+  modulo microSD, acompañado por capacitor ceramico 104 en paralelo.

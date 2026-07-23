@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <style>
+      .bg{fill:#020b10}
+      .card{fill:#0d2832;stroke:#1c5564;stroke-width:2}
+      .panel{fill:#06171d;stroke:#174451;stroke-width:2}
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#eaf8fb}
+      .muted{fill:#a8c0c6}
+      .cyan{fill:#2fd8e8}
+      .orange{fill:#ff7a1a}
+      .green{fill:#5df0a0}
+      .water{stroke:#2b5a66;stroke-width:5;opacity:.95}
+      .guide{stroke:#2b5a66;stroke-width:2;opacity:.55}
+      .dash{stroke-dasharray:16 12}
+      .sketch{fill:none;stroke:#eaf8fb;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+      .sketch-soft{fill:none;stroke:#eaf8fb;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.58}
+      .tech{stroke:#2fd8e8;stroke-width:9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .tech-soft{stroke:#2fd8e8;stroke-width:4;fill:none;stroke-linecap:round;opacity:.22}
+      .mag{stroke:#5df0a0;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1080" height="1920"/>
+
+  <text class="txt" x="60" y="112" font-size="64" font-weight="700" letter-spacing="8">SAVE SWIMMER</text>
+  <text class="cyan" x="60" y="168" font-size="34" font-weight="700" letter-spacing="5">LECTURA CORPORAL</text>
+  <rect x="720" y="82" width="285" height="72" rx="8" fill="#10313c" stroke="#1d5968"/>
+  <circle cx="760" cy="118" r="9" class="green"/>
+  <text class="txt" x="780" y="130" font-size="28" font-weight="700">BLE + GPS activo</text>
+
+  <rect class="card" x="48" y="210" width="984" height="590" rx="10"/>
+  <text class="txt muted" x="80" y="270" font-size="31">Rotacion dorsal</text>
+  <text class="txt" x="80" y="318" font-size="44" font-weight="700">Vista frontal basada en linea de agua</text>
+  <rect class="panel" x="80" y="350" width="920" height="380" rx="6"/>
+
+  <line class="water" x1="120" y1="530" x2="960" y2="530"/>
+  <text class="muted txt" x="132" y="510" font-size="24">linea de agua / eje 0</text>
+  <line class="guide dash" x1="150" y1="462" x2="930" y2="462"/>
+  <line class="guide dash" x1="150" y1="598" x2="930" y2="598"/>
+  <text class="green txt" x="155" y="448" font-size="24">zona ideal 32-45 grados</text>
+  <text class="orange txt" x="750" y="448" font-size="24">exceso +50 grados</text>
+
+  <!-- Base tomada de la referencia del usuario: silueta frontal simple, sin reinterpretar brazos -->
+  <path class="sketch-soft" d="M120 530 C165 526 205 522 248 528"/>
+  <path class="sketch" d="M248 528 C285 492 335 490 376 522"/>
+  <path class="sketch" d="M376 522 C410 560 456 584 520 584"/>
+  <path class="sketch" d="M520 584 C575 584 628 555 678 520"/>
+  <path class="sketch" d="M678 520 C718 485 778 470 842 468"/>
+  <path class="sketch-soft" d="M842 468 C880 466 920 482 960 520"/>
+
+  <!-- Cabeza/gorra como en el boceto: forma simple sobre linea de agua -->
+  <path class="sketch" d="M438 522 C448 455 488 424 548 424"/>
+  <path class="sketch" d="M548 424 C610 424 660 470 660 530"/>
+  <path class="sketch" d="M438 522 C490 542 598 542 660 530"/>
+  <path class="sketch-soft" d="M502 482 C530 468 570 470 600 488"/>
+
+  <!-- Brazo izquierdo abajo, igual idea del boceto -->
+  <path class="sketch" d="M250 528 C218 574 186 616 160 665"/>
+  <path class="sketch" d="M160 665 C140 705 126 742 116 786"/>
+  <path class="sketch" d="M116 786 C132 832 156 862 190 884"/>
+
+  <!-- Brazo derecho extendido/lateral, igual idea del boceto -->
+  <path class="sketch" d="M680 520 C740 520 800 514 855 505"/>
+  <path class="sketch" d="M855 505 C895 498 930 504 960 520"/>
+
+  <!-- Linea tecnica de hombros, unica medicion dominante -->
+  <line class="tech-soft" x1="260" y1="545" x2="720" y2="508"/>
+  <line class="tech" x1="260" y1="545" x2="720" y2="508"/>
+  <circle cx="260" cy="545" r="18" class="orange"/>
+  <circle cx="720" cy="508" r="18" class="cyan"/>
+  <text class="orange txt" x="145" y="592" font-size="27" font-weight="700">hombro izq</text>
+  <text class="cyan txt" x="742" y="510" font-size="27" font-weight="700">hombro der</text>
+  <text class="cyan txt" x="490" y="680" font-size="38" font-weight="700">38 grados</text>
+
+  <text class="muted txt" x="80" y="770" font-size="28">Base visual: tu boceto. La app solo agrega eje, puntos de hombro y angulo.</text>
+
+  <rect class="card" x="48" y="840" width="984" height="440" rx="10"/>
+  <text class="txt muted" x="80" y="900" font-size="31">Alineacion corporal</text>
+  <text class="txt" x="80" y="948" font-size="44" font-weight="700">Cuerpo horizontal y piernas alineadas</text>
+  <rect class="panel" x="80" y="980" width="920" height="240" rx="6"/>
+  <line class="water" x1="120" y1="1100" x2="960" y2="1100"/>
+  <text class="muted txt" x="132" y="1080" font-size="24">linea de flotacion</text>
+  <line x1="175" y1="1100" x2="905" y2="1100" stroke="#5df0a0" stroke-width="5" class="dash" opacity=".65"/>
+  <path class="sketch" d="M180 1085 C235 1050 310 1048 378 1074"/>
+  <path class="sketch" d="M378 1074 C485 1110 605 1138 742 1130"/>
+  <path class="sketch-soft" d="M742 1130 C805 1128 862 1118 920 1102"/>
+  <path class="tech" d="M180 1085 C325 1045 455 1060 575 1100 C690 1135 800 1145 910 1130"/>
+  <circle cx="575" cy="1100" r="18" class="cyan"/>
+  <text class="green txt" x="150" y="1178" font-size="27" font-weight="700">alineacion estable</text>
+  <text class="muted txt" x="455" y="1178" font-size="25">si las piernas caen, aumenta resistencia</text>
+
+  <rect class="card" x="48" y="1320" width="984" height="300" rx="10"/>
+  <text class="txt muted" x="80" y="1380" font-size="31">Impulso MAG</text>
+  <text class="txt" x="80" y="1428" font-size="44" font-weight="700">Empuje y energia del movimiento</text>
+  <rect class="panel" x="80" y="1460" width="920" height="110" rx="6"/>
+  <line class="guide" x1="120" y1="1515" x2="960" y2="1515"/>
+  <path class="mag" d="M125 1543 L165 1523 L205 1487 L245 1535 L285 1525 L325 1475 L365 1515 L405 1533 L445 1503 L485 1545 L525 1511 L565 1479 L605 1525 L645 1537 L685 1495 L725 1475 L765 1527 L805 1523 L845 1487 L885 1515 L945 1495"/>
+
+  <rect x="48" y="1660" width="984" height="220" rx="10" fill="#0d2832" stroke="#1c5564" stroke-width="2"/>
+  <text class="cyan txt" x="80" y="1728" font-size="34" font-weight="700">Lectura simple</text>
+  <text class="txt" x="80" y="1788" font-size="38" font-weight="700">Rotacion visible y dentro del objetivo.</text>
+  <text class="txt" x="80" y="1838" font-size="38" font-weight="700">Alineacion estable. Impulso normal.</text>
+</svg>

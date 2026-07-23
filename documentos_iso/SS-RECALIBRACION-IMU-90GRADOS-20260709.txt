@@ -1,0 +1,82 @@
+SAVE SWIMMER
+RECALIBRACION IMU GIRADO 90 GRADOS
+Fecha: 2026-07-09
+Firmware: SS-LITE-BLE-SD-V1-052
+Dispositivo: SS-LT-000001
+
+Contexto
+Se reubica/evalua el MPU6050 con montaje girado 90 grados respecto del montaje anterior. El objetivo es entender como cambian los ejes utiles para interpretacion corporal antes de declarar cualquier patron como aprendido.
+
+Archivos analizados
+- SS000002.CSV - imu a 90 elevacion der
+- SS000003.CSV - imu a 90 elevacion izq
+- SS000004.CSV - imu a 90 cabeza arriba
+- SS000005 (1).CSV - imu a 90 cabeza abajo
+
+Criterio de lectura
+Se ignoran muestras iniciales inestables y muestras marcadas como NO_SENSOR. Para interpretar movimiento se priorizan picos utiles/percentiles y no solo promedios, porque el promedio aplana movimientos repetidos.
+
+Resultado principal
+Con el IMU girado 90 grados, la interpretacion de ejes cambia:
+
+1. Rolido / elevacion derecha-izquierda
+- Elevacion derecha muestra FB positivo dominante.
+- Elevacion izquierda muestra FB negativo dominante.
+- Por lo tanto, para este montaje el eje principal de rolido pasa a ser FB, no LR.
+
+2. Cabeza arriba / cabeza abajo / alineacion
+- Cabeza arriba muestra LR negativo dominante.
+- Cabeza abajo muestra LR positivo dominante.
+- Por lo tanto, para este montaje la alineacion cabeza-cuerpo pasa a leerse principalmente desde LR, con signo invertible segun como se quiera mostrar en la app.
+
+3. UD
+- UD queda muy influido por gravedad/base y variaciones de movimiento.
+- En este montaje no conviene usar UD solo para clasificar rolido lateral.
+- UD puede seguir ayudando como contexto de orientacion general, pero no debe ser el eje principal de rolido.
+
+Datos resumidos por picos utiles
+
+SS000002 - imu a 90 elevacion der:
+- FB p10/p50/p90: 0.45 / 2.80 / 9.19
+- LR p10/p50/p90: -0.49 / -0.25 / 0.89
+- Lectura: movimiento derecho se expresa claramente como FB positivo.
+
+SS000003 - imu a 90 elevacion izq:
+- FB p10/p50/p90: -9.68 / -1.89 / 0.47
+- LR p10/p50/p90: -0.53 / -0.37 / -0.17
+- Lectura: movimiento izquierdo se expresa claramente como FB negativo.
+
+SS000004 - imu a 90 cabeza arriba:
+- LR p10/p50/p90: -8.86 / -4.55 / -0.44
+- FB p10/p50/p90: 0.04 / 0.49 / 0.80
+- Lectura: cabeza arriba/alineacion hacia arriba se expresa principalmente como LR negativo.
+
+SS000005 - imu a 90 cabeza abajo:
+- LR p10/p50/p90: -0.33 / 4.54 / 10.33
+- FB p10/p50/p90: -0.69 / 0.08 / 0.53
+- Lectura: cabeza abajo/alineacion hacia abajo se expresa principalmente como LR positivo.
+
+Mapeo experimental propuesto
+Para este montaje IMU 90 grados:
+
+- ROTACION_DORSAL_RAW = FB
+- ROTACION_DER = FB positivo
+- ROTACION_IZQ = FB negativo
+- ALINEACION_RAW = -LR si se quiere que cabeza arriba sea positivo
+- ALINEACION_ARRIBA = LR negativo
+- ALINEACION_ABAJO = LR positivo
+- UD queda como eje auxiliar de orientacion/estabilidad
+
+Pendiente antes de declarar aprendido
+Esta recalibracion todavia es experimental. Se debe repetir:
+- base de mesa
+- elevacion derecha
+- elevacion izquierda
+- cabeza arriba
+- cabeza abajo
+- movimientos combinados
+- prueba con dispositivo colocado
+- prueba en agua/piscina
+
+Conclusion
+La reubicacion/giro del IMU no impide interpretar el movimiento. Al contrario, permite centrar mejor el sensor fisicamente, pero exige remapear los ejes en firmware/app. En este montaje, el rolido debe leerse desde FB y la alineacion cabeza-cuerpo desde LR. No se debe marcar como patron aprendido hasta repetir datos en campo y agua.

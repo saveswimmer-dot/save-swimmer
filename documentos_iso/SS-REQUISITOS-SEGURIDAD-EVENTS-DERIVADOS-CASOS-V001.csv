@@ -1,0 +1,18 @@
+id,requisito,razon,verificacion_minima,prioridad
+SS-EVSAFE-001,Contabilizacion de ingreso,"Saber exactamente quien comenzo el segmento acuatico","Check-in validado mas confirmacion de salida efectiva",Critica
+SS-EVSAFE-002,Contabilizacion de salida,"No asumir que todos regresaron o continuaron a transicion","Confirmacion agua-seco/transicion mas operador de cierre",Critica
+SS-EVSAFE-003,Lista de atletas pendientes,"Destacar inmediatamente quien ingreso pero no tiene cierre seguro","Panel ordenado por tiempo excedido y ultima señal",Critica
+SS-EVSAFE-004,Alerta fuera de tiempo,"Detectar antes de que finalice completamente el evento","Cut-off individual/grupal y escalamiento previo",Critica
+SS-EVSAFE-005,Ultima ubicacion y ultima señal,"Reducir area inicial de búsqueda cuando se pierde seguimiento","Hora, coordenada, precisión, estado y fuente registrados",Critica
+SS-EVSAFE-006,Centro de seguridad responsable,"Evitar alertas sin dueño o decisiones difusas","Roles nominales, canal activo y confirmacion de recepción",Critica
+SS-EVSAFE-007,Auditoria cronologica,"Reconstruir qué observó el sistema y qué decisiones se tomaron","Registro inmutable de alertas, reconocimientos y cierres",Alta
+SS-EVSAFE-008,Redundancia operativa,"La tecnologia puede fallar y no debe ser el único control","Conteo manual, observación humana, embarcaciones y protocolos paralelos",Critica
+SS-EVSAFE-009,Simulacros previos,"Probar tiempos y responsabilidades antes del evento real","Ejercicios con atleta rezagado, señal perdida y salida fuera de zona",Alta
+SS-EVSAFE-010,Comunicación responsable,"No prometer prevención absoluta ni trasladar responsabilidad al dispositivo","Contratos, capacitación y mensajes revisados",Critica
+SS-EVSAFE-011,Estado operativo inequívoco,"Evitar perder tiempo intentando determinar si una persona salio, se retiro o sigue en agua","Estados mínimos: REGISTRADO, EN_AGUA, SALIDA_CONFIRMADA, RETIRO_CONFIRMADO, PENDIENTE_VERIFICACION e INCIDENTE",Critica
+SS-EVSAFE-012,Prohibir cierre por suposición,"Nadie debe marcarse seguro porque otro participante cree que se fue","Cierre mediante confirmación verificable de atleta, transición, mesa o responsable autorizado",Critica
+SS-EVSAFE-013,Estado desconocido accionable,"Evitar que la falta de informacion retrase la verificacion o busqueda","Si un atleta no tiene salida o retiro confirmado al superar el tiempo definido debe pasar a ESTADO_DESCONOCIDO y activar verificacion inmediata por el centro de seguridad",Critica
+SS-EVSAFE-014,Busqueda basada en ultima evidencia,"Evitar iniciar la busqueda desde una suposicion no confirmada como hotel, hogar o retiro voluntario","La primera respuesta debe considerar ultima ubicacion, ultima senal, ultimo estado acuatico y testigos; cualquier cambio de hipotesis debe registrarse y confirmarse",Critica
+SS-EVSAFE-015,Detencion inesperada verificable,"Distinguir una pausa normal de una situacion que requiere atencion","Mostrar atleta, ubicacion, duracion detenido, movimiento residual y escalamiento progresivo al responsable",Critica
+SS-EVSAFE-016,Corredor de salida seguro,"Detectar atletas que se dirigen a una salida incorrecta o peligrosa","Geocerca direccional de llegada y alerta de desvio hacia rocas, corriente u otra zona definida por organizacion",Alta
+SS-EVSAFE-017,Gesto manual de solicitud de ayuda,"Permitir que un atleta consciente solicite asistencia de forma reconocible","Definir, entrenar y validar un gesto simple; combinarlo con contexto antes de escalar al centro de seguridad",Alta

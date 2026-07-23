@@ -1,0 +1,22 @@
+﻿metric,value
+archivo,SS000032.CSV
+atleta,solo derecho
+firmware,SS-LITE-BLE-SD-V1-052
+modo,TEST
+duracion_s,11
+muestras,107
+rot_der_deg,68.59
+rot_izq_deg,0.29
+rot_prom_deg,34.44
+simetria_diff_deg,68.3
+alineacion_prom_deg,4.8
+base_pitch_deg,-1.1
+base_roll_deg,-1.7
+base_ud,9.44
+impulso_prom,1.6
+brazadas_estimadas,5
+ritmo_s,1.58
+gps_puntos,107
+distancia_m,1.22
+mejor_tramo_inicio_s,0.71
+mejor_tramo_fin_s,11.71

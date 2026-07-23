@@ -1,0 +1,483 @@
+SAVE SWIMMER - RESUMEN MAESTRO DEL PROYECTO
+Fecha: 2026-07-09
+Responsable del proyecto: Victor Loza
+Nombre de uso: Vittorio / Vitto
+Contacto del proyecto: saveswimmer@gmail.com
+Redes: Save Swimmer en Facebook, Instagram y TikTok
+
+============================================================
+1. IDEA CENTRAL
+============================================================
+
+Save Swimmer es un wearable acuatico de seguridad para nadadores de aguas abiertas.
+
+No nace como reloj deportivo ni como monitor fitness. La finalidad principal es seguridad:
+detectar comportamiento corporal compatible o incompatible con natacion funcional, registrar
+datos y, a futuro, emitir alertas a entrenador, familia o sistema de rescate segun el contexto.
+
+Premisa permanente:
+La prioridad es encontrar y asistir al nadador. Las metricas deportivas existen para dar valor,
+uso frecuente e interes al producto, pero no deben desplazar la finalidad de seguridad.
+
+Ubicacion fisica prevista:
+Espalda alta / entre escapulas.
+
+Motivo:
+- Mejor estabilidad biomecanica.
+- Mejor lectura global del torso.
+- Menor ruido que muneca o cabeza.
+- Mejor posicion para GPS si el nadador esta cerca de superficie.
+- Posible visibilidad LED posterior/lateral.
+
+============================================================
+2. VERSIONES CONCEPTUALES
+============================================================
+
+SAVE SWIMMER LITE
+- Enfoque local y masivo.
+- Para entrenamientos, nado recreativo y aguas abiertas locales.
+- BLE para configuracion y descarga cercana.
+- GPS integrado.
+- Registro local en microSD durante desarrollo.
+- Posible GSM/LTE en version comercial o version Lite Connect.
+- Membresia estimada inicial pensada: S/ 40 a S/ 50 mensuales.
+- Valor de referencia deseado del dispositivo: S/ 600 a S/ 800, no mandatario.
+
+SAVE SWIMMER PRO
+- Mayor cobertura.
+- Posible conectividad satelital.
+- Mayor autonomia o bateria.
+- Dispositivo mas grande.
+- Membresia mayor por costos de cobertura.
+
+SAVE SWIMMER EVENT
+- Para competencias y eventos.
+- Puede usar RF/LoRa u otra infraestructura local.
+- No debe mezclarse todavia con la comunicacion comercial de la version base.
+- En eventos, el primer contacto de emergencia es el organizador/coach/rescate del evento.
+- Posible modelo futuro: registro QR, asignacion de dispositivo, geocercas por evento, historial.
+
+APP FAMILIA
+- Debe ser simple.
+- Probablemente gratuita.
+- Recibe ubicacion/estado/alerta cuando el atleta comparte o inicia actividad.
+- No debe saturarse con telemetria tecnica.
+
+APP COACH
+- App monitor.
+- No debe apropiarse del historial completo del atleta salvo autorizacion.
+- En entrenamiento grupal, el coach es primer contacto ante emergencia.
+- Debe poder ver multiples atletas activos, mapa, estado, alertas y geocerca de sesion.
+- SOS y alertas de seguridad siempre deben existir aun en version gratuita.
+
+APP ATHLETE
+- Historial del atleta.
+- Lectura de sesion.
+- Resumen de rotacion, alineacion, impulso, ritmo, brazadas, GPS y evolucion.
+- Permite compartir datos anteriores con coach o familia si el atleta lo decide.
+
+============================================================
+3. HARDWARE ACTUAL DEL PROTOTIPO
+============================================================
+
+Controlador:
+- ESP32-S3 DevKit N16R8 / R16N8 usado para pruebas.
+
+Sensores y modulos:
+- MPU6050 como IMU principal.
+- GPS/GNSS GY-NEO-M9N / NEO-M9N probado con fix.
+- INA219 para medicion de voltaje/corriente.
+- microSD SPI para registro de datos local.
+- MT3608 como elevador/regulador durante pruebas.
+- TP4056 con proteccion para carga LiPo.
+- Bateria LiPo usada para pruebas.
+- RGB HW-479 contemplado/probado como LED de estado.
+- Reed magnetico contemplado para encendido sin abrir carcasa.
+- Sensor de agua pendiente para encendido/logica real de inmersion.
+
+Conectividad actual:
+- BLE funcional para app laboratorio y app athlete.
+- GPS ya entrega lat/lon/satelites/HDOP/velocidad.
+- Backend/ngrok probado para simulacion de gateway con telefono, pero ngrok tiene limite.
+
+Estado microSD:
+- Se resolvieron fallas progresivas de escritura usando versiones sucesivas.
+- Registro local ya funciona de forma util.
+- Descarga completa por BLE es lenta para sesiones largas; se considera solo diagnostico.
+- Flujo recomendado: CSV completo queda en microSD; resumen rapido puede ir por BLE.
+
+============================================================
+4. VERSIONES DE SOFTWARE ACTUALES
+============================================================
+
+Firmware ESP:
+- Version actual de referencia: SS-LITE-BLE-SD-V1-053.
+- Funciones actuales:
+  - Lectura MPU6050.
+  - GPS.
+  - INA219.
+  - BLE.
+  - microSD.
+  - Perfil de usuario basico: USER + MODE.
+  - Inicio/cierre de sesion desde app.
+  - Registro CSV.
+  - Telemetria JSON.
+
+App laboratorio / Field Viewer:
+- Version de referencia reciente: Field/laboratorio V0.3.46.
+- Funciones:
+  - Conexion BLE.
+  - Envio de perfil.
+  - Inicio/cierre de sesion en dispositivo.
+  - Descarga de resumen/CSV diagnostico.
+  - Lectura GPS del ESP.
+  - Graficos en vivo:
+    - Rotacion estimada.
+    - Alineacion estimada.
+    - Impulso MAG.
+  - Tomar base de colocacion.
+  - Herramientas de diagnostico.
+
+App Athlete Live + CSV:
+- Version reciente: V0.3.2.
+- APK reciente: SaveSwimmer_Athlete_LiveCsv_V014.apk.
+- Funciones:
+  - En vivo BLE.
+  - Analisis CSV.
+  - Lectura para atleta.
+  - Graficos adaptados desde laboratorio.
+  - Rotacion y alineacion corregidas para usar el mismo criterio del laboratorio.
+
+Backend / Coach:
+- Backend local probado en puerto 8787.
+- ngrok probado como tunel externo.
+- Coach Live mostro mapa y telemetria basica, pero requiere mejora.
+- Limitacion detectada: ngrok puede agotar cuota rapidamente si el envio es muy frecuente.
+
+============================================================
+5. CRITERIOS DE LECTURA CORPORAL ACTUALES
+============================================================
+
+Datos crudos:
+- LR
+- FB
+- UD
+- MAG
+- GPS
+- Energia INA219
+
+Interpretacion en desarrollo:
+
+ROTACION
+- Ya no debe verse como simple LR aislado.
+- La lectura mas estable actual usa combinacion FB/UD contra base:
+  rotacion aproximada = atan2(FB, UD) ajustada por base.
+- La rotacion buscada para nado libre / aguas abiertas se tomo como referencia:
+  32 a 45 grados por lado.
+- Mas de 50 grados puede interpretarse como sobre-rotacion.
+- Menos de 32 grados puede sugerir poca rotacion del torso.
+
+ALINEACION
+- Se interpreta como linea corporal / cabeza-cuerpo.
+- La lectura actual usa combinacion -LR/UD contra base:
+  alineacion aproximada = atan2(-LR, UD) ajustada por base.
+- No se debe interpretar literalmente como cabeza porque el sensor esta en espalda alta,
+  pero puede dar pistas de perdida de linea corporal, elevacion indebida o esfuerzo.
+
+IMPULSO / EMPUJE
+- MAG sirve como energia de movimiento.
+- No equivale automaticamente a avance.
+- Puede marcar impulso, cambio brusco, freno o perdida de suavidad.
+- Se debe comparar con GPS/velocidad cuando exista.
+- Una brazada puede tener menos pico de MAG si el nadador ya esta en ritmo constante.
+
+RITMO / BRAZADAS
+- La app puede detectar ciclos aproximados por patrones de rotacion.
+- Se debe contemplar:
+  - Brazada rapida pero poco eficiente.
+  - Brazada lenta pero estable.
+  - Diferencias entre piscina, aguas abiertas, velocidad y fondo.
+
+RESPIRACION
+- Todavia no esta confirmada como metrica directa.
+- Podria inferirse si hay patrones repetidos de alineacion/rotacion asociados a toma de aire.
+- No debe prometerse hasta tener datos de agua.
+
+SIMETRIA
+- Se busca comparar lado derecho e izquierdo.
+- No solo media general: deben analizarse picos por lado.
+- El usuario noto que si se promedia contra 0 o negativo, el resultado puede ocultar picos reales.
+- Pendiente afinar deteccion de picos por lado y graficos.
+
+BASE / CALIBRACION
+- Mesa plana sirve como base de hardware.
+- Base de colocacion sirve para compensar posicion real en el atleta.
+- El prototipo debe aprender con datos:
+  - mesa / reposo
+  - parado
+  - nadando
+  - transiciones
+- A futuro no debe exigir que el atleta flote estatico para calibrar.
+
+============================================================
+6. DATOS Y PRUEBAS
+============================================================
+
+Ya se tienen:
+- Pruebas en tierra.
+- Simulacros de nado.
+- Pruebas de rotacion derecha/izquierda.
+- Pruebas de UD y LR.
+- Pruebas MAG.
+- Pruebas GPS.
+- Pruebas con app laboratorio.
+- Pruebas con app athlete.
+- Primeros datos reales de simulacro de nado, aun en tierra.
+
+Pendiente critico:
+- Pruebas en piscina controlada.
+- Pruebas con atleta real.
+- Pruebas por codigos de tecnica.
+- Pruebas en agua abierta.
+- Comparar sesiones del mismo atleta en varios dias.
+
+Plan de pruebas en piscina:
+- Cada sesion debe abrir/cerrar archivo.
+- Mantener USER + MODE por ahora.
+- Usar codigos de modo para no llenar la app con opciones.
+- Ejemplos conceptuales:
+  - Rotacion normal / exagerada / sin rotacion.
+  - Dedos abiertos / cerrados.
+  - Con patada / sin patada.
+  - Respiracion derecha/izquierda cuando aplique.
+- No condicionar el software a "25m"; el modo debe ser libre.
+
+Documentos existentes relevantes:
+- Encuesta breve de aguas abiertas.
+- Permiso/confidencialidad para toma de datos.
+- Reportes de atleta generados desde CSV.
+- Bitacora de pruebas.
+- Documentacion ISO/empresa en progreso.
+
+============================================================
+7. RESULTADOS DE COMUNIDAD / FEEDBACK
+============================================================
+
+Feedback recibido:
+- Medir ritmo de brazadas y velocidad.
+- Ubicacion en tiempo real.
+- Salida de zona segura / geocerca.
+- Deteccion de inmovilidad.
+- Patron anormal de movimiento.
+- Boton SOS rapido.
+- Orientacion/ruta visible porque nadadores se desorientan.
+- Confirmacion de salida del agua.
+- Distancia a costa/base.
+- Alertar entrenador/familia.
+- Preocupacion por comodidad y precio.
+- Interes en analisis de atleta.
+
+Diferencial observado al conversar:
+- Cuando se explica "alerta temprana automatica" la gente presta mas atencion.
+- Relojes existentes pueden compartir trayectoria, pero muchos dependen de accion manual.
+- Save Swimmer debe diferenciarse por contexto acuatico + alerta automatica + seguimiento.
+
+============================================================
+8. COMUNICACION Y FINANCIAMIENTO
+============================================================
+
+StartFund Peru:
+- Campana creada y aprobada.
+- Problemas posteriores con edicion/funcionamiento.
+- Meta usada en un momento: S/ 5000.
+
+Necesidad:
+- Financiamiento para seguir comprando componentes, carcasa, pruebas, sensores, desarrollo app,
+  sellado, bateria, comunicaciones y pruebas reales.
+
+Redes:
+- Conviene publicar avances reales, no promesas excesivas.
+- Enfoque recomendado:
+  - Estamos desarrollando.
+  - Ya tenemos telemetria corporal.
+  - Ya tenemos GPS.
+  - Ya tenemos registro local.
+  - Ahora pasamos a pruebas controladas.
+  - Buscamos apoyo/feedback/aportes.
+
+Evitar:
+- Usar tragedias como marketing.
+- Decir "si hubiera tenido Save Swimmer".
+- Prometer rescate garantizado.
+
+Mensaje correcto:
+- Casos reales refuerzan la necesidad de mejores protocolos, seguimiento y alerta temprana.
+
+============================================================
+9. EMPRESA Y MODELO
+============================================================
+
+Vision:
+- Pensar desde el inicio como empresa, aunque el prototipo aun este en desarrollo.
+
+Datos conversados:
+- Constitucion SAC aprox: S/ 900 para 2 socios.
+- Tiempo estimado: 20 a 30 dias calendario.
+- Regimen recomendado por consulta: MYPE / REMYPE.
+- Contabilidad mensual aprox: desde S/ 150, depende del plan.
+
+Modelo:
+- Venta de dispositivo.
+- Membresia mensual.
+- Ganancia esperada mas fuerte en membresia que en hardware.
+- La membresia debe cubrir:
+  - SIM/datos.
+  - Backend.
+  - Base de datos.
+  - Web/ecommerce.
+  - App.
+  - Actualizaciones.
+  - Soporte.
+  - Costos administrativos.
+  - Pasarela/comisiones.
+  - IGV/impuestos.
+
+Pendiente:
+- Facturacion de venta y membresia.
+- Terminos y condiciones.
+- Politicas de privacidad.
+- Manejo de bajas, reclamos, vencimientos y reactivacion.
+- Control de equipos activos/inactivos.
+- Mapa interno de dispositivos activos.
+
+============================================================
+10. CONECTIVIDAD FUTURA
+============================================================
+
+BLE:
+- Configuracion cercana.
+- Descarga diagnostica.
+- No ideal para descarga larga.
+
+GSM/LTE:
+- Necesario para version con ubicacion en vivo sin depender de telefono.
+- Se debe evaluar:
+  - SIM nacional a nombre de Save Swimmer.
+  - SIM internacional para usuarios que viajan.
+  - Cobertura real en mar, a nivel 0 msnm.
+  - Consumo.
+  - Tiempo desde recuperacion de senal hasta envio.
+  - Buffer local cuando no hay senal.
+
+LoRa/RF:
+- Eliminado de version Lite publica por falta de receptor en playa.
+- Puede volver en Event.
+
+Satelital:
+- Para Pro, no para Lite inicial.
+
+Gateway con telefono:
+- Probado como simulacion casi final:
+  ESP por BLE -> telefono A -> datos moviles -> backend/telefono B.
+- Sirve para pruebas de campo y coach.
+- Problemas:
+  - Si pantalla se apaga puede cortar BLE.
+  - Datos pueden tener delay.
+  - ngrok puede limitar cuota.
+
+============================================================
+11. CARCASA / FORM FACTOR
+============================================================
+
+Prototipo actual:
+- Modular macro.
+- Caja de prueba grande.
+- Sirve para datos, no para producto.
+
+Maqueta recomendada Lite:
+- 80 x 50 x 20 mm como objetivo serio de volumen.
+- Prototipo actual sellable podria ser mucho mayor: 115-130 x 65-75 x 25-30 mm.
+
+Archivo creado:
+- diseno/SS-LITE-BOCETO-MAQUETA-80x50x20-V001.svg
+
+Puntos de carcasa:
+- Hidrodinamica.
+- Base dorsal comoda.
+- Flotabilidad si se desprende.
+- Antena GPS hacia arriba.
+- Sensor de agua expuesto.
+- LED visible 360 o muy visible lateral/posterior.
+- Encendido magnetico para no abrir.
+- Sellado IP.
+- Fijacion segura a traje/malla/correa.
+
+============================================================
+12. PENDIENTES TECNICOS IMPORTANTES
+============================================================
+
+Hardware:
+- Sensor de agua.
+- Encendido magnetico/reed + circuito de corte real.
+- Mejor gestion energia.
+- Bateria adecuada final.
+- LED 360 o sistema visible.
+- Buzzer/vibracion solo si aporta y no complica waterproofing.
+- Carcasa o maqueta sellada para piscina.
+- Antena GPS despejada.
+- Evaluar ubicacion de IMU centrada.
+- Evaluar si MPU6050 alcanza o pasar a IMU mejor.
+
+Firmware:
+- Aprendizaje progresivo por datos.
+- Deteccion de estados:
+  - seco
+  - agua
+  - nadando
+  - detenido
+  - salida de agua
+  - sin senal
+  - posible riesgo
+- Manejo de buffer cuando no hay senal.
+- Envio resumido, no raw permanente.
+- Reducir peso de telemetria para backend.
+
+Apps:
+- Laboratory: mantener como herramienta tecnica.
+- Athlete: lectura entendible, resumen CSV y en vivo.
+- Coach: monitor simple, mapa, multiple atleta, alerta fuerte.
+- Family: simple, gratuita o casi gratuita, solo estado/ubicacion/alerta.
+
+Graficos:
+- Rotacion y simetria deben mostrar picos por lado.
+- Alineacion corporal debe explicar simple.
+- Impulso debe explicar que no es "fuerza absoluta", sino energia/cambio.
+- Tendencia debe usar ventana de 30 segundos con barra de desplazamiento.
+- Resumen debe poder entenderlo alguien sin saber sensores.
+
+============================================================
+13. PROXIMOS PASOS RECOMENDADOS
+============================================================
+
+1. Maquetar forma Lite 80 x 50 x 20 mm en telgopor/foam.
+2. Reordenar hardware para dejar GPS arriba e IMU lo mas centrada posible.
+3. Preparar sellado provisorio para piscina.
+4. Llevar carta de permiso y consentimiento de toma de datos.
+5. Hacer pruebas controladas con codigos simples.
+6. Guardar cada sesion con USER + MODE.
+7. Analizar CSV en app Athlete y reporte PDF.
+8. Ajustar thresholds de rotacion/alineacion/impulso.
+9. Repetir con mismo atleta en varias sesiones.
+10. Recien despues hablar de "aprendido" o patrones personales.
+
+============================================================
+14. INSTRUCCION PARA NUEVO HILO DE CODEX
+============================================================
+
+Si se abre un nuevo hilo, pegar este resumen y decir:
+
+"Continuemos Save Swimmer desde este resumen maestro. Trabajamos en el mismo workspace:
+C:\Users\Claudia\Documents\Codex\2026-05-15\save-swimmer.
+Necesito que respetes las versiones actuales, no borres historial, y avances con cambios concretos."
+
+Fin del resumen maestro.

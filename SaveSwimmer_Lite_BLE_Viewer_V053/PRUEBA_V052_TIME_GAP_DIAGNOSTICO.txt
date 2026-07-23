@@ -1,0 +1,31 @@
+SAVE SWIMMER - PRUEBA V052 TIME GAP DIAGNOSTICO
+===============================================
+
+Firmware:
+SS-LITE-BLE-SD-V1-052
+
+Base:
+V051 con RGB HW-479.
+
+Objetivo:
+Detectar pausas o saltos temporales durante una sesion sin tener que revisar
+manualmente todas las filas del CSV.
+
+Nuevo marcador CSV:
+#TIME_GAP;PREV_ROW=235;NEXT_ROW=236;GAP_MS=4400;EXPECTED_MS=100;LOCAL=2026-06-30 13:20:28
+
+Cuando aparece:
+- Si entre dos muestras grabadas pasan mas de 400 ms.
+- El muestreo esperado es 100 ms aproximadamente.
+
+Nuevo cierre CSV:
+#END_SESSION;ROWS=...;CLOSED_LOCAL=...;TIME_GAPS=...;MAX_GAP_MS=...
+
+Uso:
+- Si TIME_GAPS=0, no hubo pausas importantes durante la sesion.
+- Si TIME_GAPS>0, revisar los marcadores #TIME_GAP del archivo.
+- Si MAX_GAP_MS es alto, revisar si coincide con SD, BLE, descarga, cierre o bateria.
+
+Nota:
+El marcador no cambia las filas normales del CSV. Es una linea de comentario,
+por lo tanto los analizadores deben ignorarla igual que #END_SESSION.

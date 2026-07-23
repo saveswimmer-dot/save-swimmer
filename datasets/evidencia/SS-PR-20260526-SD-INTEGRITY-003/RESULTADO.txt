@@ -1,0 +1,24 @@
+SAVE SWIMMER - DIAGNOSTICO SESION SS000011
+Fecha: 2026-05-26
+Prueba: SS-PR-20260526-SD-INTEGRITY-003
+
+Firmware: SS-LITE-BLE-SD-V1-032
+Archivo recuperado por app: INCOMPLETA_SS000011.CSV
+Perfil: prueba de blt desconectado
+Inicio: 2026-05-26 15:35:58
+Bytes: 72640
+Filas de datos: 860
+Filas completas: 860
+Duracion guardada: 86.88 s
+Marca #END_SESSION: ausente
+
+Observacion:
+- La app mostro durante la prueba SESSION:SD_WRITE;ROWS=895;BATCH_BYTES=832.
+- BATCH_BYTES corresponde a un lote de aproximadamente 1 segundo, no al tamano maximo del archivo.
+- El archivo recuperado contiene filas completas, pero no tiene cierre controlado.
+- La diferencia entre 895 filas vistas y 860 filas recuperadas representa aproximadamente 3.5 segundos no confirmados al final.
+
+Accion:
+- Firmware V033 sincroniza la microSD cada 1 segundo y registra causa de reinicio.
+- Firmware V033 cierra el stream y reabre el archivo para escribir y verificar #END_SESSION.
+- App v0.3.15 muestra filas confirmadas en SD y distingue falta de cierre de fila corrupta.

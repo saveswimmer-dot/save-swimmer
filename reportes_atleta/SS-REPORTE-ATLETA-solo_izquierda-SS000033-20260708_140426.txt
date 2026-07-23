@@ -1,0 +1,14 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: solo izquierda
+Archivo: SS000033.CSV
+Duración: 00:09 | Muestras: 84
+
+Rotación: asimetría. un lado giró más que el otro. Lado dominante: IZQ.
+Alineación: irregular. hubo mucha variación; puede aparecer cansancio o pérdida de línea corporal.
+Impulso: alto. hubo picos fuertes; mirar si fue fuerza útil o movimiento brusco.
+Ritmo: 1.6 s/ciclo | Brazadas/ciclos detectados: 5
+GPS: 84 puntos válidos | Distancia aproximada: 0.1 m
+Mejor tramo: 00:00 a 00:09
+Cambio observado: al final subió el esfuerzo y cambió la alineación; posible fatiga o técnica menos estable.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

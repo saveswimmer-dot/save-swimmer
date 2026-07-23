@@ -1,0 +1,62 @@
+(export
+	(version "E")
+	(design
+		(source "C:\\Users\\Claudia\\Documents\\Codex\\2026-05-15\\save-swimmer\\hardware_design\\SS-PROTOTIPO-ACTUAL-KICAD-V001\\SS-PROTOTIPO-ACTUAL-V001.sch")
+		(date "2026-06-08T17:31:58")
+		(tool "Eeschema 10.0.3")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title "SAVE SWIMMER - PROTOTIPO ACTUAL V001")
+				(company "Save Swimmer")
+				(rev "V001")
+				(date "2026-06-08")
+				(source "SS-PROTOTIPO-ACTUAL-V001.sch")
+				(comment
+					(number "1")
+					(value "Esquema modular para pruebas. NO enviar a fabricar.")
+				)
+				(comment
+					(number "2")
+					(value "I2C GPIO8/GPIO9 pendiente de confirmar fisicamente.")
+				)
+				(comment
+					(number "3")
+					(value "microSD alimentada a 5V segun pruebas actuales.")
+				)
+				(comment
+					(number "4")
+					(value "Firmware de referencia: SS-LITE-BLE-SD-V1-044")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components)
+	(groups)
+	(variants)
+	(libparts)
+	(libraries)
+	(nets)
+)

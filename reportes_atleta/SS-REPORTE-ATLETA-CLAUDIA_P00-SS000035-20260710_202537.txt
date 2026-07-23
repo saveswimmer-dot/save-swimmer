@@ -1,0 +1,15 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: CLAUDIA P00
+Archivo: SS000035.CSV
+Duración: 00:23 | Muestras: 151
+Tipo de sesión: NO_CLASIFICADO | datos no clasificados: revisar contexto de prueba antes de sacar conclusiones.
+
+Rotación: baja. giraste poco el cuerpo; puede faltar rolido para preparar mejor la brazada.
+Alineación: estable. el cuerpo se mantuvo bastante parejo.
+Impulso: suave. empuje suave; puede ser nado tranquilo o poca energía de impulso.
+Ritmo: sin nado confirmado | Movimientos detectados: 1
+GPS: 0 puntos válidos | Distancia aproximada: 0 m
+Mejor tramo: 00:00 a 00:23
+Cambio observado: no hubo un cambio fuerte entre inicio y final.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

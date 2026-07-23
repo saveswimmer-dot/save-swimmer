@@ -1,0 +1,20 @@
+Hola, somos Save Swimmer.
+
+Estamos desarrollando en Peru un dispositivo dorsal de seguridad para nadadores de aguas abiertas.
+
+Estado actual:
+- Prototipo real funcionando.
+- Lectura de movimiento corporal.
+- GPS integrado.
+- Registro en microSD.
+- App de pruebas para visualizar datos.
+
+Ahora seguimos avanzando hacia pruebas en agua para validar lo mas importante: ubicacion, movimiento, zona segura y alertas tempranas.
+
+Si nadas, entrenas, organizas eventos o tienes familia que nada en aguas abiertas, nos ayuda mucho que sigas el proyecto, comentes que informacion te seria util y compartas la publicacion.
+
+Tambien puedes apoyar el desarrollo desde StartFund:
+https://startfund.pe/proyectos/save-swimmer-seguridad-para-nadadores-de-aguas-abiertas.php
+
+Instagram / Facebook / TikTok: @saveswimmer
+Contacto: saveswimmer@gmail.com

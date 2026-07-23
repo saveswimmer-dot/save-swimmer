@@ -1,0 +1,14 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: CLAUDIA B00
+Archivo: SS000034.CSV
+Duración: 00:11 | Muestras: 103
+
+Rotación: baja. giraste poco el cuerpo; puede faltar rolido para preparar mejor la brazada.
+Alineación: estable. el cuerpo se mantuvo bastante parejo.
+Impulso: suave. empuje suave; puede ser nado tranquilo o poca energía de impulso.
+Ritmo: sin ciclo claro | Brazadas/ciclos detectados: 0
+GPS: 0 puntos válidos | Distancia aproximada: 0 m
+Mejor tramo: 00:04 a 00:15
+Cambio observado: no hubo un cambio fuerte entre inicio y final.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

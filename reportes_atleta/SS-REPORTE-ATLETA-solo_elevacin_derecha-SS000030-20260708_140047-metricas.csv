@@ -1,0 +1,22 @@
+﻿metric,value
+archivo,SS000030.CSV
+atleta,solo elevacin derecha
+firmware,SS-LITE-BLE-SD-V1-052
+modo,TEST
+duracion_s,46
+muestras,367
+rot_der_deg,1.8
+rot_izq_deg,0.5
+rot_prom_deg,1.15
+simetria_diff_deg,1.3
+alineacion_prom_deg,8.1
+base_pitch_deg,-1.7
+base_roll_deg,-2.5
+base_ud,9.44
+impulso_prom,1.24
+brazadas_estimadas,0
+ritmo_s,--
+gps_puntos,0
+distancia_m,0
+mejor_tramo_inicio_s,0.68
+mejor_tramo_fin_s,30.68

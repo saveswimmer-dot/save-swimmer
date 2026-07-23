@@ -1,0 +1,39 @@
+PRUEBA: SS-PR-20260527-SD-FLUSH-PATTERN-015
+FECHA: 2026-05-27
+FIRMWARE: SS-LITE-BLE-SD-V1-036
+OBSERVACION DEL USUARIO
+- En la app se aprecia un pequeno error o pausa alrededor de la fila 633.
+- En varias sesiones el corte final ocurre cerca de la fila 690.
+
+ARCHIVOS ANALIZADOS
+- INCOMPLETA_SS000016 (1).CSV: 374 filas, 39.81 s.
+- INCOMPLETA_SS000018.CSV: 632 filas, 67.38 s.
+- INCOMPLETA_SS000020.CSV: 661 filas, 70.44 s.
+- INCOMPLETA_SS000021.CSV: 689 filas, 73.44 s.
+- INCOMPLETA_SS000023.CSV: 661 filas, 70.44 s.
+
+PATRON DE TIEMPO
+- Se detectan saltos de tiempo repetidos de 0.28 s a 0.35 s.
+- Los saltos se repiten en filas aproximadamente:
+  58, 116, 173, 202, 259, 317, 345, 374, 432, 460, 518, 604, 633.
+- El salto cercano a fila 633 se repite en varias sesiones:
+  fila 633->634 o 632->633 con delta aproximado 0.33-0.34 s.
+- Algunas sesiones cortan despues de ese punto, entre filas 661 y 689.
+
+INTERPRETACION
+El patron no depende de movimiento corporal ni de valores IMU: los datos son
+estables y las filas estan completas. Los saltos coinciden con momentos en que
+el firmware debe detener el muestreo para escribir/verificar lotes en la SD.
+Esto sugiere bloqueo/latencia de escritura SD repetible.
+
+HIPOTESIS TECNICA
+- El lote de 3 segundos mas reintentos esta permitiendo mayor duracion, pero la
+  verificacion/escritura sigue bloqueando el loop y acumulando retrasos.
+- La microSD o el modulo tiene latencias largas de escritura que aparecen en
+  ciclos regulares, posiblemente asociadas a flush/FAT/cluster interno.
+
+CAMBIO PROPUESTO
+- Crear V037 con buffer mas largo y menor frecuencia de escritura SD.
+- Pausar telemetria BLE/Serial durante flush SD.
+- Registrar contador de flush exitosos y ultimo delta de flush.
+- Mantener filas completas y cierre validado como prioridad.

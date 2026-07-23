@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#041016}
+      .board{fill:#0d2a35;stroke:#28d7ec;stroke-width:4}
+      .zone{fill:#123340;stroke:#24576a;stroke-width:2}
+      .rf{fill:#2b2030;stroke:#ff6a18;stroke-width:3;stroke-dasharray:10 8}
+      .chip{fill:#071d25;stroke:#9bb5bd;stroke-width:2}
+      .power{fill:#1e2b20;stroke:#45e089;stroke-width:2}
+      .sensor{fill:#1a263a;stroke:#7da9ff;stroke-width:2}
+      .warn{fill:#332312;stroke:#ffd166;stroke-width:2}
+      .txt{font-family:Arial,Helvetica,sans-serif;fill:#eef8fb}
+      .muted{font-family:Arial,Helvetica,sans-serif;fill:#9bb5bd}
+      .cyan{font-family:Arial,Helvetica,sans-serif;fill:#28d7ec}
+      .orange{font-family:Arial,Helvetica,sans-serif;fill:#ff6a18}
+      .green{font-family:Arial,Helvetica,sans-serif;fill:#45e089}
+      .small{font-size:18px}
+      .med{font-size:24px;font-weight:700}
+      .big{font-size:38px;font-weight:700;letter-spacing:4px}
+      .note{font-size:16px}
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="900"/>
+
+  <text class="txt big" x="60" y="70">SAVE SWIMMER LITE - PCB CONCEPT V001</text>
+  <text class="cyan med" x="60" y="106">Boceto tecnico conceptual | medida PCB 78 x 38 mm | carcasa objetivo 85 x 45 x 18 mm aprox</text>
+  <text class="muted small" x="60" y="136">No es Gerber final. Sirve para definir arquitectura, espacio, zonas RF, energia, sensores y componentes antes de diseno PCB profesional.</text>
+
+  <!-- Board scale: 10 px = 1 mm, board 780 x 380 -->
+  <g transform="translate(80,190)">
+    <rect class="board" x="0" y="0" width="780" height="380" rx="70" ry="70"/>
+    <text class="muted note" x="290" y="-16">PCB aprox 78 mm x 38 mm</text>
+
+    <!-- RF keepout -->
+    <rect class="rf" x="20" y="28" width="190" height="324" rx="34"/>
+    <text class="orange med" x="50" y="72">RF / ANTENAS</text>
+    <text class="muted note" x="42" y="102">keepout cobre</text>
+    <text class="muted note" x="42" y="126">GSM/GNSS/BLE</text>
+    <text class="muted note" x="42" y="150">sin bateria encima</text>
+
+    <!-- Cellular module -->
+    <rect class="chip" x="225" y="38" width="178" height="128" rx="10"/>
+    <text class="txt med" x="242" y="76">GSM/LTE</text>
+    <text class="muted note" x="242" y="102">modulo TBD</text>
+    <text class="muted note" x="242" y="126">SIM/eSIM interna</text>
+
+    <!-- GNSS -->
+    <rect class="chip" x="225" y="186" width="128" height="88" rx="10"/>
+    <text class="txt med" x="244" y="222">GNSS</text>
+    <text class="muted note" x="244" y="248">GPS TBD</text>
+
+    <!-- ESP -->
+    <rect class="chip" x="430" y="42" width="185" height="260" rx="12"/>
+    <text class="txt med" x="456" y="84">ESP32-S3</text>
+    <text class="muted note" x="456" y="112">WROOM N16R8</text>
+    <text class="muted note" x="456" y="140">BLE / WiFi</text>
+    <text class="muted note" x="456" y="164">procesamiento</text>
+    <rect class="rf" x="468" y="224" width="78" height="54" rx="6"/>
+    <text class="orange note" x="478" y="256">antena</text>
+
+    <!-- IMU center -->
+    <rect class="sensor" x="360" y="178" width="72" height="72" rx="12"/>
+    <text class="txt med" x="375" y="206">IMU</text>
+    <text class="muted note" x="367" y="232">centro</text>
+    <line x1="396" y1="162" x2="396" y2="144" stroke="#7da9ff" stroke-width="3"/>
+    <text class="muted note" x="382" y="138">ARR</text>
+    <line x1="396" y1="266" x2="396" y2="286" stroke="#7da9ff" stroke-width="3"/>
+    <text class="muted note" x="380" y="306">ABA</text>
+    <line x1="344" y1="214" x2="320" y2="214" stroke="#7da9ff" stroke-width="3"/>
+    <text class="muted note" x="292" y="220">IZQ</text>
+    <line x1="448" y1="214" x2="470" y2="214" stroke="#7da9ff" stroke-width="3"/>
+    <text class="muted note" x="476" y="220">DER</text>
+
+    <!-- microSD -->
+    <rect class="warn" x="625" y="45" width="118" height="95" rx="10"/>
+    <text class="txt med" x="645" y="84">FLASH</text>
+    <text class="muted note" x="642" y="110">microSD dev</text>
+    <text class="muted note" x="642" y="132">o memoria</text>
+
+    <!-- Power -->
+    <rect class="power" x="620" y="166" width="130" height="82" rx="10"/>
+    <text class="txt med" x="642" y="203">PWR</text>
+    <text class="muted note" x="632" y="228">regulador</text>
+
+    <rect class="power" x="620" y="266" width="130" height="72" rx="10"/>
+    <text class="txt med" x="636" y="306">CARGA</text>
+    <text class="muted note" x="636" y="328">LiPo</text>
+
+    <!-- Debug/contact pads -->
+    <g transform="translate(250,310)">
+      <text class="muted note" x="0" y="-10">pads pogo / carga / debug</text>
+      <circle cx="0" cy="0" r="9" fill="#ffd166"/>
+      <circle cx="28" cy="0" r="9" fill="#ffd166"/>
+      <circle cx="56" cy="0" r="9" fill="#ffd166"/>
+      <circle cx="84" cy="0" r="9" fill="#ffd166"/>
+      <circle cx="112" cy="0" r="9" fill="#ffd166"/>
+      <circle cx="140" cy="0" r="9" fill="#ffd166"/>
+    </g>
+
+    <!-- LEDs perimeter -->
+    <circle cx="92" cy="20" r="9" fill="#28d7ec"/>
+    <circle cx="250" cy="18" r="9" fill="#28d7ec"/>
+    <circle cx="540" cy="18" r="9" fill="#28d7ec"/>
+    <circle cx="702" cy="32" r="9" fill="#28d7ec"/>
+    <circle cx="92" cy="360" r="9" fill="#28d7ec"/>
+    <circle cx="250" cy="362" r="9" fill="#28d7ec"/>
+    <circle cx="540" cy="362" r="9" fill="#28d7ec"/>
+    <circle cx="702" cy="348" r="9" fill="#28d7ec"/>
+    <text class="cyan note" x="52" y="378">LEDs 360 con difusor lateral</text>
+
+    <!-- Water pads -->
+    <rect x="12" y="175" width="18" height="50" fill="#45e089"/>
+    <rect x="750" y="175" width="18" height="50" fill="#45e089"/>
+    <text class="green note" x="30" y="205">sensor agua externo</text>
+  </g>
+
+  <!-- Battery / enclosure side view -->
+  <g transform="translate(950,205)">
+    <text class="txt med" x="0" y="0">Vista por capas conceptual</text>
+    <rect class="zone" x="0" y="40" width="300" height="76" rx="24"/>
+    <text class="txt small" x="24" y="86">Tapa superior + difusor LED</text>
+    <rect class="board" x="18" y="130" width="264" height="48" rx="18"/>
+    <text class="txt small" x="64" y="162">PCB 78 x 38 mm</text>
+    <rect class="power" x="24" y="196" width="252" height="70" rx="16"/>
+    <text class="txt small" x="58" y="238">Bateria LiPo plana</text>
+    <rect class="zone" x="0" y="284" width="300" height="82" rx="24"/>
+    <text class="txt small" x="32" y="332">Base sellada / contacto dorsal</text>
+  </g>
+
+  <!-- Functional blocks -->
+  <g transform="translate(950,450)">
+    <text class="txt med" x="0" y="0">Bloques funcionales</text>
+    <text class="muted small" x="0" y="42">1. Sensado: IMU + agua</text>
+    <text class="muted small" x="0" y="72">2. Procesamiento: ESP32-S3</text>
+    <text class="muted small" x="0" y="102">3. Local: BLE + registro</text>
+    <text class="muted small" x="0" y="132">4. Remoto: GSM/LTE + GNSS</text>
+    <text class="muted small" x="0" y="162">5. Seguridad: SOS + LED 360</text>
+    <text class="muted small" x="0" y="192">6. Energia: LiPo + carga sellada</text>
+  </g>
+
+  <!-- Warnings -->
+  <g transform="translate(70,650)">
+    <rect class="warn" x="0" y="0" width="1260" height="178" rx="18"/>
+    <text class="txt med" x="28" y="44">Pendiente antes de fabricar</text>
+    <text class="muted small" x="28" y="82">Modulo celular final y operador local / antena RF / bateria final / carga magnetica o Qi / carcasa IP / huellas exactas / esquema electrico / reglas PCB.</text>
+    <text class="muted small" x="28" y="116">La microSD es excelente para desarrollo, pero en producto final puede cambiar por flash interna para mejorar sellado y confiabilidad.</text>
+    <text class="muted small" x="28" y="150">El SOS local y LEDs 360 deben mantenerse aunque la membresia remota este vencida, siempre que el hardware lo permita.</text>
+  </g>
+</svg>

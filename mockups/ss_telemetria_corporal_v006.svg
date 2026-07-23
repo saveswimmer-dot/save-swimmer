@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <style>
+      .bg{fill:#020b10}
+      .card{fill:#0d2832;stroke:#1c5564;stroke-width:2}
+      .panel{fill:#06171d;stroke:#174451;stroke-width:2}
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#eaf8fb}
+      .muted{fill:#a8c0c6}
+      .cyan{fill:#2fd8e8}
+      .orange{fill:#ff7a1a}
+      .green{fill:#5df0a0}
+      .water{stroke:#2b5a66;stroke-width:5;opacity:.9}
+      .guide{stroke:#2b5a66;stroke-width:2;opacity:.55}
+      .dash{stroke-dasharray:16 12}
+      .swimmer{fill:none;stroke:#eaf8fb;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+      .swimmer-soft{fill:none;stroke:#eaf8fb;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
+      .head{fill:#143744;stroke:#eaf8fb;stroke-width:8}
+      .tech{stroke:#2fd8e8;stroke-width:9;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .tech-soft{stroke:#2fd8e8;stroke-width:4;fill:none;stroke-linecap:round;opacity:.22}
+      .mag{stroke:#5df0a0;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1080" height="1920"/>
+
+  <text class="txt" x="60" y="112" font-size="64" font-weight="700" letter-spacing="8">SAVE SWIMMER</text>
+  <text class="cyan" x="60" y="168" font-size="34" font-weight="700" letter-spacing="5">LECTURA CORPORAL</text>
+  <rect x="720" y="82" width="285" height="72" rx="8" fill="#10313c" stroke="#1d5968"/>
+  <circle cx="760" cy="118" r="9" class="green"/>
+  <text class="txt" x="780" y="130" font-size="28" font-weight="700">BLE + GPS activo</text>
+
+  <rect class="card" x="48" y="210" width="984" height="590" rx="10"/>
+  <text class="txt muted" x="80" y="270" font-size="31">Rotacion dorsal</text>
+  <text class="txt" x="80" y="318" font-size="44" font-weight="700">Rolido de espalda y hombros</text>
+  <rect class="panel" x="80" y="350" width="920" height="380" rx="6"/>
+
+  <line class="water" x1="120" y1="535" x2="960" y2="535"/>
+  <text class="muted txt" x="132" y="514" font-size="24">linea de agua / eje 0</text>
+  <line class="guide dash" x1="150" y1="465" x2="930" y2="465"/>
+  <line class="guide dash" x1="150" y1="605" x2="930" y2="605"/>
+  <text class="green txt" x="155" y="452" font-size="24">zona ideal 32-45 grados</text>
+  <text class="orange txt" x="742" y="452" font-size="24">exceso +50 grados</text>
+
+  <!-- Swimmer front silhouette based on user reference: readable body, clear shoulders, clear arms -->
+  <path class="swimmer-soft" d="M178 540 C245 525 315 520 392 538"/>
+  <path class="swimmer-soft" d="M688 535 C760 520 838 516 918 534"/>
+  <circle class="head" cx="540" cy="535" r="68"/>
+  <path class="swimmer" d="M398 555 C450 590 498 606 540 606 C588 606 640 582 692 540"/>
+  <path class="swimmer" d="M398 555 C360 590 330 630 303 684 C284 724 268 765 248 805"/>
+  <path class="swimmer" d="M692 540 C735 500 790 475 850 462 C882 456 905 458 930 470"/>
+  <path class="swimmer" d="M470 604 C505 650 565 664 626 620"/>
+  <path class="swimmer-soft" d="M522 480 C535 470 553 470 567 481"/>
+
+  <!-- Telemetry overlay only on shoulders, not on arms -->
+  <line class="tech-soft" x1="395" y1="548" x2="700" y2="505"/>
+  <line class="tech-soft" x1="398" y1="512" x2="690" y2="570"/>
+  <line class="tech" x1="398" y1="555" x2="692" y2="540"/>
+  <circle cx="398" cy="555" r="18" class="orange"/>
+  <circle cx="692" cy="540" r="18" class="cyan"/>
+  <text class="orange txt" x="168" y="600" font-size="27" font-weight="700">hombro izq</text>
+  <text class="cyan txt" x="720" y="540" font-size="27" font-weight="700">hombro der</text>
+  <text class="cyan txt" x="510" y="690" font-size="38" font-weight="700">38°</text>
+  <path d="M470 635 A165 165 0 0 0 690 560" fill="none" stroke="#2fd8e8" stroke-width="5"/>
+  <text class="muted txt" x="80" y="770" font-size="28">Lectura: los puntos miden hombros. La silueta solo ayuda a entender el cuerpo.</text>
+
+  <rect class="card" x="48" y="840" width="984" height="440" rx="10"/>
+  <text class="txt muted" x="80" y="900" font-size="31">Alineacion corporal</text>
+  <text class="txt" x="80" y="948" font-size="44" font-weight="700">Cuerpo horizontal y piernas alineadas</text>
+  <rect class="panel" x="80" y="980" width="920" height="240" rx="6"/>
+  <line class="water" x1="120" y1="1100" x2="960" y2="1100"/>
+  <text class="muted txt" x="132" y="1080" font-size="24">linea de flotacion</text>
+  <line x1="175" y1="1100" x2="905" y2="1100" stroke="#5df0a0" stroke-width="5" class="dash" opacity=".65"/>
+  <circle class="head" cx="215" cy="1075" r="38"/>
+  <path class="swimmer" d="M255 1075 C350 1045 472 1050 575 1100 C682 1150 805 1150 915 1130"/>
+  <path class="tech" d="M200 1075 C325 1045 455 1060 575 1100 C690 1135 800 1145 910 1130"/>
+  <circle cx="575" cy="1100" r="18" class="cyan"/>
+  <text class="green txt" x="150" y="1178" font-size="27" font-weight="700">alineacion estable</text>
+  <text class="muted txt" x="455" y="1178" font-size="25">si las piernas caen, aumenta resistencia</text>
+
+  <rect class="card" x="48" y="1320" width="984" height="300" rx="10"/>
+  <text class="txt muted" x="80" y="1380" font-size="31">Impulso MAG</text>
+  <text class="txt" x="80" y="1428" font-size="44" font-weight="700">Empuje y energia del movimiento</text>
+  <rect class="panel" x="80" y="1460" width="920" height="110" rx="6"/>
+  <line class="guide" x1="120" y1="1515" x2="960" y2="1515"/>
+  <path class="mag" d="M125 1543 L165 1523 L205 1487 L245 1535 L285 1525 L325 1475 L365 1515 L405 1533 L445 1503 L485 1545 L525 1511 L565 1479 L605 1525 L645 1537 L685 1495 L725 1475 L765 1527 L805 1523 L845 1487 L885 1515 L945 1495"/>
+
+  <rect x="48" y="1660" width="984" height="220" rx="10" fill="#0d2832" stroke="#1c5564" stroke-width="2"/>
+  <text class="cyan txt" x="80" y="1728" font-size="34" font-weight="700">Lectura simple</text>
+  <text class="txt" x="80" y="1788" font-size="38" font-weight="700">Rotacion visible y dentro del objetivo.</text>
+  <text class="txt" x="80" y="1838" font-size="38" font-weight="700">Alineacion estable. Impulso normal.</text>
+</svg>

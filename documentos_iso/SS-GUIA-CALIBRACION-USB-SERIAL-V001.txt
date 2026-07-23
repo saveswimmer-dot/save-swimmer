@@ -1,0 +1,55 @@
+SAVE SWIMMER
+GUIA RAPIDA - CALIBRACION USB SERIAL
+Version: V001
+Fecha: 2026-07-08
+
+Objetivo
+Leer en vivo los datos JSON del ESP32 por USB para calibrar la interpretacion de:
+- rotacion dorsal
+- alineacion corporal
+- energia del movimiento / MAG
+- respuesta del sensor ante movimientos especificos
+
+Herramienta
+Archivo para abrir:
+herramientas\CALIBRACION_USB_SERIAL.bat
+
+Archivo principal:
+herramientas\calibracion_usb_serial_v001.ps1
+
+Uso basico
+1. Conectar el ESP32 a la laptop por USB.
+2. Abrir herramientas\CALIBRACION_USB_SERIAL.bat.
+3. Elegir el puerto COM que corresponda al ESP32.
+4. Dejar el dispositivo quieto sobre una base estable.
+5. Esperar 3 segundos y presionar B para tomar base.
+6. Ejecutar movimientos guiados por fase.
+7. Presionar Q para cerrar.
+
+Teclas de fase
+B = tomar base con ultimos segundos
+1 = quieto / mesa
+2 = rotacion derecha
+3 = rotacion izquierda
+4 = alineacion UD / cabeza-cuerpo
+5 = impulso MAG
+Q = cerrar calibracion
+
+Archivos generados
+La herramienta crea una carpeta:
+calibracion_usb
+
+Dentro guarda:
+- CSV completo de lectura en vivo
+- TXT resumen de la calibracion
+
+Uso recomendado de prueba
+Primero hacer una sesion corta:
+1. Base quieta.
+2. 10 movimientos de rotacion derecha.
+3. 10 movimientos de rotacion izquierda.
+4. 10 movimientos de alineacion arriba/abajo.
+5. 10 movimientos de impulso.
+
+Nota tecnica
+Esta calibracion es para interpretar el montaje actual del prototipo. Si cambia la posicion fisica del IMU dentro de la carcasa, se debe repetir la calibracion.

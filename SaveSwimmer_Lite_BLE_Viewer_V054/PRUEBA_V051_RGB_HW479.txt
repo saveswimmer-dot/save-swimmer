@@ -1,0 +1,33 @@
+SAVE SWIMMER - PRUEBA V051 RGB HW-479
+=====================================
+
+Firmware:
+SS-LITE-BLE-SD-V1-051
+
+Objetivo:
+Integrar modulo RGB HW-479 / KY-016 como indicador visual del prototipo.
+
+Conexion propuesta:
+HW-479 "-" -> GND ESP32
+HW-479 R   -> GPIO 4
+HW-479 G   -> GPIO 5
+HW-479 B   -> GPIO 6
+
+Notas:
+- El HW-479 suele ser RGB de catodo comun con resistencias integradas.
+- Si los colores salen invertidos o no prenden, revisar que el pin "-" vaya a GND.
+- Si el modulo fuera anodo comun, cambiar RGB_COMMON_CATHODE a false.
+
+Estados visuales:
+- Azul pulso lento: encendido, esperando GPS/BLE/inicio.
+- Verde pulso lento: sistema listo con GPS, sensor y SD.
+- Violeta pulso lento: BLE conectado.
+- Cian pulso: sesion grabando.
+- Blanco pulso rapido: transferencia de archivo/resumen por BLE.
+- Naranja pulso lento: SD no disponible, sistema vivo sin grabacion SD.
+- Rojo pulso lento: error sensor/SD.
+- Rojo pulso rapido: alerta/riesgo alto.
+
+Premisa de producto:
+En prototipo se usa modulo HW-479.
+En dispositivo final debe evaluarse LED RGB SMD interno con difusor o aro visible 360 grados.

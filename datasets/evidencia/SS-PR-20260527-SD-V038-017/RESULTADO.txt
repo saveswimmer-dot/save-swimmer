@@ -1,0 +1,36 @@
+PRUEBA: SS-PR-20260527-SD-V038-017
+FECHA: 2026-05-27
+FIRMWARE: SS-LITE-BLE-SD-V1-038
+CONTEXTO: varias sesiones V038 leidas directamente desde microSD en PC
+
+RESULTADOS
+- SS000025.CSV: 91866 bytes, 1103 filas, 112.50 s, footer presente.
+  SHA256 D1E9512FBA0A1112D1FCEAA26C0AA7797A1568382D17D40C3D1725CB9E9D12C6
+- SS000026.CSV: 16501 bytes, 198 filas, 20.15 s, sin footer.
+  SHA256 0711BA2EB748F59C1565A1A7963E6163A76BBE248E8486FFD9BDE0B190193675
+- SS000027.CSV: 123672 bytes, 1478 filas, 150.71 s, sin footer.
+  SHA256 ADE3BEB0CC30E3D890C7366689DFA7B4773B97547937604EAB6966A1E03B9C6E
+- SS000028.CSV: 114802 bytes, 1373 filas, 140.38 s, sin footer.
+  SHA256 368E5578D066BA98AEE9626E355089BA9EC754A709C29877E3F97125838B805D
+
+PATRON DE TIEMPO
+- Los saltos se mantienen aproximadamente cada 10 segundos.
+- En V038 los saltos son menores que en V037:
+  normalmente entre 0.24 s y 0.34 s; max observado 0.38 s.
+- SS000025 cerro correctamente con 112.50 s y #END_SESSION.
+- SS000027 y SS000028 registran mas tiempo, 150.71 s y 140.38 s, pero no
+  escriben footer final.
+
+INTERPRETACION
+- Quitar el readback intermedio mejoro la duracion y permitio un cierre valido
+  de 112.50 s.
+- El problema remanente parece concentrarse en cierre/continuidad luego de varios
+  flush, no en filas corruptas: todas las filas recuperadas estan completas.
+- Persisten latencias de flush cada 10 s, pero ya no son la unica causa visible
+  de aborto.
+
+SIGUIENTE AJUSTE POSIBLE
+- Mantener estrategia V038.
+- Agregar auto-cierre/auto-footer defensivo opcional cada cierto numero de filas
+  o cada minuto, o escribir marcadores de checkpoint en comentario para que un
+  archivo sin footer sea recuperable como sesion parcial validada.

@@ -1,0 +1,1036 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Swimmer CSV Analyzer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061016;
+      --panel: #0d2029;
+      --panel2: #112b36;
+      --line: #244854;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --yellow: #ffd166;
+      --green: #49e285;
+      --red: #ff536a;
+      --blue: #82aaff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 86% 8%, rgba(40, 215, 236, 0.12), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: #071922;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button,
+    label.file {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-height: 40px;
+      padding: 10px 12px;
+      background: var(--panel2);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    input[type="file"] { display: none; }
+
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 14px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .panel,
+    .metric {
+      background: rgba(13, 32, 41, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .stroke-scroll {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #07151c;
+    }
+
+    .stroke-scroll canvas {
+      border: 0;
+      border-radius: 0;
+      width: auto;
+      max-width: none;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 25px;
+      line-height: 1.05;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 300px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #07151c;
+    }
+
+    #strokeChart {
+      height: 420px;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: var(--c);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .two {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Save Swimmer CSV Analyzer</h1>
+      <div class="sub" id="fileName">Cargando datasets/latest.csv...</div>
+    </div>
+    <div class="actions">
+      <label class="file">
+        Cargar CSV
+        <input id="fileInput" type="file" accept=".csv,text/csv" />
+      </label>
+      <button id="validatedBtn">Abrir SS000013 valida</button>
+      <button id="reloadBtn">Recargar latest</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Línea de tiempo de brazada</h2>
+      <div class="legend">
+        <span class="chip"><i class="swatch" style="--c:var(--cyan)"></i>lado derecho dominante</span>
+        <span class="chip"><i class="swatch" style="--c:var(--yellow)"></i>lado izquierdo dominante</span>
+        <span class="chip"><i class="swatch" style="--c:var(--blue)"></i>elevación UD</span>
+        <span class="chip"><i class="swatch" style="--c:var(--red)"></i>transición / baja energía</span>
+      </div>
+      <div class="stroke-scroll">
+        <canvas id="strokeChart" width="1180" height="420"></canvas>
+      </div>
+      <div class="note">
+        La línea superior muestra alternancia DER/IZQ. La línea inferior muestra elevación ARRIBA/ABAJO usando UD centrado contra su promedio.
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="metric"><span>Integridad sesion</span><strong id="integrity">--</strong></div>
+      <div class="metric"><span>Uso actual</span><strong id="analysisUse">--</strong></div>
+      <div class="metric"><span>Muestras</span><strong id="sampleCount">--</strong></div>
+      <div class="metric"><span>Duracion</span><strong id="duration">--</strong></div>
+      <div class="metric"><span>Frecuencia aprox</span><strong id="frequency">--</strong></div>
+      <div class="metric"><span>MAG promedio</span><strong id="magAvg">--</strong></div>
+      <div class="metric"><span>Brazadas detectadas</span><strong id="strokeCount">--</strong></div>
+      <div class="metric"><span>Tiempo/brazada</span><strong id="strokePeriod">--</strong></div>
+      <div class="metric"><span>Brazadas/min</span><strong id="strokeRate">--</strong></div>
+      <div class="metric"><span>Regularidad</span><strong id="strokeRegularity">--</strong></div>
+    </section>
+
+    <section class="panel">
+      <h2>Lectura completa</h2>
+      <div class="legend">
+        <span class="chip"><i class="swatch" style="--c:var(--cyan)"></i>LR</span>
+        <span class="chip"><i class="swatch" style="--c:var(--yellow)"></i>FB</span>
+        <span class="chip"><i class="swatch" style="--c:var(--blue)"></i>UD</span>
+        <span class="chip"><i class="swatch" style="--c:var(--green)"></i>MAG</span>
+      </div>
+      <canvas id="mainChart" width="1180" height="300"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>Loop de rotación corporal</h2>
+      <div class="legend">
+        <span class="chip"><i class="swatch" style="--c:var(--cyan)"></i>trayectoria real LR/FB</span>
+        <span class="chip"><i class="swatch" style="--c:var(--yellow)"></i>puntos extremos de rotación</span>
+        <span class="chip"><i class="swatch" style="--c:var(--red)"></i>referencia espalda plana</span>
+      </div>
+      <canvas id="strokeStabilityChart" width="1180" height="300"></canvas>
+      <canvas id="strokeAverageChart" width="1180" height="240" style="margin-top:10px"></canvas>
+      <div class="note" id="strokeRead">Esperando lectura de rotación...</div>
+    </section>
+
+    <section class="two">
+      <div class="panel">
+        <h2>Energía de movimiento</h2>
+        <canvas id="energyChart" width="560" height="260"></canvas>
+      </div>
+      <div class="panel">
+        <h2>LR vs FB</h2>
+        <canvas id="scatterChart" width="560" height="260"></canvas>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Lectura rápida</h2>
+      <div class="note" id="quickRead">Esperando datos...</div>
+    </section>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let samples = [];
+    let strokeEvents = [];
+    let csvMeta = {};
+    let parseInfo = {};
+
+    function parseCsv(text) {
+      csvMeta = {};
+      parseInfo = { isSd: false, invalidRows: 0, hasFooter: false };
+      const lines = text.trim().split(/\r?\n/);
+      while (lines.length && lines[0].startsWith("#")) {
+        const metaLine = lines.shift().substring(1);
+        const comma = metaLine.indexOf(",");
+        if (comma > 0) {
+          csvMeta[metaLine.substring(0, comma).trim()] = metaLine.substring(comma + 1).trim();
+        } else {
+          csvMeta[metaLine.trim()] = true;
+        }
+      }
+      if (!lines.length) {
+        return [];
+      }
+      const headers = lines.shift().split(",").map((h) => h.trim().toLowerCase());
+      const index = Object.fromEntries(headers.map((h, i) => [h, i]));
+      parseInfo.isSd = index.elapsed_s !== undefined || index.local_time !== undefined;
+      if (index.lr === undefined || index.fb === undefined || index.ud === undefined || index.mag === undefined) {
+        throw new Error("CSV sin columnas requeridas: LR, FB, UD y MAG");
+      }
+      const parsed = [];
+      lines.forEach((line) => {
+        if (!line.trim()) return;
+        if (line.startsWith("#END_SESSION")) {
+          parseInfo.hasFooter = true;
+          csvMeta.end_session = line.substring(1);
+          return;
+        }
+        if (line.startsWith("#")) return;
+        const cols = line.split(",");
+        const timeText = index.local_time !== undefined ? cols[index.local_time] : cols[index.time];
+        const elapsed = index.elapsed_s !== undefined ? Number(cols[index.elapsed_s]) : NaN;
+        const point = {
+          timeText,
+          t: Number.isFinite(elapsed) ? elapsed * 1000 : new Date(timeText.replace(" ", "T")).getTime(),
+          lr: Number(cols[index.lr]),
+          fb: Number(cols[index.fb]),
+          ud: Number(cols[index.ud]),
+          mag: Number(cols[index.mag]),
+          raw: index.raw === undefined ? "" : cols.slice(index.raw).join(",")
+        };
+        if (Number.isFinite(point.t) && Number.isFinite(point.lr) && Number.isFinite(point.fb) &&
+            Number.isFinite(point.ud) && Number.isFinite(point.mag)) {
+          parsed.push(point);
+        } else {
+          parseInfo.invalidRows += 1;
+        }
+      });
+      return parsed;
+    }
+
+    function fmt(n, digits = 1) {
+      return Number.isFinite(n) ? n.toFixed(digits) : "--";
+    }
+
+    function analyze() {
+      if (!samples.length) return;
+      const first = samples[0].t;
+      const last = samples[samples.length - 1].t;
+      const durationS = Math.max(0, (last - first) / 1000);
+      const magAvg = samples.reduce((acc, s) => acc + s.mag, 0) / samples.length;
+      const magMin = Math.min(...samples.map((s) => s.mag));
+      const magMax = Math.max(...samples.map((s) => s.mag));
+      const lrRange = Math.max(...samples.map((s) => s.lr)) - Math.min(...samples.map((s) => s.lr));
+      const fbRange = Math.max(...samples.map((s) => s.fb)) - Math.min(...samples.map((s) => s.fb));
+      const udRange = Math.max(...samples.map((s) => s.ud)) - Math.min(...samples.map((s) => s.ud));
+      strokeEvents = detectStrokes();
+      const intervals = strokeEvents.slice(1).map((event, i) => (event.t - strokeEvents[i].t) / 1000);
+      const avgInterval = intervals.length ? intervals.reduce((a, b) => a + b, 0) / intervals.length : NaN;
+      const strokeRate = Number.isFinite(avgInterval) && avgInterval > 0 ? 60 / avgInterval : NaN;
+      const intervalStd = intervals.length ? Math.sqrt(intervals.reduce((acc, v) => acc + Math.pow(v - avgInterval, 2), 0) / intervals.length) : NaN;
+      const regularity = Number.isFinite(avgInterval) && avgInterval > 0 ? Math.max(0, 100 - (intervalStd / avgInterval) * 100) : NaN;
+      const cleanSession = !parseInfo.isSd || (parseInfo.hasFooter && parseInfo.invalidRows === 0);
+      const referenceReady = cleanSession && durationS >= 60 && /nado|swim/i.test(csvMeta.mode || "");
+
+      $("integrity").textContent = cleanSession ? "VALIDA" : "INCOMPLETA";
+      $("integrity").style.color = cleanSession ? "var(--green)" : "var(--red)";
+      $("analysisUse").textContent = referenceReady ? "BASE" : cleanSession ? "PRUEBA" : "DIAGNOSTICO";
+      $("sampleCount").textContent = samples.length;
+      $("duration").textContent = `${fmt(durationS, 0)} s`;
+      $("frequency").textContent = `${fmt(samples.length / Math.max(1, durationS), 1)} Hz`;
+      $("magAvg").textContent = fmt(magAvg, 2);
+      $("strokeCount").textContent = strokeEvents.length;
+      $("strokePeriod").textContent = Number.isFinite(avgInterval) ? `${fmt(avgInterval, 2)} s` : "--";
+      $("strokeRate").textContent = Number.isFinite(strokeRate) ? fmt(strokeRate, 1) : "--";
+      $("strokeRegularity").textContent = Number.isFinite(regularity) ? `${fmt(regularity, 0)}%` : "--";
+
+      const metaText = csvMeta.user
+        ? `Perfil: <strong>${csvMeta.user}</strong> · modo <strong>${csvMeta.mode || "--"}</strong> · edad <strong>${csvMeta.age || "--"}</strong> · altura <strong>${csvMeta.height_m || "--"}</strong> · peso <strong>${csvMeta.weight_kg || "--"}</strong>.<br>`
+        : "";
+
+      $("quickRead").innerHTML = `
+        ${metaText}
+        Estado de archivo: <strong>${cleanSession ? "sesion valida" : "sesion incompleta"}</strong>.
+        Uso actual: <strong>${referenceReady ? "puede iniciar linea base del atleta" : cleanSession ? "prueba de movimiento y graficos, no patron deportivo" : "solo diagnostico de captura"}</strong>.<br>
+        El archivo tiene <strong>${samples.length}</strong> muestras durante <strong>${fmt(durationS, 1)} s</strong>.
+        La magnitud promedio fue <strong>${fmt(magAvg, 2)}</strong>, con rango <strong>${fmt(magMin, 2)} - ${fmt(magMax, 2)}</strong>.
+        Rango LR: <strong>${fmt(lrRange, 2)}</strong>, FB: <strong>${fmt(fbRange, 2)}</strong>, UD: <strong>${fmt(udRange, 2)}</strong>.
+        Brazadas/cambios dominantes detectados: <strong>${strokeEvents.length}</strong>.
+        Tiempo promedio entre marcas: <strong>${Number.isFinite(avgInterval) ? fmt(avgInterval, 2) + " s" : "--"}</strong>.
+        Si el movimiento simulado fue de nado, nos interesa ver repeticiÃ³n periÃ³dica, alternancia lateral y caÃ­da o pausas en la energÃ­a.
+      `;
+
+      drawMain();
+      drawStrokeStability(durationS);
+      drawEnergy();
+      drawScatter();
+      drawStrokeTimeline();
+    }
+
+    function drawAxes(ctx, w, h, pad) {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#07151c";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "#244854";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = pad + ((h - pad * 2) / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(w - pad, y);
+        ctx.stroke();
+      }
+    }
+
+    function drawSeries(ctx, key, color, min, max, w, h, pad) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      samples.forEach((s, i) => {
+        const x = pad + ((w - pad * 2) * i) / Math.max(1, samples.length - 1);
+        const value = Math.max(min, Math.min(max, s[key]));
+        const y = h - pad - ((value - min) / (max - min)) * (h - pad * 2);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    function drawMain() {
+      const canvas = $("mainChart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 28;
+      drawAxes(ctx, w, h, pad);
+      drawSeries(ctx, "lr", "#28d7ec", -12, 12, w, h, pad);
+      drawSeries(ctx, "fb", "#ffd166", -12, 12, w, h, pad);
+      drawSeries(ctx, "ud", "#82aaff", -12, 12, w, h, pad);
+      drawSeries(ctx, "mag", "#49e285", 0, 16, w, h, pad);
+    }
+
+    function drawEnergy() {
+      const canvas = $("energyChart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 26;
+      drawAxes(ctx, w, h, pad);
+      const energy = samples.map((s, i) => {
+        if (i === 0) return 0;
+        const p = samples[i - 1];
+        return Math.abs(s.lr - p.lr) + Math.abs(s.fb - p.fb) + Math.abs(s.ud - p.ud);
+      });
+      const max = Math.max(1, ...energy);
+      ctx.strokeStyle = "#ff536a";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      energy.forEach((v, i) => {
+        const x = pad + ((w - pad * 2) * i) / Math.max(1, energy.length - 1);
+        const y = h - pad - (v / max) * (h - pad * 2);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    function smoothedSeries(key, radius = 2) {
+      return samples.map((_, i) => smoothValue(i, key, radius));
+    }
+
+    function buildBodyFrame(lr, fb) {
+      const zeroLR = lr.reduce((a, b) => a + b, 0) / lr.length;
+      const zeroFB = fb.reduce((a, b) => a + b, 0) / fb.length;
+      const dx = lr.map(v => v - zeroLR);
+      const dy = fb.map(v => v - zeroFB);
+      const varX = dx.reduce((a, v) => a + v * v, 0) / dx.length;
+      const varY = dy.reduce((a, v) => a + v * v, 0) / dy.length;
+      const covariance = dx.reduce((a, v, i) => a + v * dy[i], 0) / dx.length;
+      let angle = 0.5 * Math.atan2(2 * covariance, varX - varY);
+      let lateral = dx.map((v, i) => v * Math.cos(angle) + dy[i] * Math.sin(angle));
+      let vertical = dx.map((v, i) => -v * Math.sin(angle) + dy[i] * Math.cos(angle));
+      const agreement = lateral.reduce((a, v, i) => a + v * dx[i], 0) / lateral.length;
+      if (agreement < 0) {
+        angle += Math.PI;
+        lateral = lateral.map(v => -v);
+        vertical = vertical.map(v => -v);
+      }
+      return { zeroLR, zeroFB, angleDeg: angle * 180 / Math.PI, lateral, vertical };
+    }
+
+    function detectStrokeCycles(lateral) {
+      if (lateral.length < 5) return [];
+      const cycles = [];
+      const mean = lateral.reduce((a, b) => a + b, 0) / lateral.length;
+      let lastSign = lateral[0] >= mean ? 1 : -1;
+      let lastIndex = 0;
+      const minGapMs = 350;
+
+      for (let i = 1; i < lateral.length; i++) {
+        const sign = lateral[i] >= mean ? 1 : -1;
+        if (sign !== lastSign && samples[i].t - samples[lastIndex].t >= minGapMs) {
+          cycles.push({
+            index: i,
+            t: samples[i].t,
+            side: sign,
+            value: lateral[i]
+          });
+          lastIndex = i;
+          lastSign = sign;
+        }
+      }
+
+      return cycles;
+    }
+
+    function drawStrokeStability(durationS) {
+      const canvas = $("strokeStabilityChart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 34;
+
+      drawAxes(ctx, w, h, pad);
+
+      if (samples.length < 4) {
+        $("strokeRead").textContent = "Se necesitan mas muestras para leer el loop de rotación.";
+        return;
+      }
+
+      const lr = smoothedSeries("lr", 1);
+      const fb = smoothedSeries("fb", 1);
+      const frame = buildBodyFrame(lr, fb);
+      const lateral = frame.lateral;
+      const vertical = frame.vertical;
+      const lrMin = Math.min(...lateral);
+      const lrMax = Math.max(...lateral);
+      const fbMin = Math.min(...vertical);
+      const fbMax = Math.max(...vertical);
+      const lrAmp = Math.max(1, (lrMax - lrMin) / 2);
+      const fbAmp = Math.max(1, (fbMax - fbMin) / 2);
+      const cx = w / 2;
+      const cy = h / 2;
+      const plotW = (w - pad * 2) * 0.42;
+      const plotH = (h - pad * 2) * 0.42;
+
+      ctx.fillStyle = "#07151c";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "#244854";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, cy);
+      ctx.lineTo(w - pad, cy);
+      ctx.moveTo(cx, pad);
+      ctx.lineTo(cx, h - pad);
+      ctx.stroke();
+
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("IZQ", pad, cy - 8);
+      ctx.fillText("DER", w - pad - 26, cy - 8);
+      ctx.fillText("ARRIBA / AVANCE", cx + 10, pad + 10);
+      ctx.fillText("ABAJO / RECUPERACION", cx + 10, h - pad);
+
+      // Referencia visual: un loop tipo infinito. No es dato real, es guia de forma.
+      ctx.strokeStyle = "rgba(255, 83, 106, 0.34)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i <= 240; i++) {
+        const t = (Math.PI * 2 * i) / 240;
+        const denom = 1 + Math.pow(Math.sin(t), 2);
+        const x = cx + (Math.cos(t) / denom) * plotW * 1.25;
+        const y = cy - ((Math.sin(t) * Math.cos(t)) / denom) * plotH * 1.35;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      function pointAt(i) {
+        const xNorm = Math.max(-1, Math.min(1, lateral[i] / lrAmp));
+        const yNorm = Math.max(-1, Math.min(1, vertical[i] / fbAmp));
+        return {
+          x: cx + xNorm * plotW,
+          y: cy - yNorm * plotH,
+          xNorm,
+          yNorm
+        };
+      }
+
+      // Trayectoria real: une puntos en orden temporal para ver si aparece loop o linea plana.
+      ctx.strokeStyle = "#28d7ec";
+      ctx.lineWidth = 2.4;
+      ctx.beginPath();
+      lr.forEach((_, i) => {
+        const p = pointAt(i);
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+      });
+      ctx.stroke();
+
+      lr.forEach((_, i) => {
+        const p = pointAt(i);
+        const alpha = 0.2 + 0.7 * (i / Math.max(1, lr.length - 1));
+        ctx.fillStyle = `rgba(40, 215, 236, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3.2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      let rightHigh = 0;
+      let leftLow = 0;
+      let rightHighScore = -Infinity;
+      let leftLowScore = -Infinity;
+      lr.forEach((_, i) => {
+        const p = pointAt(i);
+        const rh = p.xNorm + p.yNorm;
+        const ll = -p.xNorm - p.yNorm;
+        if (rh > rightHighScore) {
+          rightHighScore = rh;
+          rightHigh = i;
+        }
+        if (ll > leftLowScore) {
+          leftLowScore = ll;
+          leftLow = i;
+        }
+      });
+
+      [
+        { i: rightHigh, label: "DER ALTA" },
+        { i: leftLow, label: "IZQ BAJA" }
+      ].forEach((mark) => {
+        const p = pointAt(mark.i);
+        ctx.fillStyle = "#ffd166";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#07151c";
+        ctx.font = "bold 9px Arial";
+        ctx.fillText(mark.label, p.x + 12, p.y + 4);
+      });
+
+      const lrRange = lrMax - lrMin;
+      const fbRange = fbMax - fbMin;
+      const diagonalSpan = Math.hypot((lateral[rightHigh] - lateral[leftLow]), (vertical[rightHigh] - vertical[leftLow]));
+      const rotationScore = Math.max(0, Math.min(100, (diagonalSpan / 12) * 100));
+      const flatBackScore = fbRange < 2.0 ? "posible espalda plana / poca rotacion frontal" : "hay acople lateral-frente compatible con rotacion";
+      const loopText = rotationScore >= 70
+        ? "loop amplio"
+        : rotationScore >= 40
+          ? "loop moderado"
+          : "loop chico o movimiento plano";
+      const averageRead = drawStrokeAverage(lateral, 0);
+
+      $("strokeRead").textContent =
+        `Cero corporal auto LR ${fmt(frame.zeroLR, 2)}, FB ${fmt(frame.zeroFB, 2)}; eje corregido ${fmt(frame.angleDeg, 1)} grados. ` +
+        `Rotacion aparente: ${fmt(rotationScore, 0)}% (${loopText}). ` +
+        `Rango LR: ${fmt(lrRange, 2)}, rango FB: ${fmt(fbRange, 2)}. ` +
+        `Promedio brazada: sube ${fmt(averageRead.avgUp, 2)} sobre 0, baja ${fmt(averageRead.avgDown, 2)} bajo 0. ` +
+        `Lectura: ${averageRead.text} ${flatBackScore}.`;
+    }
+
+    function buildStrokeSegments(lateral, baseline) {
+      const centered = lateral.map((v) => v - baseline);
+      const crossings = [0];
+      let lastSign = centered[0] >= 0 ? 1 : -1;
+
+      for (let i = 1; i < centered.length; i++) {
+        const sign = centered[i] >= 0 ? 1 : -1;
+        if (sign !== lastSign) {
+          crossings.push(i);
+          lastSign = sign;
+        }
+      }
+      crossings.push(centered.length - 1);
+
+      const segments = [];
+      for (let i = 0; i < crossings.length - 1; i++) {
+        const start = crossings[i];
+        const end = crossings[i + 1];
+        if (end - start < 2) continue;
+
+        const slice = centered.slice(start, end + 1);
+        const maxUp = Math.max(...slice);
+        const maxDown = Math.abs(Math.min(...slice));
+        const dominant = maxUp >= maxDown ? "UP" : "DOWN";
+
+        segments.push({
+          start,
+          end,
+          maxUp: Math.max(0, maxUp),
+          maxDown: Math.max(0, maxDown),
+          dominant
+        });
+      }
+
+      return segments;
+    }
+
+    function drawStrokeAverage(lateral, baseline) {
+      const canvas = $("strokeAverageChart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 34;
+      const segments = buildStrokeSegments(lateral, baseline);
+      const usable = segments.filter((s) => s.maxUp > 0.25 || s.maxDown > 0.25);
+      const avgUp = usable.length ? usable.reduce((a, s) => a + s.maxUp, 0) / usable.length : NaN;
+      const avgDown = usable.length ? usable.reduce((a, s) => a + s.maxDown, 0) / usable.length : NaN;
+      const maxValue = Math.max(1, ...usable.map((s) => Math.max(s.maxUp, s.maxDown)), avgUp || 0, avgDown || 0);
+      const zeroY = h / 2;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#07151c";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "#244854";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, zeroY);
+      ctx.lineTo(w - pad, zeroY);
+      ctx.stroke();
+
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("PROMEDIO POR BRAZADA / REFERENCIA 0", pad, 20);
+      ctx.fillText("sube sobre 0", pad, 46);
+      ctx.fillText("baja bajo 0", pad, h - 18);
+
+      if (!usable.length) {
+        ctx.fillText("Aun no hay ciclos suficientes.", pad, zeroY - 16);
+        return { avgUp: NaN, avgDown: NaN, text: "faltan ciclos para comparar." };
+      }
+
+      const barW = Math.max(8, Math.min(34, (w - pad * 2) / usable.length * 0.42));
+      usable.forEach((segment, i) => {
+        const x = pad + ((w - pad * 2) * (i + 0.5)) / usable.length;
+        const upH = (segment.maxUp / maxValue) * (h * 0.36);
+        const downH = (segment.maxDown / maxValue) * (h * 0.36);
+
+        ctx.fillStyle = "#28d7ec";
+        ctx.fillRect(x - barW, zeroY - upH, barW, upH);
+        ctx.fillStyle = "#ffd166";
+        ctx.fillRect(x, zeroY, barW, downH);
+      });
+
+      if (Number.isFinite(avgUp)) {
+        const avgUpY = zeroY - (avgUp / maxValue) * (h * 0.36);
+        const avgDownY = zeroY + (avgDown / maxValue) * (h * 0.36);
+
+        ctx.strokeStyle = "#28d7ec";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 7]);
+        ctx.beginPath();
+        ctx.moveTo(pad, avgUpY);
+        ctx.lineTo(w - pad, avgUpY);
+        ctx.stroke();
+
+        ctx.strokeStyle = "#ffd166";
+        ctx.beginPath();
+        ctx.moveTo(pad, avgDownY);
+        ctx.lineTo(w - pad, avgDownY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = "#28d7ec";
+        ctx.fillText(`prom sube ${fmt(avgUp, 2)}`, w - pad - 116, avgUpY - 8);
+        ctx.fillStyle = "#ffd166";
+        ctx.fillText(`prom baja ${fmt(avgDown, 2)}`, w - pad - 116, avgDownY + 18);
+      }
+
+      const avgTotal = Number.isFinite(avgUp) && Number.isFinite(avgDown) ? (avgUp + avgDown) / 2 : NaN;
+      let text = "faltan ciclos para comparar.";
+      if (Number.isFinite(avgTotal)) {
+        if (avgTotal >= 4.5) text = "brazada fuerte / rotacion amplia.";
+        else if (avgTotal >= 2.8) text = "brazada media, buen punto de trabajo.";
+        else text = "brazada debil o espalda demasiado plana.";
+      }
+
+      return { avgUp, avgDown, text };
+    }
+
+    function drawScatter() {
+      const canvas = $("scatterChart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 28;
+      drawAxes(ctx, w, h, pad);
+      ctx.strokeStyle = "#244854";
+      ctx.beginPath();
+      ctx.moveTo(w / 2, pad);
+      ctx.lineTo(w / 2, h - pad);
+      ctx.moveTo(pad, h / 2);
+      ctx.lineTo(w - pad, h / 2);
+      ctx.stroke();
+      samples.forEach((s, i) => {
+        const x = w / 2 + s.lr * 20;
+        const y = h / 2 - s.fb * 20;
+        const alpha = 0.25 + 0.75 * (i / Math.max(1, samples.length - 1));
+        ctx.fillStyle = `rgba(40, 215, 236, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(Math.max(pad, Math.min(w - pad, x)), Math.max(pad, Math.min(h - pad, y)), 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function smoothValue(index, key, radius = 2) {
+      let sum = 0;
+      let count = 0;
+      for (let i = index - radius; i <= index + radius; i++) {
+        if (samples[i]) {
+          sum += samples[i][key];
+          count += 1;
+        }
+      }
+      return count ? sum / count : 0;
+    }
+
+    function sampleEnergy(index) {
+      if (index <= 0 || !samples[index] || !samples[index - 1]) return 0;
+      const s = samples[index];
+      const p = samples[index - 1];
+      return Math.abs(s.lr - p.lr) + Math.abs(s.fb - p.fb) + Math.abs(s.ud - p.ud);
+    }
+
+    function detectStrokes() {
+      if (samples.length < 6) return [];
+      const events = [];
+      let lastSide = 0;
+      let lastEventIndex = -999;
+      const minGapSamples = Math.max(2, Math.round((samples.length / Math.max(1, (samples.at(-1).t - samples[0].t) / 1000)) * 0.45));
+
+      for (let i = 2; i < samples.length - 2; i++) {
+        const lr = smoothValue(i, "lr", 2);
+        const energy = sampleEnergy(i);
+        const side = lr >= 0 ? 1 : -1;
+        const strongEnough = Math.abs(lr) > 0.65 && energy > 0.35;
+        const changedSide = lastSide !== 0 && side !== lastSide;
+
+        if (strongEnough && changedSide && i - lastEventIndex >= minGapSamples) {
+          events.push({
+            index: i,
+            t: samples[i].t,
+            side,
+            lr,
+            energy
+          });
+          lastEventIndex = i;
+        }
+
+        if (Math.abs(lr) > 0.45) {
+          lastSide = side;
+        }
+      }
+
+      return events;
+    }
+
+    function drawStrokeTimeline() {
+      const canvas = $("strokeChart");
+      const ctx = canvas.getContext("2d");
+      const durationS = Math.max(1, (samples[samples.length - 1].t - samples[0].t) / 1000);
+      const visibleSeconds = 60;
+      const viewportWidth = canvas.parentElement.clientWidth || 1180;
+      const pxPerSecond = Math.max(14, (viewportWidth - 120) / visibleSeconds);
+      canvas.width = Math.max(viewportWidth, Math.round(durationS * pxPerSecond) + 120);
+      canvas.height = 420;
+
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 46;
+      const laneTop = 112;
+      const laneBottom = 292;
+      const sideAmp = 70;
+      const elevAmp = 52;
+      const lrMean = samples.reduce((acc, s) => acc + s.lr, 0) / samples.length;
+      const udMean = samples.reduce((acc, s) => acc + s.ud, 0) / samples.length;
+      const totalTime = Math.max(1, samples[samples.length - 1].t - samples[0].t);
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#07151c";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "#244854";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, laneTop);
+      ctx.lineTo(w - pad, laneTop);
+      ctx.moveTo(pad, laneBottom);
+      ctx.lineTo(w - pad, laneBottom);
+      ctx.stroke();
+
+      ctx.font = "11px Arial";
+      for (let sec = 0; sec <= durationS; sec += 5) {
+        const x = pad + ((w - pad * 2) * (sec / durationS));
+        ctx.strokeStyle = sec % 15 === 0 ? "rgba(145, 172, 181, 0.38)" : "rgba(36, 72, 84, 0.55)";
+        ctx.lineWidth = sec % 15 === 0 ? 1.2 : 0.7;
+        ctx.beginPath();
+        ctx.moveTo(x, 36);
+        ctx.lineTo(x, h - 28);
+        ctx.stroke();
+        ctx.fillStyle = "#91acb5";
+        ctx.fillText(`${sec}s`, x - 9, h - 12);
+      }
+
+      ctx.fillStyle = "#91acb5";
+      ctx.font = "13px Arial";
+      ctx.fillText("BRAZADA / ROTACION", pad, 24);
+      ctx.fillText("ELEVACION CUERPO", pad, laneBottom - 72);
+      ctx.fillText("IZQ", 12, laneTop - sideAmp + 4);
+      ctx.fillText("DER", 12, laneTop + sideAmp + 4);
+      ctx.fillText("ARRIBA", 12, laneBottom - elevAmp + 4);
+      ctx.fillText("ABAJO", 12, laneBottom + elevAmp + 4);
+
+      ctx.fillStyle = "#28d7ec";
+      ctx.font = "12px Arial";
+      ctx.fillText("DER / hombro derecho", pad, 46);
+      ctx.fillStyle = "#ffd166";
+      ctx.fillText("IZQ / hombro izquierdo", pad + 170, 46);
+      ctx.fillStyle = "#82aaff";
+      ctx.fillText("azul = elevacion UD", pad + 340, 46);
+      ctx.fillStyle = "#ff536a";
+      ctx.fillText("rojo = transicion o baja energia", pad + 500, 46);
+
+      const maxEnergy = Math.max(0.1, ...samples.map((_, i) => sampleEnergy(i)));
+      let prevX = null;
+      let prevY = null;
+      let prevElevX = null;
+      let prevElevY = null;
+
+      for (let i = 0; i < samples.length; i++) {
+        const lr = smoothValue(i, "lr", 2);
+        const fb = smoothValue(i, "fb", 2);
+        const ud = smoothValue(i, "ud", 2);
+        const energy = sampleEnergy(i) / maxEnergy;
+        const sideStrength = Math.min(1, Math.abs(lr - lrMean) / 4);
+        const confidence = Math.min(1, (energy * 0.65) + (sideStrength * 0.55));
+        const x = pad + ((w - pad * 2) * ((samples[i].t - samples[0].t) / totalTime));
+
+        let y = laneTop;
+        let color = "#ff536a";
+        if (confidence > 0.18) {
+          const lateral = Math.max(-1, Math.min(1, (lr - lrMean) / 4));
+          y = laneTop + lateral * sideAmp;
+          y -= Math.max(-14, Math.min(14, fb * 1.3));
+          color = lr >= lrMean ? "#28d7ec" : "#ffd166";
+        }
+
+        if (prevX !== null) {
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(prevX, prevY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+
+        const elev = Math.max(-1, Math.min(1, (ud - udMean) / 2.5));
+        const elevY = laneBottom - elev * elevAmp;
+        if (prevElevX !== null) {
+          ctx.strokeStyle = "#82aaff";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(prevElevX, prevElevY);
+          ctx.lineTo(x, elevY);
+          ctx.stroke();
+        }
+
+        if (confidence > 0.35 && i % 2 === 0) {
+          ctx.fillStyle = color;
+          ctx.globalAlpha = 0.35 + Math.min(0.65, confidence);
+          ctx.beginPath();
+          ctx.arc(x, y, 3 + confidence * 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+
+        prevX = x;
+        prevY = y;
+        prevElevX = x;
+        prevElevY = elevY;
+      }
+
+      strokeEvents.forEach((event, n) => {
+        const x = pad + ((w - pad * 2) * ((event.t - samples[0].t) / totalTime));
+        const lateral = Math.max(-1, Math.min(1, (event.lr - lrMean) / 4));
+        const y = laneTop + lateral * sideAmp;
+        const color = event.side >= 0 ? "#28d7ec" : "#ffd166";
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "#07151c";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "#07151c";
+        ctx.font = "bold 10px Arial";
+        ctx.fillText(String(n + 1), x - 3, y + 4);
+      });
+    }
+    async function loadLatest() {
+      $("fileName").textContent = "Cargando datasets/latest.csv...";
+      const res = await fetch("datasets/latest.csv?ts=" + Date.now());
+      const text = await res.text();
+      samples = parseCsv(text);
+      $("fileName").textContent = "datasets/latest.csv";
+      analyze();
+    }
+
+    async function loadValidatedSession() {
+      $("fileName").textContent = "Cargando SS000013 valida...";
+      const res = await fetch("datasets/validacion/SS000013_VALIDADA.CSV?ts=" + Date.now());
+      if (!res.ok) throw new Error("No se pudo abrir SS000013 valida.");
+      samples = parseCsv(await res.text());
+      $("fileName").textContent = `SS000013_VALIDADA.CSV - ${samples.length} muestras`;
+      analyze();
+    }
+
+    $("fileInput").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      samples = parseCsv(text);
+      $("fileName").textContent = file.name;
+      analyze();
+    });
+
+    $("reloadBtn").addEventListener("click", loadLatest);
+    $("validatedBtn").addEventListener("click", () => loadValidatedSession().catch((error) => {
+      $("fileName").textContent = error.message;
+    }));
+    loadLatest().catch((error) => {
+      $("fileName").textContent = "No se pudo cargar latest.csv. Usa Cargar CSV.";
+      $("quickRead").textContent = error.message;
+    });
+  </script>
+</body>
+</html>
+
+

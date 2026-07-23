@@ -1,0 +1,35 @@
+PRUEBA: SS-PR-20260527-SD-V036-014
+FECHA: 2026-05-27
+FIRMWARE PRINCIPAL: SS-LITE-BLE-SD-V1-036
+CONTEXTO: lote de descargas SD y una captura BLE app posterior a mejoras fisicas
+
+ARCHIVOS ANALIZADOS
+- INCOMPLETA_SS000009.CSV: usuario vitto, 667 filas completas, 69.81 s,
+  55367 bytes, sin footer. SHA256:
+  2D30412553F40D702056AB1FAF8F123F206D9467F132BED7ACEADA76E036C512
+- SS000011.CSV: usuario vitto2, 255 filas completas, 26.65 s, 21284 bytes,
+  footer presente. SHA256:
+  ED5538D7DA448356611F16120C459E0817F2DFB6621938E67AB5BA337635D324
+- INCOMPLETA_SS000012 (1).CSV: usuario vitto3, 374 filas completas, 39.81 s,
+  31116 bytes, sin footer. SHA256:
+  B604890F61B8944F84DCE68F3BD8A22890D0B61C84A5CBBBF4F8E6545DA9F0BC
+- INCOMPLETA_SS000014 (1).CSV: usuario vitto3, 632 filas completas, 67.41 s,
+  52526 bytes, sin footer. SHA256:
+  064ED73C5B937B083A4B59E385FF9354FADBAFB2485211129502B3BC948E0691
+- ss_vitto3_test_20260527_155309.csv: captura app BLE, 31 muestras, 1961 bytes.
+  SHA256:
+  77CDEB5A4F0694420FA3605036218FB7026DA44EF0AD59606FE8A15CCB505448
+
+INTERPRETACION
+- Todas las sesiones SD recuperadas tienen filas completas; no hay filas rotas.
+- V036 ya registra sesiones cercanas a 70 segundos antes de interrumpirse.
+- Una sesion de 26.65 segundos cerro correctamente.
+- La estabilidad mejoro respecto a cortes de 20-40 segundos, pero aun no es
+  apta para pruebas de campo de varios minutos.
+- La app BLE genera muchas menos muestras que la SD y sirve solo como referencia
+  local, no como registro oficial.
+
+PROXIMO PASO
+- No aumentar complejidad del firmware hasta estabilizar hardware SD.
+- Agregar capacitor electrolitico 220 uF o 470 uF cerca del modulo SD.
+- Probar SS-MICROSD-STRESS-V002 o MOUNT-V003 antes de nuevas sesiones largas.

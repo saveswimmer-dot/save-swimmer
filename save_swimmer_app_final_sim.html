@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Swimmer App Sim</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061016;
+      --nav: #071922;
+      --panel: #0d2029;
+      --panel2: #102a35;
+      --line: #244854;
+      --line2: #1a3944;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --cyan2: #0aa9c0;
+      --orange: #ff6a18;
+      --green: #49e285;
+      --yellow: #ffd166;
+      --red: #ff536a;
+      --blue: #82aaff;
+      --shadow: rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(40, 215, 236, 0.12), transparent 30%),
+        linear-gradient(180deg, #061016, #081820 48%, #050c11);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+    }
+
+    aside {
+      background: rgba(7, 25, 34, 0.96);
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      border-bottom: 1px solid var(--line2);
+      padding: 4px 8px 18px;
+      margin-bottom: 16px;
+    }
+
+    .mark {
+      width: 46px;
+      height: 46px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .mark:before,
+    .mark:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: var(--orange);
+      border-radius: 50%;
+    }
+
+    .mark:before {
+      top: 0;
+      width: 40px;
+      height: 28px;
+    }
+
+    .mark:after {
+      top: 13px;
+      width: 22px;
+      height: 18px;
+      border-top-color: var(--cyan);
+    }
+
+    .mark-dot {
+      position: absolute;
+      left: 50%;
+      top: 28px;
+      width: 9px;
+      height: 9px;
+      background: var(--cyan);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 16px rgba(40, 215, 236, 0.75);
+    }
+
+    .brand-title {
+      font-size: 25px;
+      line-height: 1.04;
+      letter-spacing: 7px;
+      font-weight: 700;
+    }
+
+    .brand-title span {
+      display: block;
+      color: var(--cyan);
+      font-size: 13px;
+      letter-spacing: 6px;
+      margin-top: 4px;
+    }
+
+    .brand-pro {
+      color: var(--orange);
+      font-size: 13px;
+      letter-spacing: 4px;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      padding: 12px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+    }
+
+    .nav-btn.active {
+      color: var(--text);
+      background: var(--panel2);
+      border-color: var(--line);
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      color: var(--cyan);
+      flex: 0 0 auto;
+    }
+
+    .side-footer {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 18px;
+      border-top: 1px solid var(--line2);
+      padding: 14px 8px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    main {
+      padding: 18px;
+      min-width: 0;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .title h1 {
+      margin: 0 0 6px;
+      font-size: 30px;
+      line-height: 1.08;
+    }
+
+    .title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .live-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .badge {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(13, 32, 41, 0.88);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge strong {
+      color: var(--text);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px rgba(73, 226, 133, 0.75);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid.nadador {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .grid.entrenador {
+      grid-template-columns: 340px 1fr;
+    }
+
+    .grid.familia {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .grid.competencias {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .panel {
+      background: rgba(13, 32, 41, 0.93);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+      box-shadow: 0 18px 36px var(--shadow);
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .kpi {
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 86px;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 9px;
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 25px;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .kpi small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .risk-ring {
+      width: min(270px, 100%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      background:
+        conic-gradient(var(--green) calc(var(--risk) * 1%), rgba(255,255,255,0.08) 0),
+        radial-gradient(circle, #0d2029 59%, transparent 60%);
+      border: 1px solid var(--line);
+    }
+
+    .risk-ring div {
+      text-align: center;
+    }
+
+    .risk-ring strong {
+      display: block;
+      font-size: 56px;
+      line-height: 1;
+    }
+
+    .risk-ring span {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .swim-summary {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 14px;
+      align-items: center;
+      min-height: 300px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .summary-card {
+      min-height: 92px;
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.05;
+    }
+
+    .mini-map {
+      height: 210px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(rgba(40,215,236,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(40,215,236,0.06) 1px, transparent 1px),
+        #07151c;
+      background-size: 28px 28px, 28px 28px, auto;
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .photo-map {
+      background:
+        linear-gradient(rgba(5, 12, 17, 0.16), rgba(5, 12, 17, 0.24)),
+        url("assets/costa_verde_agua_dulce.jpg") center / cover no-repeat;
+    }
+
+    .photo-map .coast-cliff,
+    .photo-map .coast-road,
+    .photo-map .coast-water {
+      display: none;
+    }
+
+    .photo-map .district-label,
+    .photo-map .water-label,
+    .photo-map .coast-label,
+    .photo-map .map-label,
+    .photo-map .geofence,
+    .photo-map .route,
+    .photo-map .mini-zone,
+    .photo-map .mini-route,
+    .photo-map .mini-pin,
+    .photo-map .swimmer-pin {
+      z-index: 1;
+    }
+
+    .mini-route {
+      position: absolute;
+      left: 14%;
+      top: 36%;
+      width: 36%;
+      height: 22%;
+      border-top: 3px solid var(--green);
+      border-right: 3px solid var(--green);
+      border-bottom: 3px solid rgba(73, 226, 133, 0.55);
+      border-radius: 48% 36% 52% 42%;
+      transform: rotate(15deg);
+    }
+
+    .mini-zone {
+      position: absolute;
+      left: 8%;
+      top: 28%;
+      width: 46%;
+      height: 36%;
+      border: 2px dashed rgba(40, 215, 236, 0.62);
+      border-radius: 48%;
+      transform: rotate(-10deg);
+    }
+
+    .mini-pin {
+      position: absolute;
+      left: 38%;
+      top: 45%;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #07151c;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.14), 0 0 18px rgba(73,226,133,0.8);
+      transform: translate(-50%, -50%);
+    }
+
+    .coast-label,
+    .water-label,
+    .district-label {
+      position: absolute;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      background: rgba(7, 21, 28, 0.72);
+      border: 1px solid rgba(36, 72, 84, 0.72);
+      border-radius: 6px;
+      padding: 4px 6px;
+      white-space: nowrap;
+    }
+
+    .water-label {
+      color: var(--cyan);
+      border-color: rgba(40, 215, 236, 0.25);
+    }
+
+    .district-label {
+      color: #c8d8dd;
+      font-size: 10px;
+    }
+
+    .coast-road {
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      top: 43%;
+      height: 18%;
+      border-top: 2px solid rgba(255, 106, 24, 0.46);
+      border-bottom: 1px solid rgba(255, 106, 24, 0.22);
+      transform: rotate(-7deg);
+      background: linear-gradient(180deg, rgba(255, 106, 24, 0.08), rgba(255, 106, 24, 0.02));
+    }
+
+    .coast-water {
+      position: absolute;
+      left: -12%;
+      right: -12%;
+      bottom: -18%;
+      height: 56%;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(40, 215, 236, 0.12), transparent 24%),
+        rgba(40, 215, 236, 0.05);
+      border-top: 1px solid rgba(40, 215, 236, 0.18);
+      transform: rotate(-7deg);
+    }
+
+    .coast-cliff {
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      top: 28%;
+      height: 22%;
+      background: rgba(255, 106, 24, 0.05);
+      border-bottom: 1px solid rgba(255, 106, 24, 0.28);
+      transform: rotate(-7deg);
+    }
+
+    .status-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--line2);
+      color: var(--muted);
+    }
+
+    .status-item strong {
+      color: var(--text);
+      text-align: right;
+    }
+
+    .map {
+      height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(rgba(40,215,236,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(40,215,236,0.06) 1px, transparent 1px),
+        radial-gradient(circle at 34% 44%, rgba(40,215,236,0.16), transparent 25%),
+        #07151c;
+      background-size: 34px 34px, 34px 34px, auto, auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trainer-map {
+      height: 320px;
+    }
+
+    .shore {
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      bottom: -28%;
+      height: 46%;
+      background: rgba(255, 106, 24, 0.08);
+      border-top: 1px solid rgba(255, 106, 24, 0.38);
+      transform: rotate(-5deg);
+    }
+
+    .geofence {
+      position: absolute;
+      left: 8%;
+      top: 28%;
+      width: 48%;
+      height: 38%;
+      border: 2px dashed rgba(40, 215, 236, 0.76);
+      border-radius: 48%;
+      transform: rotate(-14deg);
+    }
+
+    .route {
+      position: absolute;
+      left: 14%;
+      top: 38%;
+      width: 36%;
+      height: 20%;
+      border-top: 3px solid var(--green);
+      border-right: 3px solid var(--green);
+      border-radius: 48% 42% 52% 36%;
+      transform: rotate(18deg);
+      opacity: 0.85;
+    }
+
+    .swimmer-pin {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: 18px;
+      height: 18px;
+      border: 3px solid #061016;
+      background: var(--c);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.16), 0 0 18px var(--c);
+      transform: translate(-50%, -50%);
+    }
+
+    .map-label {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .swimmer-list {
+      display: grid;
+      gap: 8px;
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .swimmer-card {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 68px;
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--panel2);
+      color: var(--cyan);
+      font-weight: 700;
+      border: 1px solid var(--line);
+    }
+
+    .swimmer-card h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .swimmer-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .priority {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .priority.warn {
+      color: var(--yellow);
+    }
+
+    .priority.danger {
+      color: var(--red);
+    }
+
+    .coach-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .coach-metric {
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 104px;
+    }
+
+    .coach-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .coach-metric strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+    }
+
+    .coach-metric small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+      line-height: 1.35;
+    }
+
+    .motion-strip {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 4px;
+      margin-top: 12px;
+    }
+
+    .motion-bar {
+      height: 42px;
+      border-radius: 5px;
+      background: var(--green);
+      opacity: 0.88;
+      transform-origin: bottom;
+    }
+
+    .motion-bar:nth-child(2n) { transform: scaleY(0.72); }
+    .motion-bar:nth-child(3n) { transform: scaleY(0.48); background: var(--cyan); }
+    .motion-bar:nth-child(5n) { transform: scaleY(0.88); }
+
+    .tech-details {
+      margin-top: 12px;
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      background: rgba(6, 16, 22, 0.54);
+      overflow: hidden;
+    }
+
+    .tech-details summary {
+      cursor: pointer;
+      padding: 11px 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 0 12px 12px;
+    }
+
+    .tech-cell {
+      background: rgba(13, 32, 41, 0.86);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .tech-cell span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    .tech-cell strong {
+      font-size: 18px;
+    }
+
+    .pace-table {
+      display: grid;
+      gap: 8px;
+    }
+
+    .pace-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 92px;
+      gap: 10px;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 10px;
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+    }
+
+    .pace-row strong {
+      font-size: 14px;
+    }
+
+    .pace-row span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pace-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .pace-fill {
+      width: var(--w);
+      height: 100%;
+      border-radius: 999px;
+      background: var(--c);
+    }
+
+    .pace-status {
+      text-align: right;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .pace-status.warn {
+      color: var(--yellow);
+    }
+
+    .pace-status.stop {
+      color: var(--red);
+    }
+
+    .comms {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .comm {
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 110px;
+    }
+
+    .comm strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .comm span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .family-hero {
+      min-height: 420px;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .family-state {
+      font-size: clamp(38px, 7vw, 82px);
+      line-height: 0.95;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .family-sub {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .context-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .context-card {
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line2);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 82px;
+    }
+
+    .context-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .context-card strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.08;
+    }
+
+    .context-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 10px;
+      border-bottom: 1px solid var(--line2);
+      padding: 10px 0;
+    }
+
+    .event time {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .event strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .event span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 1080px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      nav {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .side-footer {
+        position: static;
+        margin-top: 14px;
+      }
+
+      .grid.nadador,
+      .grid.entrenador,
+      .grid.familia,
+      .grid.competencias {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      main {
+        padding: 12px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .live-badges {
+        justify-content: flex-start;
+      }
+
+      nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .kpi-row,
+      .comms,
+      .coach-grid,
+      .context-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .swim-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="mark"><span class="mark-dot"></span></div>
+        <div>
+          <div class="brand-title">SAVE<span>SWIMMER</span></div>
+          <div class="brand-pro">PRO</div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-btn active" data-view="nadador">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c2.5 2.4 4 5 4 8a4 4 0 0 1-8 0c0-3 1.5-5.6 4-8Z"/><path d="M4 19c2.5-2 5-2 8 0s5.5 2 8 0"/></svg>
+          Nadador
+        </button>
+        <button class="nav-btn" data-view="entrenador">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Entrenador
+        </button>
+        <button class="nav-btn" data-view="familia">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+          Familia
+        </button>
+        <button class="nav-btn" data-view="competencias">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10"/><path d="M17 4v5a5 5 0 0 1-10 0V4"/><path d="M5 9H4a2 2 0 0 1-2-2V5h5"/><path d="M19 9h1a2 2 0 0 0 2-2V5h-5"/></svg>
+          Competencias
+        </button>
+      </nav>
+
+      <div class="side-footer">
+        <strong>SS-LT-000001</strong><br />
+        Firmware SS-APP-SIM-001<br />
+        BLE · LoRa · GSM · Iridium
+      </div>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div class="title">
+          <h1 id="viewTitle">Nadador</h1>
+          <p id="viewSubtitle">Seguridad personal, sesión activa y estado del dispositivo.</p>
+        </div>
+        <div class="live-badges">
+          <div class="badge"><span class="dot"></span><strong>LIVE</strong></div>
+          <div class="badge">Agua <strong id="topWater">ACTIVA</strong></div>
+          <div class="badge">Riesgo <strong id="topRisk">12</strong></div>
+          <div class="badge">Batería <strong id="topBatt">93%</strong></div>
+        </div>
+      </div>
+
+      <section id="view-nadador" class="view grid nadador">
+        <div class="panel">
+          <h2>Sesión actual</h2>
+          <div class="kpi-row">
+            <div class="kpi"><span>Estado</span><strong id="swimState">Seguro</strong><small>Monitoreo activo</small></div>
+            <div class="kpi"><span>Tiempo</span><strong id="sessionTime">00:24:16</strong><small>desde inicio</small></div>
+            <div class="kpi"><span>Distancia</span><strong id="distance">1.82</strong><small>km</small></div>
+            <div class="kpi"><span>Señal</span><strong id="signal">LoRa</strong><small>último paquete 2 s</small></div>
+          </div>
+          <div class="swim-summary">
+            <div>
+              <div class="risk-ring" id="riskRing" style="--risk: 12">
+                <div><strong id="riskNumber">12</strong><span>RISK SCORE</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="summary-grid">
+                <div class="summary-card"><span>Ritmo actual</span><strong>Funcional</strong></div>
+                <div class="summary-card"><span>Zona segura</span><strong>Dentro</strong></div>
+                <div class="summary-card"><span>Última señal</span><strong>2 s</strong></div>
+                <div class="summary-card"><span>Compartido con</span><strong>Entrenador</strong></div>
+              </div>
+              <div class="mini-map photo-map">
+                <div class="coast-cliff"></div>
+                <div class="coast-road"></div>
+                <div class="coast-water"></div>
+                <div class="district-label" style="right:10%;bottom:18%;">Chorrillos</div>
+                <div class="district-label" style="right:12%;top:32%;">Agua Dulce</div>
+                <div class="water-label" style="left:8%;top:18%;">Pacifico</div>
+                <div class="mini-zone"></div>
+                <div class="mini-route"></div>
+                <div class="mini-pin"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Resumen para el atleta</h2>
+          <div class="status-list">
+            <div class="status-item"><span>Orientación</span><strong id="bodyState">Horizontal funcional</strong></div>
+            <div class="status-item"><span>Oscilación</span><strong id="oscillation">Regular</strong></div>
+            <div class="status-item"><span>Periodicidad</span><strong id="periodicity">Compatible con crol</strong></div>
+            <div class="status-item"><span>Alertas durante sesión</span><strong>0 críticas</strong></div>
+            <div class="status-item"><span>Último evento</span><strong>Zona segura confirmada</strong></div>
+            <div class="status-item"><span>Red de confianza</span><strong>Familia + entrenador</strong></div>
+            <div class="status-item"><span>Al terminar</span><strong>Resumen y ruta</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-entrenador" class="view grid entrenador hidden">
+        <div class="panel">
+          <h2>Atletas</h2>
+          <div class="swimmer-list">
+            <div class="swimmer-card"><div class="avatar">01</div><div><h3>Claudia R.</h3><p>Costa Verde · compartido · 2 s</p></div><div class="priority">OK</div></div>
+            <div class="swimmer-card"><div class="avatar">02</div><div><h3>Mateo S.</h3><p>Grupo Miraflores · pausa · 4 s</p></div><div class="priority warn">WATCH</div></div>
+            <div class="swimmer-card"><div class="avatar">03</div><div><h3>Ana V.</h3><p>Grupo Barranco · ritmo bajo · 3 s</p></div><div class="priority">OK</div></div>
+            <div class="swimmer-card"><div class="avatar">04</div><div><h3>Diego P.</h3><p>Sesion solitaria · compartida</p></div><div class="priority">LIVE</div></div>
+            <div class="swimmer-card"><div class="avatar">05</div><div><h3>Luna M.</h3><p>Fuera de geocerco · 8 s</p></div><div class="priority danger">ALERTA</div></div>
+          </div>
+          <div class="status-list" style="margin-top:12px;">
+            <div class="status-item"><span>Geocerco cargado</span><strong>Costa Verde 2K</strong></div>
+            <div class="status-item"><span>Modo</span><strong>Atleta compartido</strong></div>
+            <div class="status-item"><span>Permiso</span><strong>Solo monitoreo</strong></div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="panel">
+            <h2>Mapa del atleta - Costa Verde</h2>
+            <div class="map trainer-map photo-map">
+              <div class="coast-cliff"></div>
+              <div class="coast-road"></div>
+              <div class="coast-water"></div>
+              <div class="district-label" style="right:10%;bottom:18%;">Chorrillos</div>
+              <div class="district-label" style="right:12%;top:34%;">Agua Dulce</div>
+              <div class="water-label" style="left:8%;top:18%;">Oceano Pacifico</div>
+              <div class="coast-label" style="right:10%;top:44%;">Costa Verde</div>
+              <div class="geofence"></div>
+              <div class="route"></div>
+              <div class="map-label">
+                <div class="badge">Geocerco <strong>Agua Dulce 1K</strong></div>
+                <div class="badge">Atleta <strong>Claudia R.</strong></div>
+                <div class="badge">Ultima senal <strong>2 s</strong></div>
+              </div>
+              <div class="swimmer-pin" style="--x:38%;--y:46%;--c:var(--green)"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Estado del atleta seleccionado</h2>
+            <div class="coach-grid">
+              <div class="coach-metric"><span>Movimiento</span><strong id="coachMotion">Nadando</strong><small>Oscilación compatible con avance</small></div>
+              <div class="coach-metric"><span>Velocidad</span><strong id="coachSpeed">1.8 km/h</strong><small>Promedio últimos 60 s</small></div>
+              <div class="coach-metric"><span>Ritmo</span><strong id="coachRhythm">Estable</strong><small>Patrón funcional de crol</small></div>
+              <div class="coach-metric"><span>Zona segura</span><strong id="coachZone">Dentro</strong><small>142 m al borde del geocerco</small></div>
+              <div class="coach-metric"><span>Acción sugerida</span><strong id="coachAction">Monitorear</strong><small id="coachActionReason">Sin intervención requerida</small></div>
+              <div class="coach-metric"><span>Señal</span><strong id="coachSignal">2 s</strong><small>Último paquete vía LoRa</small></div>
+            </div>
+            <div class="motion-strip" aria-label="Movimiento reciente">
+              <div class="motion-bar"></div><div class="motion-bar"></div><div class="motion-bar"></div><div class="motion-bar"></div>
+              <div class="motion-bar"></div><div class="motion-bar"></div><div class="motion-bar"></div><div class="motion-bar"></div>
+              <div class="motion-bar"></div><div class="motion-bar"></div><div class="motion-bar"></div><div class="motion-bar"></div>
+            </div>
+            <details class="tech-details">
+              <summary>Datos técnicos del sensor</summary>
+              <div class="tech-grid">
+                <div class="tech-cell"><span>LR lateral</span><strong id="lr">0.18</strong></div>
+                <div class="tech-cell"><span>FB frente/atrás</span><strong id="fb">-0.42</strong></div>
+                <div class="tech-cell"><span>UD arriba/abajo</span><strong id="ud">9.61</strong></div>
+                <div class="tech-cell"><span>MAG magnitud</span><strong id="mag">9.73</strong></div>
+              </div>
+            </details>
+          </div>
+          <div class="panel">
+            <h2>Ritmo cada 100 m</h2>
+            <div class="pace-table">
+              <div class="pace-row">
+                <strong>0-100</strong>
+                <div><span>01:58 / 100 m</span><div class="pace-bar"><div class="pace-fill" style="--w:92%;--c:var(--green)"></div></div></div>
+                <div class="pace-status">ESTABLE</div>
+              </div>
+              <div class="pace-row">
+                <strong>100-200</strong>
+                <div><span>02:01 / 100 m</span><div class="pace-bar"><div class="pace-fill" style="--w:88%;--c:var(--green)"></div></div></div>
+                <div class="pace-status">ESTABLE</div>
+              </div>
+              <div class="pace-row">
+                <strong>200-300</strong>
+                <div><span>02:07 / 100 m</span><div class="pace-bar"><div class="pace-fill" style="--w:76%;--c:var(--yellow)"></div></div></div>
+                <div class="pace-status warn">BAJA</div>
+              </div>
+              <div class="pace-row">
+                <strong>300-400</strong>
+                <div><span>02:16 / 100 m</span><div class="pace-bar"><div class="pace-fill" style="--w:58%;--c:var(--yellow)"></div></div></div>
+                <div class="pace-status warn">ALERTA</div>
+              </div>
+              <div class="pace-row">
+                <strong>400-500</strong>
+                <div><span>sin avance 12 s</span><div class="pace-bar"><div class="pace-fill" style="--w:18%;--c:var(--red)"></div></div></div>
+                <div class="pace-status stop">PARO</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-familia" class="view grid familia hidden">
+        <div class="panel family-hero">
+          <div class="family-state" id="familyState">Claudia esta nadando</div>
+          <div class="family-sub" id="familySub">Agua activa + sin Bluetooth cercano · seguimiento por red remota</div>
+          <div class="live-badges" style="justify-content:center">
+            <div class="badge">Agua <strong id="familyWater">SI</strong></div>
+            <div class="badge">Bluetooth <strong id="familyBle">LEJOS</strong></div>
+            <div class="badge">Transmision <strong id="familyTx">ACTIVA</strong></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Contexto familiar</h2>
+          <div class="context-grid">
+            <div class="context-card"><span>Sensor de agua</span><strong id="contextWater">Mojado</strong><small>Confirma actividad acuatica</small></div>
+            <div class="context-card"><span>Bluetooth cercano</span><strong id="contextBle">No</strong><small>Lejos del telefono/base</small></div>
+            <div class="context-card"><span>Interpretacion</span><strong id="contextMeaning">Nadando</strong><small id="contextReason">En agua y fuera de alcance cercano</small></div>
+            <div class="context-card"><span>Datos remotos</span><strong id="contextTx">Transmitiendo</strong><small id="contextTxReason">Mantener seguimiento activo</small></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Secuencia de sesion</h2>
+          <div class="timeline">
+            <div class="event"><time>08:42</time><div><strong>Preparandose</strong><span>Seco + Bluetooth cercano: telemetria minima.</span></div></div>
+            <div class="event"><time>08:46</time><div><strong>Ingreso al agua</strong><span>Agua + Bluetooth cercano: inicio de sesion.</span></div></div>
+            <div class="event"><time>08:51</time><div><strong>Nadando</strong><span>Agua + sin Bluetooth cercano: seguimiento remoto activo.</span></div></div>
+            <div class="event"><time>09:18</time><div><strong>Regreso a playa</strong><span>Agua + Bluetooth cercano: posible salida.</span></div></div>
+            <div class="event"><time>09:22</time><div><strong>Sesion finalizada</strong><span>Seco + Bluetooth cercano: resumen enviado y transmision reducida.</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-familia-old" class="view grid familia hidden">
+        <div class="panel family-hero">
+          <div class="family-state">Claudia está segura</div>
+          <div class="family-sub">Nadando dentro de la zona segura · Última señal hace 2 segundos</div>
+          <div class="live-badges" style="justify-content:center">
+            <div class="badge">Ubicación <strong>ACTIVA</strong></div>
+            <div class="badge">Agua <strong>SÍ</strong></div>
+            <div class="badge">Batería <strong>93%</strong></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Actualizaciones</h2>
+          <div class="timeline">
+            <div class="event"><time>08:42</time><div><strong>Sesión iniciada</strong><span>Dispositivo conectado y agua activa.</span></div></div>
+            <div class="event"><time>08:51</time><div><strong>Zona segura confirmada</strong><span>Geocerco activo alrededor del circuito.</span></div></div>
+            <div class="event"><time>09:02</time><div><strong>Ritmo estable</strong><span>Movimiento compatible con natación funcional.</span></div></div>
+            <div class="event"><time>09:06</time><div><strong>Señal recibida</strong><span>Paquete LoRa confirmado por la base.</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-competencias" class="view grid competencias hidden">
+        <div class="panel">
+          <h2>Mapa operativo</h2>
+          <div class="map photo-map">
+            <div class="coast-cliff"></div>
+            <div class="coast-road"></div>
+            <div class="coast-water"></div>
+            <div class="district-label" style="right:10%;bottom:18%;">Chorrillos</div>
+            <div class="district-label" style="right:12%;top:34%;">Agua Dulce</div>
+            <div class="water-label" style="left:8%;top:18%;">Oceano Pacifico</div>
+            <div class="coast-label" style="right:10%;top:44%;">Costa Verde</div>
+            <div class="geofence"></div>
+            <div class="route"></div>
+            <div class="map-label">
+              <div class="badge">Geocerco <strong>AGUA DULCE</strong></div>
+              <div class="badge">Atletas <strong>128</strong></div>
+              <div class="badge">Alertas <strong>3</strong></div>
+            </div>
+            <div class="swimmer-pin" style="--x:24%;--y:42%;--c:var(--green)"></div>
+            <div class="swimmer-pin" style="--x:34%;--y:49%;--c:var(--green)"></div>
+            <div class="swimmer-pin" style="--x:46%;--y:53%;--c:var(--yellow)"></div>
+            <div class="swimmer-pin" style="--x:54%;--y:35%;--c:var(--red)"></div>
+            <div class="swimmer-pin" style="--x:28%;--y:61%;--c:var(--green)"></div>
+            <div class="swimmer-pin" style="--x:42%;--y:66%;--c:var(--yellow)"></div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="panel">
+            <h2>Prioridad de alertas</h2>
+            <div class="swimmer-list">
+              <div class="swimmer-card"><div class="avatar">57</div><div><h3>Luna M.</h3><p>Fuera de geocerco · sector norte</p></div><div class="priority danger">P1</div></div>
+              <div class="swimmer-card"><div class="avatar">24</div><div><h3>Mateo S.</h3><p>Vertical persistente · 18 s</p></div><div class="priority warn">P2</div></div>
+              <div class="swimmer-card"><div class="avatar">88</div><div><h3>Equipo Azul</h3><p>Pérdida de LoRa · GSM standby</p></div><div class="priority warn">P2</div></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Operación</h2>
+            <div class="status-list">
+              <div class="status-item"><span>Botes de apoyo</span><strong>4 activos</strong></div>
+              <div class="status-item"><span>Base LoRa</span><strong>3 gateways</strong></div>
+              <div class="status-item"><span>Centro de control</span><strong>Online</strong></div>
+              <div class="status-item"><span>Exportación</span><strong>CSV / Reporte</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const titles = {
+      nadador: ["Nadador", "Seguridad personal, sesión activa y estado del dispositivo."],
+      entrenador: ["Entrenador", "Mapa del atleta, estado interpretado, geocerco y comunicaciones."],
+      familia: ["Familia", "Estado simple, ubicación y tranquilidad en tiempo real."],
+      competencias: ["Competencias", "Mapa operativo, geocercos, alertas y soporte de carrera."]
+    };
+
+    document.querySelectorAll(".nav-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const view = button.dataset.view;
+        document.querySelectorAll(".nav-btn").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        document.querySelectorAll(".view").forEach((item) => item.classList.add("hidden"));
+        document.getElementById(`view-${view}`).classList.remove("hidden");
+        document.getElementById("viewTitle").textContent = titles[view][0];
+        document.getElementById("viewSubtitle").textContent = titles[view][1];
+      });
+    });
+
+    let tick = 0;
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function setFamilyContext(context) {
+      document.getElementById("familyState").textContent = context.title;
+      document.getElementById("familySub").textContent = context.subtitle;
+      document.getElementById("familyWater").textContent = context.water ? "SI" : "NO";
+      document.getElementById("familyBle").textContent = context.ble ? "CERCA" : "LEJOS";
+      document.getElementById("familyTx").textContent = context.tx;
+      document.getElementById("contextWater").textContent = context.water ? "Mojado" : "Seco";
+      document.getElementById("contextBle").textContent = context.ble ? "Si" : "No";
+      document.getElementById("contextMeaning").textContent = context.meaning;
+      document.getElementById("contextReason").textContent = context.reason;
+      document.getElementById("contextTx").textContent = context.txLabel;
+      document.getElementById("contextTxReason").textContent = context.txReason;
+    }
+
+    function familyContextForTick(value) {
+      const phase = Math.floor((value / 28) % 5);
+      const states = [
+        {
+          title: "Claudia se esta preparando",
+          subtitle: "Seco + Bluetooth cercano · telemetria minima",
+          water: false,
+          ble: true,
+          tx: "MINIMA",
+          meaning: "En tierra",
+          reason: "Dispositivo seco y cerca del telefono",
+          txLabel: "Reducida",
+          txReason: "Esperando ingreso al agua"
+        },
+        {
+          title: "Claudia entro al agua",
+          subtitle: "Agua activa + Bluetooth cercano · inicio de sesion",
+          water: true,
+          ble: true,
+          tx: "ACTIVA",
+          meaning: "Cerca de playa",
+          reason: "Mojado y todavia cerca del telefono/base",
+          txLabel: "Activa",
+          txReason: "Confirmar inicio de actividad"
+        },
+        {
+          title: "Claudia esta nadando",
+          subtitle: "Agua activa + sin Bluetooth cercano · seguimiento remoto",
+          water: true,
+          ble: false,
+          tx: "ACTIVA",
+          meaning: "Nadando",
+          reason: "En agua y fuera de alcance cercano",
+          txLabel: "Transmitiendo",
+          txReason: "Mantener seguimiento activo"
+        },
+        {
+          title: "Claudia esta cerca de playa",
+          subtitle: "Agua activa + Bluetooth cercano · posible regreso",
+          water: true,
+          ble: true,
+          tx: "ACTIVA",
+          meaning: "Regresando",
+          reason: "Mojado y vuelve a estar cerca del telefono/base",
+          txLabel: "Activa",
+          txReason: "Esperar confirmacion de salida"
+        },
+        {
+          title: "Claudia salio del agua",
+          subtitle: "Seco + Bluetooth cercano · resumen final enviado",
+          water: false,
+          ble: true,
+          tx: "REDUCIDA",
+          meaning: "Sesion finalizada",
+          reason: "Sensor seco confirmado y dispositivo cerca",
+          txLabel: "Reducida",
+          txReason: "Ahorro de bateria y datos"
+        }
+      ];
+      return states[phase];
+    }
+
+    function updateSim() {
+      tick += 1;
+      const lr = Math.sin(tick / 8) * 1.2 + Math.sin(tick / 2.3) * 0.18;
+      const fb = Math.cos(tick / 10) * 0.9;
+      const ud = 9.55 + Math.sin(tick / 5) * 0.35;
+      const mag = Math.sqrt(lr * lr + fb * fb + ud * ud);
+      const risk = Math.round(10 + Math.abs(Math.sin(tick / 31)) * 8);
+      const speed = 1.65 + Math.sin(tick / 18) * 0.18 + Math.sin(tick / 7) * 0.05;
+      const signalAge = 1 + Math.round(Math.abs(Math.sin(tick / 14)) * 2);
+      const rhythmWave = Math.abs(Math.sin(tick / 32));
+      const rhythm = rhythmWave > 0.92 ? "Paro" : rhythmWave > 0.72 ? "Baja" : "Estable";
+
+      document.getElementById("lr").textContent = lr.toFixed(2);
+      document.getElementById("fb").textContent = fb.toFixed(2);
+      document.getElementById("ud").textContent = ud.toFixed(2);
+      document.getElementById("mag").textContent = mag.toFixed(2);
+      document.getElementById("coachSpeed").textContent = `${speed.toFixed(1)} km/h`;
+      document.getElementById("coachSignal").textContent = `${signalAge} s`;
+      document.getElementById("coachRhythm").textContent = rhythm;
+      document.getElementById("coachMotion").textContent = rhythm === "Paro" ? "Sin avance" : "Nadando";
+      document.getElementById("coachAction").textContent = rhythm === "Paro" ? "Intervenir" : rhythm === "Baja" ? "Observar" : "Monitorear";
+      document.getElementById("coachActionReason").textContent = rhythm === "Paro" ? "Sin avance detectado" : rhythm === "Baja" ? "Ritmo bajo en parcial" : "Sin intervención requerida";
+      document.getElementById("riskNumber").textContent = risk;
+      document.getElementById("topRisk").textContent = risk;
+      document.getElementById("riskRing").style.setProperty("--risk", risk);
+      setFamilyContext(familyContextForTick(tick));
+
+      const seconds = 24 * 60 + 16 + tick;
+      document.getElementById("sessionTime").textContent = `00:${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`;
+    }
+
+    setInterval(updateSim, 650);
+    updateSim();
+  </script>
+</body>
+</html>

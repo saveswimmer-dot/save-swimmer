@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Swimmer Backend Dashboard</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061016;
+      --nav: #071922;
+      --panel: #0d2029;
+      --panel2: #102a35;
+      --line: #244854;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --orange: #ff6a18;
+      --green: #49e285;
+      --yellow: #ffd166;
+      --red: #ff536a;
+      --blue: #82aaff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #061016, #081820 52%, #050c11);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+    }
+
+    aside {
+      background: rgba(7, 25, 34, 0.96);
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      border-bottom: 1px solid #1a3944;
+      padding: 4px 8px 18px;
+      margin-bottom: 16px;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      line-height: 1.04;
+      letter-spacing: 7px;
+      font-weight: 700;
+    }
+
+    .brand-title span {
+      display: block;
+      color: var(--cyan);
+      font-size: 13px;
+      letter-spacing: 6px;
+      margin-top: 4px;
+    }
+
+    .brand-pro {
+      color: var(--orange);
+      font-size: 12px;
+      letter-spacing: 4px;
+      margin-top: 8px;
+      font-weight: 700;
+    }
+
+    .nav-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      padding: 8px;
+    }
+
+    main {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--text);
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.primary {
+      color: #031f25;
+      background: var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 14px;
+    }
+
+    .panel,
+    .metric {
+      background: rgba(13, 32, 41, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 25px;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .map {
+      min-height: 470px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #08232e;
+    }
+
+    .map img {
+      width: 100%;
+      height: 100%;
+      min-height: 470px;
+      object-fit: cover;
+      filter: saturate(0.9) brightness(0.82);
+      display: block;
+    }
+
+    .route {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .device-dot {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--cyan);
+      border: 3px solid #061016;
+      box-shadow: 0 0 0 7px rgba(40, 215, 236, 0.22);
+      transform: translate(-50%, -50%);
+    }
+
+    .fence {
+      position: absolute;
+      left: 16%;
+      top: 22%;
+      width: 55%;
+      height: 48%;
+      border: 2px dashed rgba(255, 209, 102, 0.85);
+      border-radius: 50%;
+      transform: rotate(-12deg);
+      box-shadow: 0 0 40px rgba(255, 209, 102, 0.12) inset;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+      max-height: 470px;
+      overflow: auto;
+    }
+
+    .device {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #07151c;
+      cursor: pointer;
+    }
+
+    .device.active {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 1px rgba(40, 215, 236, 0.2);
+    }
+
+    .device strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .device small {
+      color: var(--muted);
+      display: block;
+      line-height: 1.45;
+    }
+
+    canvas {
+      width: 100%;
+      height: 260px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #07151c;
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #1a3944;
+      padding: 9px 7px;
+      text-align: left;
+      color: var(--muted);
+    }
+
+    th {
+      color: var(--text);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .ok { color: var(--green); }
+    .warn { color: var(--yellow); }
+    .bad { color: var(--red); }
+
+    @media (max-width: 920px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; }
+      .grid, .two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="brand-title">SAVE<span>SWIMMER</span></div>
+        <div class="brand-pro">BACKEND</div>
+      </div>
+      <div class="nav-note">
+        Panel interno de prueba. Recibe telemetria por HTTP y la muestra como futuro dashboard de entrenador / operador Save Swimmer.
+      </div>
+      <div class="nav-note">
+        Endpoint dispositivo:<br />
+        <strong>POST /api/telemetry</strong>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <h1>Monitoreo En Vivo</h1>
+          <div class="sub" id="status">Conectando con backend...</div>
+        </div>
+        <div>
+          <button class="primary" id="simulateBtn">Simular dato</button>
+          <button id="refreshBtn">Actualizar</button>
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="metric"><span>Dispositivo</span><strong id="mSerial">--</strong></div>
+        <div class="metric"><span>Atleta</span><strong id="mUser">--</strong></div>
+        <div class="metric"><span>Estado agua</span><strong id="mWater">--</strong></div>
+        <div class="metric"><span>Bateria</span><strong id="mBattery">--</strong></div>
+        <div class="metric"><span>Movimiento</span><strong id="mMotion">--</strong></div>
+        <div class="metric"><span>Ritmo 100 m</span><strong id="mPace">--</strong></div>
+        <div class="metric"><span>Riesgo</span><strong id="mRisk">--</strong></div>
+        <div class="metric"><span>Ultima senal</span><strong id="mSeen">--</strong></div>
+      </section>
+
+      <section class="two">
+        <div class="panel">
+          <h2>Mapa Agua Dulce / Costa Verde</h2>
+          <div class="map">
+            <img src="/assets/costa_verde_agua_dulce.jpg" alt="Mapa Agua Dulce" />
+            <svg class="route" viewBox="0 0 1000 520" preserveAspectRatio="none">
+              <path id="routePath" d="" fill="none" stroke="#28d7ec" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.95" />
+              <path d="M150 190 C 300 130, 480 160, 650 220 C 725 250, 770 295, 805 350" fill="none" stroke="#ffd166" stroke-width="3" stroke-dasharray="12 10" opacity="0.8" />
+            </svg>
+            <div class="fence"></div>
+            <div class="device-dot" id="mapDot" style="left:50%;top:50%"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Dispositivos</h2>
+          <div class="list" id="deviceList"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Telemetria IMU / Estado</h2>
+        <canvas id="chart" width="1160" height="260"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>Ultimos Paquetes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>LR</th>
+              <th>FB</th>
+              <th>UD</th>
+              <th>MAG</th>
+              <th>GPS</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let selectedSerial = null;
+    let telemetry = [];
+
+    $("refreshBtn").addEventListener("click", refresh);
+    $("simulateBtn").addEventListener("click", async () => {
+      await fetch("/api/simulate", { method: "POST" });
+      await refresh();
+    });
+
+    async function api(path, options) {
+      const res = await fetch(path, options);
+      if (!res.ok) throw new Error(path + " " + res.status);
+      return res.json();
+    }
+
+    async function refresh() {
+      try {
+        const health = await api("/api/health");
+        $("status").textContent = `Backend activo. Dispositivos: ${health.devices}. Actualizado: ${formatTime(health.updatedAt)}`;
+
+        const deviceData = await api("/api/devices");
+        const devices = deviceData.devices || [];
+        if (!selectedSerial && devices[0]) selectedSerial = devices[0].serial;
+        renderDevices(devices);
+
+        if (selectedSerial) {
+          const data = await api(`/api/devices/${encodeURIComponent(selectedSerial)}/telemetry?limit=180`);
+          telemetry = data.telemetry || [];
+          renderSelected();
+        }
+      } catch (error) {
+        $("status").textContent = "Backend no disponible: " + error.message;
+      }
+    }
+
+    function renderDevices(devices) {
+      $("deviceList").innerHTML = devices.map(device => {
+        const latest = device.latest || {};
+        const active = device.serial === selectedSerial ? " active" : "";
+        return `<div class="device${active}" data-serial="${escapeHtml(device.serial)}">
+          <strong>${escapeHtml(device.serial)}</strong>
+          <small>${escapeHtml(device.user || "Sin usuario")} · ${escapeHtml(device.mode || "--")}</small>
+          <small>Agua: ${waterLabel(device.water)} · Bateria: ${value(device.battery, "%")}</small>
+          <small>Ultimo: ${formatTime(device.lastSeenAt || latest.receivedAt)}</small>
+        </div>`;
+      }).join("") || `<div class="device"><strong>Sin dispositivos</strong><small>Usa "Simular dato" o POST /api/telemetry.</small></div>`;
+
+      document.querySelectorAll(".device[data-serial]").forEach(el => {
+        el.addEventListener("click", () => {
+          selectedSerial = el.dataset.serial;
+          refresh();
+        });
+      });
+    }
+
+    function renderSelected() {
+      const latest = telemetry[telemetry.length - 1] || {};
+      $("mSerial").textContent = latest.serial || "--";
+      $("mUser").textContent = latest.user || "--";
+      $("mWater").textContent = waterLabel(latest.water);
+      $("mBattery").textContent = value(latest.battery, "%");
+      $("mMotion").textContent = latest.motion || "--";
+      $("mPace").textContent = latest.pace100m ? `${Math.round(latest.pace100m)} s` : "--";
+      $("mRisk").innerHTML = riskHtml(latest.risk);
+      $("mSeen").textContent = formatTime(latest.receivedAt);
+      renderMap(telemetry);
+      renderChart(telemetry);
+      renderRows(telemetry);
+    }
+
+    function renderMap(rows) {
+      const points = rows.filter(r => Number.isFinite(r.lat) && Number.isFinite(r.lon));
+      if (!points.length) return;
+
+      const minLat = -12.1665, maxLat = -12.1545;
+      const minLon = -77.0390, maxLon = -77.0220;
+      const toXY = p => {
+        const x = ((p.lon - minLon) / (maxLon - minLon)) * 1000;
+        const y = (1 - ((p.lat - minLat) / (maxLat - minLat))) * 520;
+        return [Math.max(20, Math.min(980, x)), Math.max(20, Math.min(500, y))];
+      };
+
+      const d = points.map((p, i) => {
+        const [x, y] = toXY(p);
+        return `${i === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      }).join(" ");
+      $("routePath").setAttribute("d", d);
+
+      const last = points[points.length - 1];
+      const [x, y] = toXY(last);
+      $("mapDot").style.left = `${(x / 1000) * 100}%`;
+      $("mapDot").style.top = `${(y / 520) * 100}%`;
+    }
+
+    function renderChart(rows) {
+      const canvas = $("chart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width, h = canvas.height, pad = 26;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#07151c";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "#244854";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, h / 2);
+      ctx.lineTo(w - pad, h / 2);
+      ctx.stroke();
+      drawSeries(ctx, rows, "lr", "#28d7ec", -12, 12, w, h, pad);
+      drawSeries(ctx, rows, "fb", "#ffd166", -12, 12, w, h, pad);
+      drawSeries(ctx, rows, "ud", "#82aaff", -12, 12, w, h, pad);
+      drawSeries(ctx, rows, "mag", "#49e285", 0, 16, w, h, pad);
+    }
+
+    function drawSeries(ctx, rows, key, color, min, max, w, h, pad) {
+      if (rows.length < 2) return;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      rows.forEach((row, i) => {
+        const raw = row[key];
+        if (!Number.isFinite(raw)) return;
+        const x = pad + ((w - pad * 2) * i) / Math.max(1, rows.length - 1);
+        const y = h - pad - ((raw - min) / (max - min)) * (h - pad * 2);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    function renderRows(rows) {
+      $("rows").innerHTML = rows.slice(-20).reverse().map(row => `
+        <tr>
+          <td>${formatTime(row.time || row.receivedAt)}</td>
+          <td>${num(row.lr)}</td>
+          <td>${num(row.fb)}</td>
+          <td>${num(row.ud)}</td>
+          <td>${num(row.mag)}</td>
+          <td>${gps(row)}</td>
+          <td><span class="pill">${escapeHtml(row.motion || "--")} · ${escapeHtml(row.risk || "NORMAL")}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    function value(v, suffix = "") {
+      return Number.isFinite(v) ? `${Math.round(v)}${suffix}` : "--";
+    }
+
+    function num(v) {
+      return Number.isFinite(v) ? v.toFixed(2) : "--";
+    }
+
+    function gps(row) {
+      return Number.isFinite(row.lat) && Number.isFinite(row.lon)
+        ? `${row.lat.toFixed(5)}, ${row.lon.toFixed(5)}`
+        : "--";
+    }
+
+    function waterLabel(value) {
+      if (value === true) return "AGUA";
+      if (value === false) return "SECO";
+      return "--";
+    }
+
+    function riskHtml(risk) {
+      const text = risk || "NORMAL";
+      const cls = text === "NORMAL" ? "ok" : text === "WATCH" ? "warn" : "bad";
+      return `<span class="${cls}">${escapeHtml(text)}</span>`;
+    }
+
+    function formatTime(value) {
+      if (!value) return "--";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return String(value);
+      return d.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[c]));
+    }
+
+    refresh();
+    setInterval(refresh, 3000);
+  </script>
+</body>
+</html>

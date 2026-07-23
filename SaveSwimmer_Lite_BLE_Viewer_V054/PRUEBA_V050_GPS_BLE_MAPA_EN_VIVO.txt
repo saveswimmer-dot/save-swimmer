@@ -1,0 +1,50 @@
+SAVE SWIMMER - PRUEBA V050
+Firmware: SS-LITE-BLE-SD-V1-050
+App requerida: Field Viewer FIELD V0.3.36
+Fecha: 2026-06-15
+
+OBJETIVO
+Enviar GPS del dispositivo por BLE para que el celular A suba la posicion real
+del ESP al backend y la app Coach/Familia pueda mostrar mapa en vivo.
+
+CAMBIO EN FIRMWARE
+V050 mantiene el paquete de movimiento:
+A:LR,FB,UD,MAG
+
+Y agrega paquete GPS alternado:
+G:FIX,LAT,LON,SPEED_KMH,SATS,HDOP,AGE_MS
+
+Ejemplo:
+G:1,-12.120706,-77.014206,0.06,12,0.87,399
+
+CAMBIO EN APP FIELD VIEWER V0.3.36
+La app ahora:
+1. Lee paquetes G: del ESP.
+2. Guarda el ultimo GPS valido del dispositivo.
+3. Usa GPS del ESP como fuente principal para gateway/backend.
+4. Usa GPS del telefono solo como respaldo si el ESP todavia no tiene fix.
+5. Envia al backend:
+   - lat
+   - lon
+   - speed
+   - gpsFix
+   - gpsSats
+   - gpsHdop
+   - gpsAgeMs
+   - gpsSource: ESP o PHONE
+
+QUE PROBAR
+1. Cargar firmware V050 al ESP.
+2. Instalar Field Viewer V0.3.36.
+3. Conectar BLE.
+4. Esperar que el GPS tenga fix.
+5. Activar Gateway GSM.
+6. Ver en estado de app:
+   GPS ESP recibido: ...
+7. Abrir Coach Live / backend y confirmar que el punto del mapa ya sigue
+   la ubicacion del ESP, no la ubicacion del telefono.
+
+NOTAS
+- Si no hay fix GPS en el ESP, el gateway usa GPS del telefono como respaldo.
+- El paquete A sigue siendo el disparador del envio al backend.
+- El paquete G actualiza la posicion que se usara en el siguiente envio A.

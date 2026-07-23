@@ -1,0 +1,39 @@
+﻿SAVE SWIMMER
+PERMISO, CONFIDENCIALIDAD Y AUTORIZACION PARA TOMA DE DATOS
+Version V001 - 29/06/2026
+
+Regla operativa:
+1 codigo = 1 sesion = 1 archivo.
+
+El participante autoriza voluntariamente una toma de datos asociada a una sesion de prueba, entrenamiento, calibracion o validacion tecnica del prototipo Save Swimmer.
+
+Datos posibles:
+- Identificacion basica o codigo.
+- Codigo de prueba y contexto.
+- Movimiento: LR, FB, UD, MAG, pitch, roll y patrones derivados.
+- Energia: voltaje, corriente, potencia, bateria estimada.
+- Ubicacion GPS solo si aplica.
+- Imagen/video solo si se autoriza.
+
+El prototipo esta en etapa experimental. Puede fallar, perder datos o registrar valores incorrectos. No reemplaza supervision, salvavidas, entrenador ni protocolo de seguridad.
+
+Codigos:
+QSEC = quieto seco con dispositivo colocado.
+QAGU = quieto en agua, sin avanzar.
+BASE = nado natural.
+EASP = rotacion exagerada / dedos abiertos / sin patada.
+EACP = rotacion exagerada / dedos abiertos / con patada.
+ECSP = rotacion exagerada / dedos cerrados / sin patada.
+ECCP = rotacion exagerada / dedos cerrados / con patada.
+SASP = sin rotacion / dedos abiertos / sin patada.
+SACP = sin rotacion / dedos abiertos / con patada.
+SCSP = sin rotacion / dedos cerrados / sin patada.
+SCCP = sin rotacion / dedos cerrados / con patada.
+NASP = rotacion normal / dedos abiertos / sin patada.
+NACP = rotacion normal / dedos abiertos / con patada.
+NCSP = rotacion normal / dedos cerrados / sin patada.
+NCCP = rotacion normal / dedos cerrados / con patada.
+
+Firma participante: ____________________________
+Firma apoderado, si corresponde: _______________
+Firma responsable Save Swimmer: ________________

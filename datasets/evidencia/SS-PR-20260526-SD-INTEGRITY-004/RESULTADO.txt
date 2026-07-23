@@ -1,0 +1,30 @@
+SAVE SWIMMER - DIAGNOSTICO SESIONES V033 SS000012 A SS000014
+Fecha: 2026-05-26
+Prueba: SS-PR-20260526-SD-INTEGRITY-004
+
+Firmware: SS-LITE-BLE-SD-V1-033
+
+SS000012:
+- Inicio: 2026-05-26 15:52:55
+- Footer informado: #END_SESSION;ROWS=925;CLOSED_LOCAL=2026-05-26 15:54:30
+- Archivo recuperado: 501 filas completas y fila 502 truncada.
+- Ultima fila incompleta: 502,51.12,2026-05
+- Conclusion: el contador de sesion avanzo hasta 925, pero el stream SD persistio solo parte del contenido.
+
+SS000013:
+- Inicio: 2026-05-26 15:55:29
+- Duracion registrada en CSV: 20.25 s.
+- Filas: 200 completas.
+- Footer: #END_SESSION;ROWS=200;CLOSED_LOCAL=2026-05-26 15:55:49
+- Conclusion: sesion corta valida.
+
+SS000014:
+- Inicio: 2026-05-26 15:56:25
+- Duracion registrada: 21.15 s.
+- Filas: 209 completas.
+- Footer: ausente.
+- Conclusion: datos validos hasta el corte, pero sesion sin cierre controlado.
+
+Decision:
+- V033 identifica las sesiones no validas, pero mantener abierto el stream SD no asegura integridad.
+- V034 escribira cada lote de 1 segundo abriendo/cerrando el archivo y verificando su crecimiento real antes de informarlo como confirmado.

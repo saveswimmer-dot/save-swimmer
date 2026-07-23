@@ -1,0 +1,101 @@
+TITULO SUGERIDO
+Save Swimmer: tecnologia para nadar con mas seguridad en aguas abiertas
+
+SUBTITULO
+Ayudanos a financiar el prototipo Lite de un wearable dorsal que registra el comportamiento corporal del nadador, interpreta su actividad en el agua y prepara la base para futuras alertas de seguridad.
+
+RESUMEN CORTO
+Save Swimmer es un proyecto de tecnologia aplicada a la seguridad de nadadores de aguas abiertas. No buscamos crear un reloj deportivo ni otro monitor fitness. Estamos desarrollando un dispositivo dorsal compacto que pueda acompanar al nadador, registrar datos reales de movimiento, interpretar patrones de nado y, en futuras versiones, ayudar a detectar situaciones incompatibles con una natacion funcional.
+
+POR QUE EXISTE SAVE SWIMMER
+Quienes nadan en mar abierto entrenan muchas veces lejos de la orilla, con oleaje, frio, corrientes, fatiga, baja visibilidad y poca referencia externa. Un entrenador puede mirar desde playa, una familia puede esperar noticias y un nadador puede sentirse bien hasta que deja de estarlo.
+
+Save Swimmer nace para construir una capa adicional de informacion y seguridad. La idea es que el dispositivo no se limite a mostrar numeros tecnicos, sino que transforme datos corporales en estados entendibles: ritmo, movimiento, regularidad, orientacion, retorno a playa, zona segura y eventos que merecen atencion.
+
+QUE ESTAMOS CONSTRUYENDO
+Estamos desarrollando la version Lite del prototipo:
+
+- Dispositivo dorsal ubicado entre escapulas.
+- Lectura de movimiento con IMU.
+- Registro de sesiones en microSD.
+- Comunicacion local por Bluetooth.
+- App tecnica de campo para pruebas.
+- App demo para visualizar la experiencia final.
+- Analisis de ritmo, rotacion, impulso y regularidad.
+- Preparacion para sensor de agua, GPS/datos y futuras alertas.
+
+POR QUE VA EN LA ESPALDA
+La espalda alta permite una lectura mas estable del torso que la muneca o la cabeza. Desde esa posicion buscamos interpretar orientacion global, oscilacion, periodicidad y transiciones corporales. No intentamos reconstruir toda la biomecanica del cuerpo, sino reconocer si el comportamiento del torso es compatible con nado funcional.
+
+QUE YA TENEMOS
+El proyecto ya avanzo mas alla de una idea:
+
+- Firmware funcional en ESP32-S3.
+- Lectura de sensor MPU6050.
+- Conexion Bluetooth con app Android.
+- Registro de datos en microSD.
+- Sesiones reales de prueba guardadas en CSV.
+- App de campo para iniciar/cerrar sesiones.
+- Demo visual separada para Nadador, Coach, Familia y Evento.
+- Primeras visualizaciones de brazada, ritmo y rotacion.
+- Primer presupuesto de prototipo.
+- Identidad Save Swimmer y redes activas.
+
+QUE FALTA FINANCIAR
+Necesitamos recursos para pasar de prototipo de mesa a prototipo de campo mas robusto:
+
+- Componentes electronicos adicionales.
+- Sensor de agua.
+- GPS/GNSS.
+- Baterias y sistema de carga.
+- Cables, conectores, capacitores, regulacion y proteccion.
+- Carcasa de prueba.
+- Materiales para sellado y pruebas en playa.
+- Iteraciones de app y firmware.
+- Empaque/prototipo de presentacion.
+- Primeras pruebas con nadadores.
+
+META INICIAL
+Meta sugerida: S/ 5,000
+
+Esta meta permite avanzar la version Lite del prototipo, realizar pruebas de campo y documentar resultados. No es la meta final del producto comercial, sino una etapa concreta para validar el camino tecnico.
+
+METAS POR ETAPA
+S/ 1,500 - Estabilizacion de prototipo actual
+Componentes, baterias, microSD, proteccion, cableado y mejoras de alimentacion.
+
+S/ 3,000 - Prototipo Lite de campo
+Sensor de agua, GPS/GNSS de prueba, carcasa inicial, sellado de prueba y app demo mejorada.
+
+S/ 5,000 - Validacion con nadadores
+Pruebas de playa, materiales de registro, documentacion, iteraciones de firmware y presentacion del prototipo.
+
+S/ 8,000 - Camino a diseno compacto
+Base para estudiar PCB personalizada, carcasa mas compacta y validacion de costos.
+
+QUE RECIBE QUIEN APOYA
+Save Swimmer esta en etapa de prototipo, por lo que las recompensas son simbolicas y de participacion temprana:
+
+- Agradecimiento publico en redes.
+- Nombre en lista de fundadores tempranos.
+- Acceso a avances del proyecto.
+- Invitacion a ver la demo.
+- Participacion como voluntario de pruebas, si aplica.
+- Descuento o prioridad futura si el producto llega a preventa.
+
+ACLARACION IMPORTANTE
+Save Swimmer aun no es un dispositivo certificado de emergencia, rescate, uso medico ni salvamento. Esta campana financia desarrollo y validacion. La finalidad es construir tecnologia que, con pruebas y certificaciones futuras, pueda aportar una capa adicional de seguridad para nadadores de aguas abiertas.
+
+POR QUE APOYAR
+Porque el mar no siempre da tiempo. Porque muchos nadadores entrenan con poca informacion externa. Porque una familia o entrenador no necesita ver datos crudos: necesita saber si la persona esta nadando, si sigue dentro de zona, si mantiene ritmo y si algo merece atencion.
+
+Save Swimmer busca convertir movimiento corporal en informacion util.
+
+CONTACTO Y REDES
+Mail: saveswimmer@gmail.com
+Instagram: https://www.instagram.com/saveswimmer/
+TikTok: https://www.tiktok.com/@saveswimmer
+Facebook: Save Swimmer
+
+LLAMADO FINAL
+Si crees que la tecnologia puede ayudar a cuidar mejor a quienes nadan en aguas abiertas, ayudanos a construir el siguiente prototipo de Save Swimmer.

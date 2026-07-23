@@ -1,0 +1,26 @@
+PRUEBA: SS-PR-20260527-SD-CAPACITOR-013
+FECHA: 2026-05-27
+FIRMWARE: SS-LITE-BLE-SD-V1-036
+PERFIL CSV: cspacitor
+CONTEXTO: prueba posterior a conexion de capacitor ceramico 104 en modulo SD
+
+SESIONES DESCARGADAS POR APP
+- SS000007.CSV: 22041 bytes, 264 filas completas, 27.72 s, footer presente.
+  SHA256: 1AF4D7DC2FD561DBEC74CB96CA5939E6DDE47C71B8D9DEE28D9850B319D83BA6
+- INCOMPLETA_SS000008.CSV: 26579 bytes, 320 filas completas, 33.36 s,
+  sin footer.
+  SHA256: F24E17F8FE99C2B11FF4E13CBB1A324546AF0773839BF42EA073D058144F0E89
+
+INTERPRETACION
+- El capacitor 104 no impide el montaje ni la escritura inicial de la tarjeta.
+- Una sesion de 27.72 s se cerro correctamente.
+- La sesion siguiente vuelve a interrumpirse a los 33.36 s, con filas completas
+  pero sin cierre.
+- El ceramico filtra ruido rapido, pero no aporta reserva de energia suficiente
+  para estabilizar por si solo las escrituras sostenidas de la microSD.
+
+DECISION TECNICA
+- Mantener V036 como firmware de diagnostico actual.
+- Incorporar capacitor electrolitico de 100 uF a 470 uF cerca del modulo SD.
+- Probar despues escritura aislada durante al menos 10 minutos antes de volver
+  a sesiones de atleta.

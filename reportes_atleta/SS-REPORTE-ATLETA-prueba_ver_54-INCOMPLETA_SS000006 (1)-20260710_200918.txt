@@ -1,0 +1,15 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: prueba ver 54
+Archivo: INCOMPLETA_SS000006 (1).CSV
+Duración: 00:50 | Muestras: 434
+Tipo de sesión: PRUEBA_TECNICA | prueba técnica: hubo movimiento útil, pero no alcanza para llamarlo nado continuo.
+
+Rotación: asimetría. un lado giró más que el otro. Lado dominante: IZQ.
+Alineación: estable. el cuerpo se mantuvo bastante parejo.
+Impulso: alto. hubo picos fuertes; mirar si fue fuerza útil o movimiento brusco.
+Ritmo: sin nado confirmado | Movimientos detectados: 31
+GPS: 434 puntos válidos | Distancia aproximada: 8 m
+Mejor tramo: 00:30 a 01:00
+Cambio observado: no hubo un cambio fuerte entre inicio y final.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

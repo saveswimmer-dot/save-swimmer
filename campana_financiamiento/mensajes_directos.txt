@@ -1,0 +1,30 @@
+MENSAJE A ENTRENADORES
+Hola, soy Vittorio. Estoy desarrollando Save Swimmer, un prototipo de seguridad para nadadores de aguas abiertas. La idea es un wearable dorsal que registre movimiento, ritmo, orientacion y estado del nadador para que el coach pueda ver informacion util desde playa, sin leer datos tecnicos crudos.
+
+Ya tenemos firmware, app Android, registro en microSD y demo visual. Estoy buscando apoyo para financiar la siguiente etapa de prototipo Lite: sensor de agua, GPS, carcasa, energia y pruebas de campo.
+
+Me gustaria mostrarte la demo y escuchar tu opinion como entrenador. Si te interesa apoyar o participar como aliado de prueba, te comparto la campana.
+
+
+MENSAJE A NADADORES
+Hola. Estoy construyendo Save Swimmer, un prototipo pensado para nadadores de aguas abiertas. No es un reloj deportivo; busca registrar el comportamiento corporal desde la espalda y convertirlo en informacion de seguridad y rendimiento: ritmo, rotacion, movimiento, zona segura y salida del agua.
+
+Estamos reuniendo apoyo para avanzar el prototipo Lite de campo. Cualquier aporte o difusion ayuda muchisimo.
+
+
+MENSAJE A FAMILIA / AMIGOS
+Hola. Estoy desarrollando Save Swimmer, un proyecto de seguridad para nadadores de aguas abiertas. Ya tengo firmware, app y pruebas de datos reales, pero necesito apoyo para comprar componentes, carcasa, sensor de agua, GPS y hacer pruebas de playa.
+
+Estoy armando una campana de financiamiento. Si puedes apoyar o compartir, me ayudarias muchisimo.
+
+
+MENSAJE A POSIBLE ALIADO / MARCA
+Hola. Mi nombre es Vittorio y estoy desarrollando Save Swimmer, un prototipo de wearable dorsal para seguridad de nadadores de aguas abiertas. El proyecto combina hardware, app, registro de datos y visualizacion para nadadores, entrenadores, familia y eventos.
+
+Estamos en etapa de validacion tecnica y buscamos aliados para financiar la version Lite de campo. El apoyo puede ser economico, en componentes, materiales, pruebas, difusion o contacto con entrenadores/nadadores.
+
+Me gustaria presentarte la demo y evaluar si hay una forma de colaboracion.
+
+
+MENSAJE WHATSAPP CORTO
+Estoy desarrollando Save Swimmer, un prototipo de seguridad para nadadores de aguas abiertas. Ya tengo app, firmware y datos reales. Ahora necesito apoyo para avanzar la version Lite de campo con carcasa, sensor de agua, GPS y pruebas en playa. Si puedes aportar o compartir, me ayudas un monton.

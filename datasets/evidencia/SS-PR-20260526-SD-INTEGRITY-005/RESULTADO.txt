@@ -1,0 +1,23 @@
+SAVE SWIMMER - DIAGNOSTICO SESION V034 SS000015
+Fecha: 2026-05-26
+Prueba: SS-PR-20260526-SD-INTEGRITY-005
+
+Firmware: SS-LITE-BLE-SD-V1-034
+Archivo recuperado: INCOMPLETA_SS000015.CSV
+Inicio: 2026-05-26 16:08:34
+Bytes: 24820
+Filas de datos: 297
+Filas completas: 297
+Filas truncadas: 0
+Duracion guardada: 31.71 s
+Marca #END_SESSION: ausente
+
+Resultado:
+- V034 preservo integras todas las filas efectivamente guardadas.
+- La sesion no llego al cierre validado; la app actuó correctamente al marcarla incompleta.
+- El usuario informo bateria sin cargar durante aproximadamente dos dias y la puso a cargar despues del fallo.
+
+Interpretacion:
+- La causa exacta aun no esta confirmada.
+- El resultado es compatible con interrupcion de alimentacion o con fallo SD al escribir el siguiente bloque.
+- Una repeticion con bateria cargada permitira aislar si la energia es la causa dominante.

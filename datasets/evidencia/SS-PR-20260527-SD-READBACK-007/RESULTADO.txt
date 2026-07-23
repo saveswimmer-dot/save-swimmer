@@ -1,0 +1,36 @@
+PRUEBA: SS-PR-20260527-SD-READBACK-007
+FECHA: 2026-05-27
+FIRMWARE: SS-LITE-BLE-SD-V1-035
+ERROR CAPTURADO EN APP: BATCH_READBACK_FAILED
+
+ARCHIVOS LEIDOS DIRECTAMENTE DESDE MICROSD
+- SS000017.CSV: 357 bytes, 1 fila completa, 1.30 s, sin footer.
+- SS000018.CSV: 18223 bytes, 217 filas completas, 23.33 s, sin footer.
+- SS000019.CSV: 279 bytes, 0 filas, solo encabezado, sin footer.
+- SS000020.CSV: 23916 bytes, 286 filas completas, 30.86 s, sin footer.
+- SS000021.CSV: 24767 bytes, 296 filas completas, 31.95 s, sin footer.
+
+EVIDENCIA ADICIONAL
+- BOOT.CSV registra arranques V035 con RESET=POWERON, no BROWNOUT.
+- La tarjeta ya contiene sesiones previas mayores: SS000004.CSV tiene 191692 bytes.
+- Por lo tanto, el corte no representa un limite fijo de 25 KB en la microSD.
+
+CONCLUSION
+V035 permitio identificar el error: la sesion es abortada cuando la confirmacion
+inmediata de crecimiento de archivo devuelve BATCH_READBACK_FAILED. Las filas
+que alcanzan a persistirse quedan completas. Se requiere tolerar/reintentar la
+confirmacion antes de abortar y reducir frecuencia de accesos SD.
+
+HALLAZGO POSTERIOR
+- Al retirar la microSD y conectarla nuevamente a la PC, Windows solicita
+  formatearla.
+- Antes de este mensaje se copiaron BOOT.CSV, INDEX.CSV y SS000017.CSV a
+  SS000021.CSV a la carpeta de evidencia local.
+- Esto confirma corrupcion del sistema de archivos de la tarjeta durante la
+  secuencia de fallos de escritura/readback; explica el SD INIT FAILED
+  observado luego en el arranque del ESP.
+
+CAMBIO PROPUESTO
+- V036: lotes de 3 segundos, hasta 3 relecturas con espera y un remontaje de
+  verificacion antes de detener la grabacion. No reescribe lotes dudosos para
+  evitar duplicacion de datos.

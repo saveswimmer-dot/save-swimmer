@@ -1,0 +1,15 @@
+﻿SAVE SWIMMER - RESUMEN CALIBRACION USB
+Fecha: 2026-07-08 15:18:47
+Puerto: COM3
+Baud: 115200
+Log: calibracion_usb\SS-CALIBRACION-USB-20260708_151752.csv
+
+Muestras JSON: 0
+Lineas totales leidas: 0
+
+Base:
+LR 0.000 | FB 0.000 | UD 0.000 | MAG 0.000 | PITCH 0.00 | ROLL 0.00
+
+Fases:
+LIBRE: muestras 0, rot der max 0.0, rot izq max 0.0, alineacion max 0.0, energia MAG max 0.00
+ROT_DERECHA: muestras 0, rot der max 0.0, rot izq max 0.0, alineacion max 0.0, energia MAG max 0.00

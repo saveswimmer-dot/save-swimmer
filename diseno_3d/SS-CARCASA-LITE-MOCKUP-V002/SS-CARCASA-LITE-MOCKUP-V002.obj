@@ -1,0 +1,17 @@
+# Save Swimmer Lite mockup V002 reference OBJ
+# Use STL for printing; SCAD for parametric CAD.
+o SaveSwimmer_Lite_V002_reference
+v -37 -28 -9
+v 37 -28 -9
+v 37 28 -9
+v -37 28 -9
+v -37 -28 9
+v 37 -28 9
+v 37 28 9
+v -37 28 9
+f 1 2 3 4
+f 5 8 7 6
+f 1 5 6 2
+f 2 6 7 3
+f 3 7 8 4
+f 4 8 5 1

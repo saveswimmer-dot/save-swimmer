@@ -1,0 +1,61 @@
+﻿SAVE SWIMMER - PROTOCOLO PRUEBA GATEWAY GSM V002
+Fecha: 2026-06-27
+
+Objetivo:
+Simular comunicacion de campo usando el telefono A como gateway temporal: ESP por BLE -> telefono A -> datos moviles/ngrok/backend -> telefono B Coach Live.
+
+Cambio principal respecto a V001:
+- El GPS del ESP ya existe en firmware V050 y se transmite por BLE en paquetes G:.
+- El GPS del telefono queda como respaldo identificado, no como ubicacion silenciosa del nadador.
+- Se documenta modo EXTREMO y modo CAMPO OPTIMIZADO para controlar datos, requests y bateria.
+
+Versiones:
+- Firmware: SS-LITE-BLE-SD-V1-050.
+- Field Viewer tecnico: V0.3.38 OPT.
+- Coach Live: V0.1.15 OPT.
+- Backend: endpoint /api/coach-live.
+
+Modo EXTREMO / laboratorio:
+- Uso: romper limites, medir consumo y saturacion.
+- Frecuencia historica: POST/GET aprox cada 1 s.
+- Hallazgo: captura ngrok del 2026-06-27 muestra aprox 20 requests en 13 s (~1.5 req/s).
+- Impacto: con 20k requests teoricos, autonomia de tunel aprox 3.7 h.
+- Valor: define techo de consumo y demuestra que el producto final no debe transmitir todo crudo permanentemente.
+
+Modo CAMPO OPTIMIZADO:
+- Field Viewer envia POST /api/telemetry cada 5 s.
+- Coach Live consulta GET /api/coach-live cada 5 s.
+- /api/coach-live agrupa devices + active + telemetry en una sola respuesta.
+- Resultado esperado: menor uso de datos, menos requests, mejor autonomia de pruebas con ngrok/backend.
+
+Fuente de ubicacion:
+1. Si ESP GPS tiene FIX valido: usar GPS ESP como ubicacion del dispositivo.
+2. Si ESP GPS no tiene FIX: usar GPS telefono solo como respaldo de prueba y mostrarlo como GPS telefono.
+3. En app/coach nunca presentar GPS telefono como si fuera ubicacion confirmada del dispositivo.
+
+Reglas iniciales de mapa:
+- SIN GPS: no dibujar atleta como confirmado.
+- FIX debil: mostrar punto de baja confianza.
+- FIX confiable: trazar ruta y calcular distancia.
+- Perdida de fix: conservar ultima ubicacion y mostrar edad de senal.
+
+Datos transmitidos en modo optimizado:
+- serial, user, mode, timestamp
+- lat/lon si hay fuente disponible
+- gpsSource ESP/PHONE
+- gpsFix, satelites, HDOP, edad del fix si viene del ESP
+- LR/FB/UD/MAG resumidos para graficas tecnicas
+- motion, risk, battery, water
+
+Criterios de exito:
+- Telefono B ve actualizacion cada 5 s aprox.
+- El mapa muestra ruta cuando hay GPS valido.
+- La app informa fuente GPS sin ambiguedad.
+- La prueba no consume la cuota del tunel en pocas horas.
+
+Pendientes:
+- Cola offline en telefono A si no hay internet.
+- Servicio foreground/WakeLock real para pruebas largas.
+- Modo alerta con frecuencia temporal 1-2 s.
+- Resumen automatico de sesion sin descargar CSV completo.
+- Mapa de confianza de comunicacion observada.

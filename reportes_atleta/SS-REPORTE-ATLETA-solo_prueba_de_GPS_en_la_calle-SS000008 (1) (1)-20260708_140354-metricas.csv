@@ -1,0 +1,22 @@
+﻿metric,value
+archivo,SS000008 (1) (1).CSV
+atleta,solo prueba de GPS en la calle
+firmware,SS-LITE-BLE-SD-V1-050
+modo,TEST
+duracion_s,968
+muestras,7651
+rot_der_deg,10.18
+rot_izq_deg,20.53
+rot_prom_deg,15.36
+simetria_diff_deg,10.36
+alineacion_prom_deg,25
+base_pitch_deg,-2.6
+base_roll_deg,-6.4
+base_ud,9.41
+impulso_prom,3.51
+brazadas_estimadas,417
+ritmo_s,2.28
+gps_puntos,0
+distancia_m,0
+mejor_tramo_inicio_s,950.45
+mejor_tramo_fin_s,980.45

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297">
+  <defs>
+    <style>
+      .cut { fill: none; stroke: #111; stroke-width: 0.7; }
+      .seam { fill: none; stroke: #00a6c8; stroke-width: 0.45; stroke-dasharray: 3 2; }
+      .fold { fill: none; stroke: #ff7a00; stroke-width: 0.45; stroke-dasharray: 1.5 1.5; }
+      .label { font-family: Arial, sans-serif; font-size: 4px; fill: #111; }
+      .small { font-family: Arial, sans-serif; font-size: 3.2px; fill: #333; }
+      .title { font-family: Arial, sans-serif; font-size: 7px; font-weight: 700; fill: #111; }
+      .hint { fill: #f4f7f8; stroke: #d8e0e3; stroke-width: 0.3; }
+      .device { fill: #e9eef0; stroke: #666; stroke-width: 0.45; }
+      .strap { fill: rgba(0,166,200,0.08); stroke: #00a6c8; stroke-width: 0.45; stroke-dasharray: 2.5 1.8; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="420" height="297" fill="#fff"/>
+
+  <text x="16" y="17" class="title">SAVE SWIMMER - MOLDE SOPORTE PISCINA V002</text>
+  <text x="16" y="25" class="small">Para prototipo actual: 135 x 80 x 40 mm. Imprimir al 100%. Margen de costura sugerido: 8 mm.</text>
+  <text x="16" y="31" class="small">Objetivo: sujecion estable para prueba de piscina. No es diseno final comercial.</text>
+
+  <line x1="16" y1="40" x2="116" y2="40" class="cut"/>
+  <line x1="16" y1="37" x2="16" y2="43" class="cut"/>
+  <line x1="116" y1="37" x2="116" y2="43" class="cut"/>
+  <text x="50" y="37" class="small">regla control 100 mm</text>
+
+  <!-- Main dorsal support: sized for large prototype -->
+  <rect x="44" y="58" width="210" height="150" rx="24" class="cut"/>
+  <rect x="52" y="66" width="194" height="134" rx="18" class="seam"/>
+  <text x="44" y="51" class="label">PIEZA A - base dorsal / cortar 1 neopreno o EVA forrada</text>
+  <text x="57" y="218" class="small">Base sugerida: 210 x 150 mm. Grande a proposito para estabilizar prototipo alto.</text>
+
+  <!-- Device footprint -->
+  <rect x="81.5" y="82" width="135" height="80" rx="10" class="device"/>
+  <text x="112" y="119" class="small">DISPOSITIVO</text>
+  <text x="109" y="125" class="small">135 x 80 x 40</text>
+  <text x="88" y="78" class="small">huella real del prototipo</text>
+
+  <!-- Retention straps on base -->
+  <rect x="62" y="95" width="174" height="28" rx="3" class="strap"/>
+  <rect x="62" y="138" width="174" height="28" rx="3" class="strap"/>
+  <text x="263" y="105" class="small">correa elastica 1</text>
+  <line x1="236" y1="106" x2="260" y2="104" class="seam"/>
+  <text x="263" y="149" class="small">correa elastica 2</text>
+  <line x1="236" y1="150" x2="260" y2="148" class="seam"/>
+
+  <!-- Orientation marker -->
+  <line x1="149" y1="67" x2="149" y2="195" class="fold"/>
+  <text x="153" y="71" class="small">eje cuerpo</text>
+  <text x="59" y="193" class="small">centrar entre omoplatos</text>
+
+  <!-- Shoulder strap anchors -->
+  <rect x="31" y="75" width="30" height="44" rx="4" class="hint"/>
+  <rect x="31" y="148" width="30" height="44" rx="4" class="hint"/>
+  <rect x="237" y="75" width="30" height="44" rx="4" class="hint"/>
+  <rect x="237" y="148" width="30" height="44" rx="4" class="hint"/>
+  <text x="268" y="87" class="small">anclajes</text>
+  <text x="268" y="93" class="small">correas</text>
+
+  <!-- Strap pieces -->
+  <rect x="296" y="62" width="86" height="38" rx="4" class="cut"/>
+  <rect x="303" y="69" width="72" height="24" rx="3" class="seam"/>
+  <text x="294" y="54" class="label">PIEZA B - correa horizontal / cortar 2 elastico ancho</text>
+  <text x="299" y="108" class="small">Ancho recomendado 50-70 mm. Largo real segun cuerpo.</text>
+
+  <path class="cut" d="M296 133 C307 121, 326 121, 337 133 L337 260 L296 260 Z"/>
+  <path class="seam" d="M304 137 C312 130, 321 130, 329 137 L329 252 L304 252 Z"/>
+  <text x="294" y="125" class="label">PIEZA C - tirantes / cortar 2</text>
+  <text x="298" y="269" class="small">Elastico/neopreno 35-45 mm. Regular antes de coser final.</text>
+
+  <!-- Optional safety flap -->
+  <path class="cut" d="M44 236 L190 236 L190 274 Q117 288 44 274 Z"/>
+  <path class="seam" d="M52 243 L182 243 L182 269 Q117 280 52 269 Z"/>
+  <text x="44" y="229" class="label">PIEZA D - tapa superior opcional con velcro / cortar 1</text>
+  <text x="52" y="290" class="small">Usar si en prueba el prototipo se desplaza hacia arriba o afuera.</text>
+
+  <!-- Notes -->
+  <rect x="206" y="218" width="178" height="55" rx="2" class="hint"/>
+  <text x="212" y="229" class="label">Notas para prueba de piscina</text>
+  <text x="212" y="238" class="small">1. Usar funda impermeable provisoria para el prototipo.</text>
+  <text x="212" y="245" class="small">2. La cara del sensor debe repetir siempre la misma orientacion.</text>
+  <text x="212" y="252" class="small">3. Ajustar firme, sin limitar respiracion ni rotacion.</text>
+  <text x="212" y="259" class="small">4. Grabar video lateral/trasero para comparar datos vs movimiento real.</text>
+  <text x="212" y="266" class="small">5. Si bambolea, agregar la tapa D o una tercera correa vertical.</text>
+</svg>

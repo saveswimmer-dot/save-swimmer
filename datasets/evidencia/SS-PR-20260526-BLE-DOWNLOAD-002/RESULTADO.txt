@@ -1,0 +1,24 @@
+SAVE SWIMMER - DIAGNOSTICO SESION SS000009
+Fecha: 2026-05-26
+Prueba: SS-PR-20260526-BLE-DOWNLOAD-002
+
+Firmware: SS-LITE-BLE-SD-V1-031
+App: Field Viewer v0.3.13
+Perfil: vittorio
+Archivo: SS000009.CSV
+Bytes: 72704
+Filas detectadas: 875
+Filas completas: 874
+
+Resultado de transferencia:
+- Archivo original microSD y archivo descargado por BLE son identicos byte por byte.
+- SHA-256 identico: 0B88F135849BDF154628D2E29B523B73B95C410119F82BB105F986F7FD884405
+
+Incidencia:
+- La ultima fila ya se encuentra truncada en el archivo original de microSD:
+  875,88.72,2026-05-26 15:03:26,-4
+- Por lo tanto, la descarga BLE funciona; la sesion fue cerrada o interrumpida sin integridad completa en origen.
+
+Accion:
+- Firmware V032 incorpora marca #END_SESSION y validacion CLEAN=YES/NO.
+- App v0.3.14 identificara archivos incompletos y los guardara con prefijo INCOMPLETA_.

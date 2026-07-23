@@ -1,0 +1,150 @@
+SAVE SWIMMER
+PERMISO, CONFIDENCIALIDAD Y AUTORIZACION PARA TOMA DE DATOS
+Version V002 - 08/07/2026
+
+Responsable del proyecto: Victor Loza
+Contacto: saveswimmer@gmail.com
+Telefono / Plin: 903 338 442
+
+REGLA OPERATIVA
+1 codigo = 1 sesion = 1 archivo.
+
+Este documento ordena pruebas de investigacion, calibracion y desarrollo del prototipo Save Swimmer. No reemplaza supervision, salvavidas, entrenador, protocolo medico, autorizacion del lugar ni medidas formales de seguridad acuatica.
+
+1. PARTICIPANTE
+
+Nombre completo: _______________________________________________
+DNI / CE / Pasaporte: ______________________
+Edad: ______
+Telefono / correo: _______________________________________________
+Contacto de emergencia: ______________________
+Telefono de emergencia: ______________________
+
+Si el participante es menor de edad:
+Nombre del padre, madre o apoderado: ____________________________
+DNI / CE: ______________________
+Vinculo: ______________________
+Firma del apoderado: ______________________
+
+2. OBJETO DEL PERMISO
+
+El participante autoriza voluntariamente una toma de datos asociada a una sesion de prueba, entrenamiento, calibracion o validacion tecnica del prototipo Save Swimmer.
+
+La finalidad es mejorar la lectura de:
+- rotacion dorsal / rolido del cuerpo;
+- alineacion corporal;
+- ritmo y ciclo de brazada;
+- impulso aparente;
+- respiracion observada por cambios de movimiento;
+- ubicacion GPS cuando aplique;
+- energia, bateria y estabilidad del sistema;
+- conectividad BLE, SD y comunicacion de datos.
+
+3. DATOS QUE PUEDEN SER REGISTRADOS
+
+- Identificacion basica o codigo de participante.
+- Codigo de prueba, entorno, fecha, hora y observaciones.
+- Movimiento: LR, FB, UD, MAG, pitch, roll y datos derivados.
+- Energia: voltaje, corriente, potencia y bateria estimada.
+- Ubicacion GPS, ruta, calidad de fix y distancia si aplica.
+- Estado de BLE, microSD y firmware.
+- Imagen o video solo si el participante lo autoriza.
+
+4. CODIGOS DE PRUEBA
+
+Codigos base:
+B00 = dispositivo apoyado en mesa o base plana para cero fisico.
+P00 = dispositivo colocado en atleta de pie y quieto.
+QAGU = quieto en agua sin avanzar, solo si es seguro y comodo.
+BASE = nado natural sin tecnica forzada.
+
+Codigos de respiracion:
+RD = nado respirando principalmente hacia derecha.
+RI = nado respirando principalmente hacia izquierda.
+
+Codigos de tecnica:
+RBDA-SP = baja/sin rotacion, dedos abiertos, sin patada.
+RBDA-CP = baja/sin rotacion, dedos abiertos, con patada.
+RBDC-SP = baja/sin rotacion, dedos cerrados, sin patada.
+RBDC-CP = baja/sin rotacion, dedos cerrados, con patada.
+RNDA-SP = rotacion normal, dedos abiertos, sin patada.
+RNDA-CP = rotacion normal, dedos abiertos, con patada.
+RNDC-SP = rotacion normal, dedos cerrados, sin patada.
+RNDC-CP = rotacion normal, dedos cerrados, con patada.
+REDA-SP = rotacion exagerada, dedos abiertos, sin patada.
+REDA-CP = rotacion exagerada, dedos abiertos, con patada.
+REDC-SP = rotacion exagerada, dedos cerrados, sin patada.
+REDC-CP = rotacion exagerada, dedos cerrados, con patada.
+
+Codigos de campo:
+FAT-2M = nado continuo para observar fatiga o cambio de tecnica.
+MAR-BASE = nado natural en mar.
+MAR-SENAL = prueba de senal, ubicacion y comunicacion.
+
+5. CRONOGRAMA SUGERIDO DE PRUEBA
+
+Primero se recomienda realizar:
+1. B00 - base seca del dispositivo, 30 segundos.
+2. P00 - dispositivo colocado en atleta, de pie, 30 segundos.
+3. BASE - nado natural, 25 metros o tramo corto.
+4. RD / RI - respiracion derecha e izquierda, si el atleta puede hacerlo.
+5. RNDC-CP - referencia tecnica normal.
+6. Pruebas de rotacion baja o exagerada solo si el atleta esta comodo.
+7. FAT-2M - nado continuo corto para ver si cambia la tecnica con cansancio.
+
+No se debe forzar al atleta a flotar boca abajo o contener la respiracion para obtener datos.
+
+6. CONFIDENCIALIDAD
+
+El participante se compromete a no divulgar detalles tecnicos no publicos del prototipo, firmware, software, fallas internas, metodologia de prueba, diseno, conexiones o resultados no publicados, salvo autorizacion expresa de Save Swimmer.
+
+Save Swimmer se compromete a usar los datos para investigacion, desarrollo, validacion tecnica, documentacion interna y mejora del producto. Si se publican resultados, se procurara hacerlo en forma resumida o anonimizada, salvo autorizacion especifica.
+
+7. AUTORIZACIONES OPCIONALES
+
+[ ] Autorizo uso interno de mis datos tecnicos para analisis y desarrollo.
+[ ] Autorizo uso de imagen/video solo para analisis tecnico interno.
+[ ] Autorizo uso de imagen/video para redes o comunicacion publica de Save Swimmer.
+[ ] Autorizo que mis datos anonimizados se usen en graficos, documentos o presentaciones.
+[ ] NO autorizo uso publico de imagen, video, nombre o datos personales.
+
+8. RIESGOS Y LIMITES
+
+El prototipo esta en etapa experimental. Puede fallar, desconectarse, perder datos, registrar valores incorrectos, perder GPS o no cerrar adecuadamente un archivo.
+
+Save Swimmer no reemplaza supervision humana ni sistemas formales de seguridad. El participante debe detener la prueba ante incomodidad, fatiga, dolor, dificultad respiratoria, mareo, frio, calambre o cualquier situacion insegura.
+
+9. PLANILLA RAPIDA DE CAMPO
+
+Completar solo las sesiones realizadas. Las filas no usadas quedan en blanco.
+
+Sesion 01 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 02 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 03 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 04 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 05 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 06 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 07 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 08 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 09 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 10 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 11 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 12 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 13 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 14 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 15 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 16 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 17 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 18 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 19 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+Sesion 20 - Codigo: __________ Inicio: ______ Fin: ______ Archivo: __________ OK / Descartar: ______ Observacion: __________________________
+
+10. FIRMA
+
+Declaro haber leido y entendido el presente documento. Acepto participar voluntariamente en la toma de datos indicada y autorizo el tratamiento de la informacion marcada en este formulario.
+
+Participante: ______________________________ Firma: __________________ Fecha: ____ / ____ / ______
+
+Apoderado, si corresponde: __________________ Firma: __________________ Fecha: ____ / ____ / ______
+
+Responsable Save Swimmer: __________________ Firma: __________________ Fecha: ____ / ____ / ______

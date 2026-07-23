@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Save Swimmer Coach Live</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    :root {
+      --bg: #041016;
+      --panel: #0d2530;
+      --panel2: #123340;
+      --line: #244b58;
+      --text: #eef8fb;
+      --muted: #9bb5bd;
+      --cyan: #28d7ec;
+      --green: #45e089;
+      --yellow: #ffd166;
+      --red: #ff536a;
+      --orange: #ff6a18;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #06141b;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 12px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.05;
+      letter-spacing: 4px;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--cyan);
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-top: 5px;
+    }
+
+    .pill {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      background: rgba(13, 37, 48, 0.78);
+    }
+
+    .pill.live {
+      color: var(--green);
+      border-color: rgba(69, 224, 137, 0.45);
+    }
+
+    .status, .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 9px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .value {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+    }
+
+    .value.small { font-size: 17px; }
+    .cyan { color: var(--cyan); }
+    .green { color: var(--green); }
+    .yellow { color: var(--yellow); }
+    .red { color: var(--red); }
+
+    #map {
+      height: 360px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0b1f28;
+      margin-bottom: 9px;
+    }
+
+    .leaflet-container {
+      background: #0b1f28;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 10px;
+    }
+
+    .coach-marker {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--cyan);
+      border: 4px solid #fff;
+      box-shadow: 0 0 0 8px rgba(40, 215, 236, 0.22);
+    }
+
+    .base-marker {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--orange);
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 6px rgba(255, 106, 24, 0.18);
+    }
+
+    .alert {
+      border-color: rgba(255, 83, 106, 0.75);
+      background: rgba(255, 83, 106, 0.1);
+    }
+
+    .log {
+      display: grid;
+      max-height: 210px;
+      overflow: auto;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(36, 75, 88, 0.7);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .row strong {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
+      margin-top: 9px;
+    }
+
+    button {
+      min-height: 48px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--cyan);
+      color: #032126;
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    button.secondary {
+      background: var(--panel2);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    button.secondary.active {
+      background: var(--yellow);
+      color: #2a1c00;
+      border-color: transparent;
+    }
+
+    @media (max-width: 460px) {
+      main { padding: 10px; }
+      h1 { font-size: 20px; letter-spacing: 3px; }
+      .value { font-size: 21px; }
+      #map { height: 330px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>SAVE SWIMMER<span>COACH LIVE</span></h1>
+      <div class="pill" id="connection">conectando</div>
+    </header>
+
+    <section class="status">
+      <div class="card">
+        <div class="label">Atleta activo</div>
+        <div class="value" id="athlete">--</div>
+      </div>
+      <div class="card" id="signalCard">
+        <div class="label">Ultima senal</div>
+        <div class="value small" id="lastSeen">--</div>
+      </div>
+    </section>
+
+    <div id="map"></div>
+
+    <section class="grid">
+      <div class="card">
+        <div class="label">Distancia a base</div>
+        <div class="value cyan" id="distance">--</div>
+      </div>
+      <div class="card">
+        <div class="label">Velocidad GPS</div>
+        <div class="value" id="speed">--</div>
+      </div>
+      <div class="card">
+        <div class="label">Movimiento</div>
+        <div class="value small" id="motion">--</div>
+      </div>
+      <div class="card">
+        <div class="label">Estado</div>
+        <div class="value small green" id="risk">--</div>
+      </div>
+    </section>
+
+    <section class="card" id="coachAlert">
+      <div class="label">Lectura para entrenador</div>
+      <div class="value small" id="coachRead">Esperando datos del gateway.</div>
+    </section>
+
+    <section class="card" style="margin-top:9px">
+      <div class="label">Ultimas muestras</div>
+      <div class="log" id="rows"></div>
+    </section>
+
+    <div class="actions">
+      <button id="refreshBtn">Actualizar</button>
+      <button class="secondary" id="resetBtn">Limpiar prueba</button>
+      <button class="secondary" id="simulateBtn">Simular 1s</button>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const POLL_MS = 1000;
+    const LIVE_LIMIT = 300;
+    const DEFAULT_CENTER = [-12.1609, -77.0309];
+    let selectedSerial = "";
+    let telemetry = [];
+    let simTimer = null;
+    let refreshing = false;
+
+    const map = L.map("map", { zoomControl: true }).setView(DEFAULT_CENTER, 15);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
+
+    const athleteIcon = L.divIcon({ className: "", html: "<div class='coach-marker'></div>", iconSize: [22, 22], iconAnchor: [11, 11] });
+    const baseIcon = L.divIcon({ className: "", html: "<div class='base-marker'></div>", iconSize: [18, 18], iconAnchor: [9, 9] });
+    const athleteMarker = L.marker(DEFAULT_CENTER, { icon: athleteIcon }).addTo(map).bindTooltip("Atleta");
+    const baseMarker = L.marker(DEFAULT_CENTER, { icon: baseIcon }).addTo(map).bindTooltip("Base / comienzo");
+    const routeLine = L.polyline([], { color: "#28d7ec", weight: 5, opacity: 0.86 }).addTo(map);
+    const baseLine = L.polyline([], { color: "#ff6a18", weight: 3, opacity: 0.75, dashArray: "8 10" }).addTo(map);
+    const geofence = L.circle(DEFAULT_CENTER, {
+      radius: 300,
+      color: "#ffd166",
+      weight: 2,
+      fill: false,
+      dashArray: "8 10",
+      opacity: 0.65
+    }).addTo(map);
+
+    $("refreshBtn").addEventListener("click", refresh);
+    $("resetBtn").addEventListener("click", resetTest);
+    $("simulateBtn").addEventListener("click", toggleSimulation);
+
+    async function api(path, options) {
+      const res = await fetch(path, options);
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    }
+
+    async function refresh() {
+      if (refreshing) return;
+      refreshing = true;
+      try {
+        $("connection").textContent = "actualizando";
+        $("connection").classList.remove("live");
+        const devices = (await api("/api/devices")).devices || [];
+        const active = devices.sort((a, b) => String(b.lastSeenAt || "").localeCompare(String(a.lastSeenAt || "")))[0];
+        if (!active) {
+          $("connection").textContent = "sin datos";
+          renderEmpty();
+          return;
+        }
+        selectedSerial = active.serial;
+        const data = await api(`/api/devices/${encodeURIComponent(selectedSerial)}/telemetry?limit=${LIVE_LIMIT}`);
+        telemetry = currentSessionRows(data.telemetry || []);
+        render();
+        $("connection").textContent = "en vivo";
+        $("connection").classList.add("live");
+      } catch (error) {
+        $("connection").textContent = "sin conexion";
+        $("connection").classList.remove("live");
+        $("coachRead").textContent = "No se pudo leer backend: " + error.message;
+      } finally {
+        refreshing = false;
+      }
+    }
+
+    async function resetTest() {
+      try {
+        if (simTimer) toggleSimulation();
+        $("connection").textContent = "limpiando";
+        await api("/api/reset", { method: "POST" });
+        selectedSerial = "";
+        telemetry = [];
+        renderEmpty();
+        map.setView(DEFAULT_CENTER, 15, { animate: false });
+        $("connection").textContent = "limpio";
+        $("connection").classList.remove("live");
+      } catch (error) {
+        $("coachRead").textContent = "No se pudo limpiar la prueba: " + error.message;
+      }
+    }
+
+    async function toggleSimulation() {
+      if (simTimer) {
+        clearInterval(simTimer);
+        simTimer = null;
+        $("simulateBtn").textContent = "Simular 1s";
+        $("simulateBtn").classList.remove("active");
+        return;
+      }
+      await simulateOnce();
+      simTimer = setInterval(simulateOnce, 1000);
+      $("simulateBtn").textContent = "Simulando";
+      $("simulateBtn").classList.add("active");
+    }
+
+    async function simulateOnce() {
+      try {
+        await fetch("/api/simulate", { method: "POST" });
+        refresh();
+      } catch (error) {
+        $("coachRead").textContent = "No se pudo simular: " + error.message;
+      }
+    }
+
+    function renderEmpty() {
+      $("athlete").textContent = "--";
+      $("lastSeen").textContent = "--";
+      $("coachRead").textContent = "Aun no hay datos. Activa Gateway GSM en el telefono A.";
+      $("rows").innerHTML = "";
+      routeLine.setLatLngs([]);
+      baseLine.setLatLngs([]);
+    }
+
+    function render() {
+      const latest = telemetry[telemetry.length - 1] || {};
+      $("athlete").textContent = latest.user || "--";
+      const age = secondsAgo(latest.receivedAt);
+      $("lastSeen").textContent = age == null ? "--" : `${age}s`;
+      $("signalCard").classList.toggle("alert", age != null && age > 20);
+      $("motion").textContent = motionLabel(latest.motion);
+      $("risk").textContent = riskLabel(latest.risk);
+      $("risk").className = "value small " + riskClass(latest.risk);
+
+      const points = validTrackPoints(telemetry);
+      const base = sessionBase(points);
+      renderMap(points, base);
+
+      const latestPoint = points[points.length - 1];
+      if (latestPoint && base) {
+        const meters = distanceMeters(base.lat, base.lon, latestPoint.lat, latestPoint.lon);
+        $("distance").textContent = meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(2)} km`;
+        $("speed").textContent = speedText(points);
+      } else {
+        $("distance").textContent = "--";
+        $("speed").textContent = "--";
+      }
+
+      $("coachAlert").classList.toggle("alert", age != null && age > 20);
+      $("coachRead").textContent = coachReadout(latest, points, base, age);
+      $("rows").innerHTML = telemetry.slice(-12).reverse().map(row => `
+        <div class="row">
+          <strong>${time(row.receivedAt)}</strong>
+          <span>${row.user || "--"} | ${motionLabel(row.motion)} | ${coord(row)}</span>
+          <span>${secondsAgo(row.receivedAt) ?? "--"}s</span>
+        </div>
+      `).join("");
+    }
+
+    function currentSessionRows(rows) {
+      const valid = rows.filter(row => row && row.receivedAt);
+      if (!valid.length) return [];
+      const latest = valid[valid.length - 1];
+      const latestSession = latest.sessionId || "";
+      const latestUser = latest.user || "";
+      const latestMode = latest.mode || "";
+      const latestTime = new Date(latest.receivedAt).getTime();
+      return valid.filter(row => {
+        if (latestSession && row.sessionId === latestSession) return true;
+        const rowTime = new Date(row.receivedAt).getTime();
+        const sameRun = row.user === latestUser && row.mode === latestMode && Math.abs(latestTime - rowTime) <= 30 * 60 * 1000;
+        return sameRun;
+      });
+    }
+
+    function validTrackPoints(rows) {
+      const raw = rows.filter(p => finite(p.lat) && finite(p.lon));
+      const clean = [];
+      for (const point of raw) {
+        const lat = Number(point.lat);
+        const lon = Number(point.lon);
+        if (Math.abs(lat) > 90 || Math.abs(lon) > 180) continue;
+        if (clean.length) {
+          const prev = clean[clean.length - 1];
+          const jump = distanceMeters(prev.lat, prev.lon, lat, lon);
+          const dt = Math.max(1, Math.abs(new Date(point.receivedAt) - new Date(prev.receivedAt)) / 1000);
+          const mps = jump / dt;
+          if (jump > 5000 && mps > 20) continue;
+        }
+        clean.push(point);
+      }
+      return clean;
+    }
+
+    function renderMap(points, base) {
+      if (!points.length) return;
+      const latLngs = points.map(p => [Number(p.lat), Number(p.lon)]);
+      const latest = latLngs[latLngs.length - 1];
+      athleteMarker.setLatLng(latest);
+      routeLine.setLatLngs(latLngs);
+
+      if (base) {
+        const baseLatLng = [Number(base.lat), Number(base.lon)];
+        baseMarker.setLatLng(baseLatLng);
+        baseLine.setLatLngs([baseLatLng, latest]);
+        geofence.setLatLng(baseLatLng);
+        geofence.setRadius(300);
+        const bounds = L.latLngBounds(latLngs.concat([baseLatLng])).pad(0.25);
+        map.fitBounds(bounds, { maxZoom: 17, animate: false });
+      } else {
+        map.setView(latest, 16, { animate: false });
+      }
+    }
+
+    function sessionBase(points) {
+      if (!points.length) return null;
+      const latestWithBase = [...points].reverse().find(p => finite(p.baseLat) && finite(p.baseLon));
+      if (latestWithBase) return { lat: Number(latestWithBase.baseLat), lon: Number(latestWithBase.baseLon) };
+      return { lat: Number(points[0].lat), lon: Number(points[0].lon) };
+    }
+
+    function coachReadout(latest, points, base, age) {
+      if (!latest || !latest.receivedAt) return "Esperando datos del gateway.";
+      if (age > 30) return "Atencion: no llega senal reciente del gateway. Revisar cobertura GSM o telefono A.";
+      if (String(latest.risk || "").toUpperCase() !== "NORMAL") return "Alerta activa. Revisar atleta y confirmar estado visual.";
+      const latestPoint = points[points.length - 1];
+      if (latestPoint && base && points.length >= 4) {
+        const recent = points.slice(-4);
+        const moved = distanceMeters(recent[0].lat, recent[0].lon, recent[recent.length - 1].lat, recent[recent.length - 1].lon);
+        if (moved < 8) return "Sin avance GPS reciente. Observar si esta detenido, flotando o con dificultad.";
+        const meters = distanceMeters(base.lat, base.lon, latestPoint.lat, latestPoint.lon);
+        return `Transmitiendo en vivo. Distancia desde comienzo: ${meters < 1000 ? Math.round(meters) + " m" : (meters / 1000).toFixed(2) + " km"}.`;
+      }
+      return "Atleta transmitiendo. Esperando mas puntos para calcular avance.";
+    }
+
+    function speedText(points) {
+      if (points.length < 2) return "--";
+      const a = points[points.length - 2], b = points[points.length - 1];
+      const dt = (new Date(b.receivedAt) - new Date(a.receivedAt)) / 1000;
+      if (!dt || dt <= 0) return "--";
+      const mps = distanceMeters(a.lat, a.lon, b.lat, b.lon) / dt;
+      return `${mps.toFixed(2)} m/s`;
+    }
+
+    function distanceMeters(lat1, lon1, lat2, lon2) {
+      const r = 6371000;
+      const p1 = Number(lat1) * Math.PI / 180;
+      const p2 = Number(lat2) * Math.PI / 180;
+      const dp = (Number(lat2) - Number(lat1)) * Math.PI / 180;
+      const dl = (Number(lon2) - Number(lon1)) * Math.PI / 180;
+      const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+      return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function secondsAgo(value) {
+      if (!value) return null;
+      return Math.max(0, Math.round((Date.now() - new Date(value).getTime()) / 1000));
+    }
+
+    function finite(value) {
+      return Number.isFinite(Number(value));
+    }
+
+    function coord(row) {
+      return finite(row.lat) && finite(row.lon) ? `${Number(row.lat).toFixed(5)}, ${Number(row.lon).toFixed(5)}` : "sin GPS";
+    }
+
+    function time(value) {
+      return value ? new Date(value).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "--";
+    }
+
+    function motionLabel(value) {
+      const v = String(value || "").toUpperCase();
+      if (v === "SWIMMING" || v === "MOVING") return "movimiento";
+      if (v === "STILL" || v === "STOPPED") return "sin avance";
+      return value || "--";
+    }
+
+    function riskLabel(value) {
+      const v = String(value || "NORMAL").toUpperCase();
+      if (v === "NORMAL") return "normal";
+      if (v === "WATCH") return "observar";
+      if (v === "WARNING") return "alerta";
+      if (v === "SOS" || v === "EMERGENCY") return "SOS";
+      return v.toLowerCase();
+    }
+
+    function riskClass(value) {
+      const v = String(value || "NORMAL").toUpperCase();
+      if (v === "NORMAL") return "green";
+      if (v === "WATCH") return "yellow";
+      return "red";
+    }
+
+    refresh();
+    setInterval(refresh, POLL_MS);
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+NUEVAS HERRAMIENTAS. NUEVAS PRUEBAS.
+
+Esta semana sumamos dos componentes importantes al prototipo Save Swimmer:
+
+GPS/GNSS u-blox NEO-M9N
+Nos permitirá comenzar a registrar recorridos reales, distancia, velocidad y última ubicación confirmada.
+
+INA219
+Nos permitirá medir el consumo eléctrico del prototipo, detectar picos y calcular una autonomía más realista.
+
+No son funciones terminadas: son nuevas herramientas para responder preguntas concretas y seguir tomando decisiones basadas en pruebas.
+
+Cada componente que incorporamos debe ayudarnos a comprender mejor el comportamiento del dispositivo y acercarnos a un diseño más confiable.
+
+Save Swimmer
+Seguridad conectada para aguas abiertas.
+
+#SaveSwimmer #AguasAbiertas #SeguridadAcuatica #TecnologiaPeruana #Prototipo #GPS #Desarrollo

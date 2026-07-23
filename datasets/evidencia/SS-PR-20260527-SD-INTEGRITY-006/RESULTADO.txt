@@ -1,0 +1,29 @@
+PRUEBA: SS-PR-20260527-SD-INTEGRITY-006
+FECHA: 2026-05-27
+ARCHIVO: INCOMPLETA_SS000016_APP_BLE.CSV
+FIRMWARE: SS-LITE-BLE-SD-V1-034
+USUARIO: sali a caminar
+MODO: TEST
+INICIO CSV: 2026-05-27 09:41:51
+
+RESULTADO DE INTEGRIDAD
+- Tamano: 26389 bytes
+- SHA256: CC9E9559BF4F1D456C5C7CAA6785E7030BCB5E728CE458DF0137543670D03123
+- Filas de datos: 286
+- Filas incompletas: 0
+- Tiempo registrado: 0.27 s a 30.93 s
+- Frecuencia aproximada: 9.30 Hz
+- Footer #END_SESSION: ausente
+
+INTERPRETACION
+V034 preserva filas completas, pero la sesion se corta sin cierre validado a los
+30.93 segundos. La prueba anterior con V034 (SS000015) se corto a los 31.71
+segundos. La repeticion en aproximadamente 31 segundos indica un fallo
+reproducible durante grabacion o confirmacion SD, no un problema aleatorio de
+visualizacion del CSV.
+
+SIGUIENTE VERIFICACION
+Capturar el texto exacto mostrado por la app al ocurrir el corte y descargar
+BOOT.CSV despues de reiniciar el ESP. El firmware siguiente debe conservar la
+ultima causa de aborto para distinguir alimentacion, apertura, escritura
+parcial o readback fallido.

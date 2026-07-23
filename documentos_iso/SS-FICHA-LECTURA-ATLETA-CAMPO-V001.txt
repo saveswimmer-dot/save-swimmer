@@ -1,0 +1,55 @@
+﻿SAVE SWIMMER
+FICHA DE LECTURA PARA ATLETA - PRUEBA DE CAMPO
+Versión: V001 | Fecha documento: 2026-07-08
+
+Objetivo: entregar una lectura simple de la sesión registrada por el prototipo Save Swimmer.
+Uso: completar después de cargar el CSV o revisar la sesión desde la app.
+
+DATOS DE LA SESIÓN
+Atleta: ________________________________    Edad: ______
+Fecha: ____ / ____ / ______    Lugar: ________________________________
+Tipo de prueba: Piscina / Mar / Caminata / Laboratorio
+Código o modo usado: ________________________________
+Dispositivo: SS-LT-000001    Firmware: ________________________________
+Archivo CSV: ________________________________    Duración: ______ min
+
+RESUMEN SIMPLE PARA EL ATLETA
+Rotación: ________________________________________________
+Alineación corporal: ______________________________________
+Impulso: _________________________________________________
+Ritmo: ____________________________________________________
+Avance / ubicación: _______________________________________
+Tu mejor tramo fue entre el minuto ______ y ______ porque: ________________________________
+
+LECTURA SAVE SWIMMER
+Qué vimos: ________________________________________________________________________________
+Qué puede significar: _____________________________________________________________________
+Qué conviene repetir en la próxima prueba: _________________________________________________
+Dato importante: esta lectura es técnica/deportiva experimental. No es diagnóstico médico ni reemplaza supervisión profesional.
+
+MÉTRICAS DE REFERENCIA
+Rotación derecha promedio: ______°    Rotación izquierda promedio: ______°
+Diferencia derecha/izquierda: ______°    Clasificación: Baja / Correcta / Excesiva / Asimétrica
+Alineación promedio: ______°    Variación observada: Baja / Media / Alta
+Impulso promedio: ______    Picos de impulso: ______
+Ritmo promedio por ciclo: ______ s    Cantidad estimada de brazadas/ciclos: ______
+GPS inicial: ____________________    GPS final: ____________________    Distancia GPS: ______
+
+OBSERVACIÓN POR TRAMO
+Inicio: ____________________________________________________________________________________
+Mitad: _____________________________________________________________________________________
+Final: _____________________________________________________________________________________
+Cambios detectados: ________________________________________________________________________
+
+SEGURIDAD Y SEÑAL
+Tiempo con señal BLE: ______    Cortes BLE: ______
+GPS válido: Sí / Parcial / No    Tiempo hasta primer GPS: ______
+Registro microSD: Completo / Parcial / Error
+Observación de seguridad: _________________________________________________________________
+
+PRÓXIMA ACCIÓN
+Repetir misma prueba: Sí / No
+Cambiar técnica observada: ________________________________________________________________
+Nueva prueba sugerida: ____________________________________________________________________
+Firma atleta: __________________________    Firma responsable SS: __________________________
+

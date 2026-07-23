@@ -1,0 +1,32 @@
+PRUEBA: SS-PR-20260527-SD-V036-012
+FECHA: 2026-05-27
+FIRMWARE: SS-LITE-BLE-SD-V1-036
+CONTEXTO: posterior a formato FAT32 y resoldado de alimentacion
+
+LECTURA DIRECTA DE MICROSD EN PC
+- CHKDSK identifica el volumen como FAT32.
+- Comprobacion de archivos y carpetas finaliza sin reportar errores logicos.
+- La tarjeta queda accesible desde la PC en esta verificacion.
+
+SESIONES RECUPERADAS
+- SS000001.CSV: 5421 bytes, 63 filas, 6.67 s, cierre #END_SESSION valido.
+- SS000002.CSV: 22918 bytes, 275 filas, 28.72 s, cierre #END_SESSION valido.
+- SS000003.CSV: 14560 bytes, 175 filas, 18.19 s, sin cierre.
+- SS000004.CSV: 0 bytes, sesion no creada correctamente.
+- SS000005.CSV: 19497 bytes, 235 filas, 24.60 s, cierre #END_SESSION valido.
+- SS000006.CSV: 31205 bytes, 378 filas, 39.44 s, sin cierre.
+
+INTERPRETACION
+- El formato FAT32 es correcto y la SD actualmente es legible en PC.
+- V036 logro montar y cerrar sesiones cortas y medianas breves.
+- A partir de actividad sostenida aparecen sesiones truncadas/sin cierre, incluso
+  una creacion de archivo en cero bytes.
+- Esto descarta app y perfil BLE como causa principal; la inestabilidad esta en
+  el subsistema microSD durante escritura: alimentacion transitoria, modulo,
+  socket o lineas SPI.
+
+SIGUIENTE ACCION RECOMENDADA
+- No seguir acumulando sesiones de datos hasta estabilizar la microSD.
+- Colocar capacitor ceramico 104 junto al modulo entre VCC y GND.
+- Incorporar capacitor electrolitico 100 uF a 470 uF entre VCC y GND del modulo.
+- Despues repetir stress test SD aislado durante al menos 10 minutos.

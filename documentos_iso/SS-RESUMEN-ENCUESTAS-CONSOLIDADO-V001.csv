@@ -1,0 +1,10 @@
+senal,base_comparable,conteo,porcentaje,interpretacion,accion_recomendada
+"Ubicacion/seguimiento como necesidad principal",5,4,80.0,"Cuatro de cinco respuestas disponibles priorizan explicitamente ubicacion o seguimiento","Priorizar confiabilidad de ubicación, ultima señal y lenguaje simple"
+"Salida de zona segura/geocerca",3,3,100.0,"Todas las encuestas presenciales breves seleccionaron salida de zona segura","Mantener geocerca como función central de Lite y Coach"
+"Incomodidad como barrera",3,3,100.0,"Todos los formularios presenciales identificaron incomodidad","Tratar ergonomía, tamaño y sujeción como requisito crítico del producto"
+"Disposición a pruebas futuras",2,2,100.0,"Ambas respuestas digitales aceptan participar en pruebas","Crear flujo de convocatoria beta sin asumir autorización de contacto"
+"Nadador detenido/inmovilidad",2,1,50.0,"Una de las dos respuestas digitales selecciona inmovilidad como alerta principal","Continuar validando combinación IMU + GPS para sin avance"
+"SOS manual/perdida prolongada de señal",2,1,50.0,"Una respuesta digital prefiere control manual y alerta por pérdida de señal","Mantener botón/SOS manual y estados de conectividad contextual"
+"Autoridades solo en caso extremo",2,1,50.0,"Aparece preferencia explícita por escalamiento limitado","Mantener contactos/coach primero y escalamiento gubernamental bajo validación"
+"Aceptación de membresía",2,2,100.0,"Ambas respuestas digitales aceptarían membresía, pero con expectativas distintas","Validar precio y beneficios por separado; no asumir que S/40-S/50 será aceptado"
+"Preferencia pulsera",2,2,100.0,"Las dos respuestas digitales prefieren pulsera, posiblemente por familiaridad","Investigar motivo; no cambiar ubicación dorsal sin comparar seguridad, señal y comodidad"

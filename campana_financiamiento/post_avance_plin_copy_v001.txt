@@ -1,0 +1,10 @@
+﻿Save Swimmer sigue avanzando.
+
+Estamos desarrollando en Peru un prototipo de seguridad para nadadores de aguas abiertas. Ya estamos probando lectura corporal, registro en microSD, conexion BLE, app movil y una vista Coach Live para monitoreo.
+
+Cada aporte ayuda a comprar modulos, sensores, baterias, materiales de carcasa y seguir haciendo pruebas reales.
+
+Aporte por Plin: 903 338 442
+Campana StartFund: https://startfund.pe/proyectos/save-swimmer-seguridad-para-nadadores-de-aguas-abiertas.php
+
+Gracias por apoyar tecnologia hecha desde cero para cuidar a quienes nadan en aguas abiertas.

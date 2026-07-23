@@ -1,0 +1,14 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: solo derecho
+Archivo: SS000032.CSV
+Duración: 00:11 | Muestras: 107
+
+Rotación: asimetría. un lado giró más que el otro. Lado dominante: DER.
+Alineación: estable. el cuerpo se mantuvo bastante parejo.
+Impulso: normal. empuje controlado y parejo.
+Ritmo: 1.6 s/ciclo | Brazadas/ciclos detectados: 5
+GPS: 107 puntos válidos | Distancia aproximada: 1.2 m
+Mejor tramo: 00:00 a 00:11
+Cambio observado: no hubo un cambio fuerte entre inicio y final.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

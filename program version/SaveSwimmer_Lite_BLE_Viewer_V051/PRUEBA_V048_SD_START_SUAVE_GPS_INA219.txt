@@ -1,0 +1,55 @@
+SAVE SWIMMER - PRUEBA V048
+Firmware: SS-LITE-BLE-SD-V1-048
+Fecha: 2026-06-15
+
+OBJETIVO
+Corregir el fallo observado al iniciar sesion desde la app:
+SESSION:ERROR;REASON=SD_SESSION_REMOUNT_FAILED
+
+CAMBIO PRINCIPAL
+V047 forzaba desmontar y volver a montar la microSD cada vez que se iniciaba
+una sesion. V048 cambia la estrategia:
+
+1. Si la microSD ya esta lista desde el arranque, se usa ese montaje.
+2. Solo si la SD no esta lista, se intenta recuperarla.
+3. El remontaje ahora tiene 3 intentos con pausas breves.
+
+QUE PROBAR
+1. Encender el dispositivo con microSD colocada.
+2. Esperar conexion BLE.
+3. Enviar perfil desde la app.
+4. Iniciar sesion.
+5. Confirmar que responda:
+   SESSION:STARTED;SD=VERIFIED;FILE=SSxxxxxx.CSV
+6. Dejar grabar 1 a 3 minutos.
+7. Detener y cerrar archivo SD.
+8. Descargar resumen rapido por BLE.
+
+QUE MIRAR EN MONITOR SERIAL
+Caso esperado:
+- MICROSD READY - WAITING SESSION START FROM APP
+- SD SESSION START: USING CURRENT SD MOUNT FIRST
+- SD SESSION HEADER VERIFIED
+
+Si la SD no estaba lista:
+- SD NOT READY AT SESSION START - RECOVERY ATTEMPT
+- SD SESSION REMOUNT OK;ATTEMPT=1/2/3
+
+Si falla:
+- SD SESSION REMOUNT FAILED;ATTEMPT=1
+- SD SESSION REMOUNT FAILED;ATTEMPT=2
+- SD SESSION REMOUNT FAILED;ATTEMPT=3
+- SESSION:ERROR;REASON=SD_SESSION_REMOUNT_FAILED
+
+INTERPRETACION
+Si V048 inicia bien, el problema estaba en el remontaje forzado de V047.
+Si V048 sigue fallando, revisar primero:
+- tarjeta microSD
+- contacto del modulo
+- cables SPI
+- alimentacion compartida
+- consumo al momento de iniciar GPS + SD + BLE
+
+NOTA
+La app no necesita modificacion para esta prueba.
+El mensaje de error viene desde el firmware.

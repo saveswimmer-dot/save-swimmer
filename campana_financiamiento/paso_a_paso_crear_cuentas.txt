@@ -1,0 +1,204 @@
+SAVE SWIMMER - PASO A PASO PARA CREAR CAMPANA Y CUENTAS
+Version: 2026-05-28
+
+RECOMENDACION DIRECTA
+
+Crear 2 canales:
+
+1. StartFund
+   Uso: campana formal de crowdfunding por recompensas.
+   Por que: se ve mas serio para proyecto, prototipo, recompensas, metas y presentacion publica.
+
+2. Tecito
+   Uso: apoyo rapido y link simple para redes/WhatsApp.
+   Por que: permite crear pagina rapido y recibir aportes tipo creador/proyecto.
+
+Unamanito queda como alternativa si queremos un enfoque mas directo de donaciones locales.
+
+------------------------------------------------------------
+CANAL 1: STARTFUND
+------------------------------------------------------------
+
+Sitio:
+https://startfund.pe/
+
+Tipo de campana sugerida:
+Social / tecnologia / emprendimiento social
+
+Titulo:
+Save Swimmer: tecnologia para nadar con mas seguridad en aguas abiertas
+
+Subtitulo:
+Ayudanos a financiar el prototipo Lite de un wearable dorsal para seguridad de nadadores de aguas abiertas.
+
+Meta:
+S/ 5,000
+
+Duracion sugerida:
+45 dias
+
+Categoria:
+Social / Innovacion / Tecnologia / Deporte
+Si no existe tecnologia, usar Social.
+
+Imagen principal sugerida:
+No usar solo la foto del prototipo crudo.
+Usar composicion:
+1. Logo Save Swimmer
+2. Texto: Prototipo en desarrollo
+3. Imagen app demo o costa/mar
+4. Una foto del prototipo real como prueba de avance
+
+Video sugerido:
+30 a 60 segundos grabado por Vittorio.
+
+Guion corto:
+"Hola, soy Vittorio y estoy desarrollando Save Swimmer, un prototipo de seguridad para nadadores de aguas abiertas. No buscamos hacer un reloj deportivo. Estamos construyendo un wearable dorsal que registre comportamiento corporal en el agua y transforme esos datos en informacion util para nadador, entrenador y familia. Ya tenemos firmware, app Android, registro en microSD y primeras pruebas reales. Ahora buscamos apoyo para avanzar la version Lite de campo: carcasa, sensor de agua, GPS, energia y pruebas en playa. Si crees que la tecnologia puede ayudar a cuidar mejor a quienes nadan en aguas abiertas, apoyanos."
+
+Texto largo:
+Usar el archivo:
+texto_plataforma_crowdfunding.txt
+
+Recompensas:
+Usar:
+recompensas_y_metas.csv
+
+Presupuesto:
+Usar:
+presupuesto_referencial.csv
+
+Datos de contacto:
+Mail: saveswimmer@gmail.com
+Instagram: https://www.instagram.com/saveswimmer/
+TikTok: https://www.tiktok.com/@saveswimmer
+Facebook: Save Swimmer
+
+Importante:
+No prometer envio de dispositivo.
+No prometer certificacion.
+No prometer fecha de producto final.
+Si se ofrece prioridad futura, decir "si el producto llega a preventa".
+
+------------------------------------------------------------
+CANAL 2: TECITO
+------------------------------------------------------------
+
+Sitio:
+https://tecito.app/
+
+Tipo de cuenta:
+Creador
+
+Usuario sugerido:
+saveswimmer
+
+Nombre visible:
+Save Swimmer
+
+Descripcion corta:
+Prototipo de seguridad para nadadores de aguas abiertas. Estamos desarrollando un wearable dorsal que registra movimiento corporal y ayuda a interpretar estados de nado, ritmo y seguridad.
+
+Texto de pagina:
+Estamos construyendo Save Swimmer, un prototipo peruano de seguridad para nadadores de aguas abiertas.
+
+El objetivo es financiar la version Lite de campo: carcasa, sensor de agua, GPS/GNSS de prueba, energia, app, firmware y validacion con nadadores.
+
+Cada aporte nos ayuda a convertir una prueba de laboratorio en un prototipo real de playa.
+
+Meta visible:
+S/ 5,000
+
+Botones/aportes sugeridos:
+S/ 10 - Impulso inicial
+S/ 25 - Ola fundadora
+S/ 50 - Aliado Save Swimmer
+S/ 100 - Equipo de prueba
+S/ 250 - Coach aliado
+
+Link en redes:
+Agregar el link de Tecito en bio de Instagram y TikTok mientras se prepara StartFund.
+
+------------------------------------------------------------
+CANAL 3: UNAMANITO
+------------------------------------------------------------
+
+Sitio:
+https://www.unamanito.net/
+
+Uso:
+Alternativa para campana de donacion local en Peru.
+
+Tipo:
+Proyecto empresarial / emprendimiento
+
+Titulo:
+Save Swimmer - Prototipo de seguridad para nadadores de aguas abiertas
+
+Meta:
+S/ 5,000
+
+Texto:
+Usar version resumida del archivo texto_plataforma_crowdfunding.txt
+
+------------------------------------------------------------
+DOCUMENTOS / DATOS QUE VITTORIO DEBE TENER A MANO
+------------------------------------------------------------
+
+Para crear cuentas probablemente pidan:
+- Nombre completo
+- DNI o documento
+- Correo: saveswimmer@gmail.com
+- Telefono
+- Cuenta bancaria o metodo de cobro
+- Usuario publico
+- Redes sociales
+- Descripcion del proyecto
+- Imagen principal
+- Presupuesto / meta
+- Recompensas
+
+NO compartir contrasenas por chat.
+NO publicar datos personales sensibles en redes.
+
+------------------------------------------------------------
+PLAN DE LANZAMIENTO SIMPLE
+------------------------------------------------------------
+
+Dia 1:
+Crear Tecito.
+Subir descripcion, imagen y meta.
+No anunciar fuerte todavia.
+
+Dia 2:
+Crear StartFund.
+Completar campana y enviarla a revision/configuracion.
+
+Dia 3:
+Publicar segundo/tercer contenido en redes:
+- Que es Save Swimmer
+- Problema en aguas abiertas
+- App demo / datos reales
+
+Dia 4:
+Enviar mensajes directos a 20 personas clave.
+Usar mensajes_directos.txt.
+
+Dia 5:
+Publicar "Abrimos apoyo temprano".
+Usar link de Tecito si StartFund aun no esta lista.
+Cuando StartFund este activa, cambiar link principal.
+
+------------------------------------------------------------
+MENSAJE PARA PRIMER LINK DE APOYO
+------------------------------------------------------------
+
+Estamos abriendo apoyo temprano para Save Swimmer.
+
+El proyecto ya tiene firmware, app Android, registro en microSD y primeras pruebas reales. Ahora necesitamos financiar la version Lite de campo: carcasa, sensor de agua, GPS/GNSS, energia y pruebas en playa.
+
+Cada aporte suma para convertir el prototipo actual en una version mas robusta para nadadores de aguas abiertas.
+
+Link:
+[PEGAR LINK AQUI]
+
+Gracias por apoyar tecnologia hecha desde Peru para mejorar la seguridad en el agua.

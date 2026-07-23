@@ -1,0 +1,95 @@
+SAVE SWIMMER
+ANALISIS - PRIMEROS DATOS REALES SIMULACRO DE NADO
+Fecha: 2026-07-08
+Firmware: SS-LITE-BLE-SD-V1-052
+Tipo de prueba: simulacro de nado en tierra
+Atleta/usuario registrado: CLAUDIA
+
+Archivos analizados
+- SS000034.CSV - CLAUDIA B00
+- SS000035.CSV - CLAUDIA P00
+- SS000036.CSV - CLAUDIA BASE
+- SS000037.CSV - CLAUDIA RD
+- SS000038.CSV - CLAUDIA RI
+
+Nota importante
+Solo por este lote, RD significa rolido derecho y no respiracion derecha.
+Prueba hecha en tierra, no en agua. No debe usarse como conclusion de nado real, sino como validacion de lectura de ejes y respuesta del sensor.
+
+Resultado principal
+El prototipo logra diferenciar movimientos de rolido derecho e izquierdo usando el eje LR:
+- RD muestra LR positivo dominante.
+- RI muestra LR negativo dominante.
+- P00 queda practicamente estable en LR.
+
+Tambien se confirma que SS000034 y SS000035 no representan la misma posicion vertical del dispositivo:
+- SS000034 concentra la gravedad en UD, con UD promedio 9.45 y roll promedio 0.19.
+- SS000035 concentra la gravedad en FB, con FB promedio 9.49, UD promedio 0.73 y roll promedio 85.63.
+
+Lectura tecnica: SS000034 es una base tipo "espalda arriba / eje UD vertical". SS000035 es una posicion girada casi 90 grados respecto de SS000034. No deben usarse como si fueran el mismo cero.
+
+Datos resumidos
+B00:
+- Duracion: 10.83 s
+- Muestras: 103
+- LR promedio: 0.29
+- FB promedio: 0.03
+- UD promedio: 9.45
+- MAG promedio/max: 9.46 / 9.49
+- Pitch promedio: -1.73
+- Roll promedio: 0.19
+- Lectura: referencia muy estable con gravedad sobre UD. Sirve para verificar orientacion fisica del IMU.
+
+P00:
+- Duracion: 23.86 s
+- Muestras: 151
+- LR promedio: 0.07
+- FB promedio: 9.49
+- UD promedio: 0.73
+- LR min/max: -1.08 / 0.26
+- MAG promedio/max: 9.52 / 9.60
+- Pitch promedio: -0.40
+- Roll promedio: 85.63
+- Lectura: posicion estable, pero girada casi 90 grados respecto de B00. Puede servir como base de esa postura especifica, no como base UD.
+
+BASE:
+- Duracion: 37.39 s
+- Muestras: 265
+- LR promedio: 0.19
+- LR min/max: -4.72 / 6.33
+- MAG promedio/max: 9.52 / 10.58
+- Lectura: no fue una base quieta pura; contiene movimientos hacia ambos lados. Puede servir como movimiento libre/base de control, pero no como cero tecnico.
+
+RD:
+- Duracion: 24.44 s
+- Muestras: 146
+- LR promedio: 3.30
+- LR min/max: 0.96 / 7.55
+- Rotacion por picos utiles aprox: DER 19.8 deg / IZQ 0 deg usando P00 como base
+- MAG promedio/max: 9.72 / 10.40
+- Lectura: rolido derecho detectado correctamente.
+
+RI:
+- Duracion: 31.39 s
+- Muestras: 235
+- LR promedio: -2.50
+- LR min/max: -6.92 / 1.77
+- Rotacion por picos utiles aprox: DER 8.0 deg / IZQ 24.6 deg usando P00 como base
+- MAG promedio/max: 9.33 / 10.10
+- Lectura: rolido izquierdo detectado correctamente, con algo de retorno o movimiento cruzado hacia derecha.
+
+Observaciones tecnicas
+1. Para calibracion de cero fisico del IMU, B00 y P00 deben tratarse como bases diferentes. B00 valida UD vertical; P00 valida FB vertical.
+2. Para calibracion de cero de rolido en el montaje usado para nado, P00 fue estable y es mejor base que CLAUDIA BASE.
+3. El eje LR sigue siendo el mejor indicador practico de rolido para el montaje actual.
+4. ROLL no debe usarse solo para clasificar derecha/izquierda en este montaje; cambia poco o queda con offset.
+5. UD/PITCH ayudan a interpretar alineacion, pero en tierra pueden representar inclinacion del dispositivo y no posicion corporal real.
+6. MAG acompana intensidad del movimiento, pero no debe llamarse empuje directo.
+7. Los archivos registran gaps de tiempo de 2.3 a 3.6 s. Para tecnica fina conviene reducir cortes o repetir con USB/calibracion continua.
+8. GPS no tuvo fix en este lote, esperable por prueba corta/interior. No aplica para avance/distancia.
+
+Conclusion
+Este lote confirma que Save Swimmer ya puede diferenciar rolido derecho e izquierdo con datos reales del prototipo. Tambien confirma que la posicion fisica del IMU cambia por completo la interpretacion de UD/FB, por lo que la app debe guardar una base de montaje clara antes de interpretar alineacion corporal. La siguiente etapa debe usar una base estable definida, luego repetir movimientos guiados y finalmente pasar a piscina para verificar si la misma lectura se mantiene en nado real.
+
+Criterio pendiente de aprendizaje
+Estos datos se guardan como hipotesis de calibracion, no como patron aprendido definitivo. Antes de marcar una lectura como "aprendida" se deben tomar mas sesiones, repetir codigos de movimiento, comparar mismo atleta en distintos intentos y validar en agua. El firmware y la app pueden comenzar a interpretar en modo experimental, pero los umbrales todavia no deben considerarse finales.

@@ -1,0 +1,20 @@
+ENTRE DOS PUNTOS TAMBIEN HAY INFORMACION
+
+En un recorrido largo de aguas abiertas, dibujar una linea entre el inicio y la llegada no siempre cuenta toda la historia.
+
+En Save Swimmer estamos estudiando como diferenciar:
+
+- posiciones realmente confirmadas;
+- tramos estimados;
+- periodos sin comunicacion;
+- ultima ubicacion conocida;
+- ruta planificada y ruta realizada.
+
+La finalidad no es llenar una pantalla de datos. Es convertirlos en informacion clara para que atletas, entrenadores y responsables puedan comprender mejor lo que sucede durante un nado.
+
+Seguimos desarrollando y validando cada etapa.
+
+Save Swimmer
+Seguridad conectada para aguas abiertas.
+
+#SaveSwimmer #AguasAbiertas #Natacion #SeguridadAcuatica #TecnologiaPeruana

@@ -1,0 +1,14 @@
+Nivel,Aporte sugerido,Nombre del nivel,Recompensa,Notas
+1,S/ 10,Impulso inicial,Agradecimiento digital,Ideal para amigos y seguidores
+2,S/ 25,Ola fundadora,Agradecimiento en historias + avances del prototipo,Puede repetirse varias veces
+3,S/ 50,Aliado Save Swimmer,Nombre en lista de fundadores tempranos,Publicable solo con permiso
+4,S/ 100,Equipo de prueba,Acceso a actualizaciones detalladas + demo privada,Para nadadores interesados
+5,S/ 250,Coach aliado,Reunion/demo online o presencial breve + nombre como aliado,Para entrenadores o clubes
+6,S/ 500,Patrocinador de prototipo,Mencion destacada + acceso a reporte de avance,Para marcas o negocios locales
+7,S/ 1000,Aliado principal,Mencion principal + invitacion a prueba controlada,No prometer producto final todavia
+
+Meta,Monto,Que permite lograr
+Meta 1,S/ 1500,Estabilizar prototipo actual: alimentacion componentes microSD sensores y pruebas
+Meta 2,S/ 3000,Agregar sensor de agua GPS/GNSS de prueba carcasa inicial y materiales de sellado
+Meta 3,S/ 5000,Realizar pruebas de campo con nadadores documentar resultados y mejorar firmware/app
+Meta 4,S/ 8000,Avanzar estudio de PCB compacta carcasa mejorada costos y ruta de producto Lite

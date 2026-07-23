@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Save Swimmer - Campana de Prototipo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #040b10;
+      --panel: #0d2029;
+      --panel2: #112b36;
+      --line: #244854;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --orange: #ff6a18;
+      --green: #49e285;
+      --yellow: #ffd166;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #061016, #02070a);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0;
+    }
+    header, section, footer {
+      width: min(1040px, calc(100% - 28px));
+      margin: 0 auto;
+    }
+    header {
+      min-height: 92vh;
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      padding: 36px 0;
+    }
+    .brand {
+      letter-spacing: 9px;
+      font-size: clamp(34px, 8vw, 86px);
+      line-height: 0.96;
+      font-weight: 700;
+    }
+    .brand span {
+      display: block;
+      color: var(--cyan);
+      font-size: 0.38em;
+      letter-spacing: 0.34em;
+      margin-top: 10px;
+    }
+    h1 {
+      max-width: 860px;
+      font-size: clamp(32px, 5vw, 62px);
+      line-height: 1.02;
+      margin: 0;
+    }
+    h2 {
+      margin: 0 0 16px;
+      font-size: clamp(24px, 3vw, 36px);
+    }
+    p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.58;
+      margin: 0;
+    }
+    .lead {
+      max-width: 780px;
+      color: var(--text);
+      font-size: clamp(18px, 2.2vw, 24px);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 8px;
+      background: var(--cyan);
+      color: #032126;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    a.button.secondary {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+    section {
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .grid.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .card {
+      min-height: 148px;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .card strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .card small {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .goal {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin-top: 18px;
+    }
+    .goal b {
+      font-size: clamp(34px, 7vw, 72px);
+      color: var(--green);
+      line-height: 1;
+    }
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      background: rgba(13, 32, 41, 0.7);
+      border-radius: 8px;
+    }
+    .step b { color: var(--cyan); }
+    .note {
+      border-left: 3px solid var(--orange);
+      background: rgba(255, 106, 24, 0.08);
+      padding: 14px 16px;
+      margin-top: 18px;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .links a {
+      color: var(--cyan);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: var(--panel);
+    }
+    footer {
+      padding: 34px 0 48px;
+      color: var(--muted);
+    }
+    @media (max-width: 760px) {
+      .grid, .grid.two { grid-template-columns: 1fr; }
+      .goal { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">SAVE<span>SWIMMER</span></div>
+    <h1>Tecnologia para nadar con mas seguridad en aguas abiertas.</h1>
+    <p class="lead">Estamos construyendo un prototipo wearable dorsal que registra comportamiento corporal, interpreta actividad en el agua y prepara la base para futuras alertas de seguridad.</p>
+    <div class="actions">
+      <a class="button" href="mailto:saveswimmer@gmail.com">Quiero apoyar</a>
+      <a class="button secondary" href="https://www.instagram.com/saveswimmer/">Instagram</a>
+      <a class="button secondary" href="https://www.tiktok.com/@saveswimmer">TikTok</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Que es Save Swimmer</h2>
+    <p>Save Swimmer no busca ser otro reloj deportivo. El proyecto apunta a un dispositivo dorsal para nadadores de aguas abiertas, ubicado en espalda alta, capaz de registrar movimiento y convertirlo en estados entendibles: ritmo, orientacion, regularidad, zona segura, retorno a playa y eventos que merecen atencion.</p>
+  </section>
+
+  <section>
+    <h2>Lo que ya tenemos</h2>
+    <div class="grid">
+      <div class="card"><strong>Firmware</strong><small>ESP32-S3, IMU, Bluetooth, registro en microSD y sesiones CSV.</small></div>
+      <div class="card"><strong>App de campo</strong><small>Conexion BLE, inicio/cierre de sesiones y telemetria visual en vivo.</small></div>
+      <div class="card"><strong>Demo de producto</strong><small>Vista para nadador, coach, familia y evento con mapa y estados.</small></div>
+      <div class="card"><strong>Datos reales</strong><small>Primeras sesiones de prueba para analizar ritmo, rotacion e impulso.</small></div>
+      <div class="card"><strong>Vision Lite</strong><small>Version compacta local enfocada en entrenamiento y seguridad cotidiana.</small></div>
+      <div class="card"><strong>Ruta futura</strong><small>Sensor de agua, GPS/GNSS, datos, carcasa, PCB y validacion de campo.</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Meta inicial</h2>
+    <p>Buscamos financiar la siguiente etapa del prototipo Lite: hacerlo mas robusto para pruebas de playa, mejorar energia, agregar sensor de agua/GPS de prueba y avanzar en carcasa.</p>
+    <div class="goal">
+      <div>
+        <p>Meta sugerida de campana</p>
+        <p>Componentes, carcasa, pruebas, app, firmware, materiales y contingencia.</p>
+      </div>
+      <b>S/ 5,000</b>
+    </div>
+    <div class="steps">
+      <div class="step"><b>S/ 1,500</b><span>Estabilizar prototipo actual: energia, microSD, sensores, cableado y pruebas.</span></div>
+      <div class="step"><b>S/ 3,000</b><span>Prototipo Lite de campo: sensor de agua, GPS/GNSS, carcasa inicial y sellado de prueba.</span></div>
+      <div class="step"><b>S/ 5,000</b><span>Validacion con nadadores: pruebas controladas, documentacion y mejoras de firmware/app.</span></div>
+      <div class="step"><b>S/ 8,000</b><span>Camino a diseno compacto: estudio de PCB, carcasa mejorada y validacion de costos.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Por que apoyar</h2>
+    <div class="grid two">
+      <div class="card"><strong>Para nadadores</strong><small>Un resumen claro de sesion: ritmo, rotacion, impulso, zona y salida del agua.</small></div>
+      <div class="card"><strong>Para entrenadores</strong><small>Mapa de atletas, geocerco, ritmo por 100 m y alertas de observacion.</small></div>
+      <div class="card"><strong>Para familia</strong><small>Estados simples: esta en agua, esta nadando, esta cerca, finalizo.</small></div>
+      <div class="card"><strong>Para eventos</strong><small>Base para seguimiento multi-atleta y protocolos locales de seguridad.</small></div>
+    </div>
+    <div class="note">
+      <p>Save Swimmer esta en etapa de prototipo y validacion. Todavia no es un dispositivo certificado de emergencia, rescate, uso medico ni salvamento. Esta campana financia desarrollo, pruebas y aprendizaje tecnico.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contacto</h2>
+    <p>Si quieres apoyar, difundir, aportar componentes o participar como aliado de prueba, escribenos.</p>
+    <div class="links">
+      <a href="mailto:saveswimmer@gmail.com">saveswimmer@gmail.com</a>
+      <a href="https://www.instagram.com/saveswimmer/">Instagram</a>
+      <a href="https://www.tiktok.com/@saveswimmer">TikTok</a>
+      <a href="https://www.facebook.com/search/top?q=save%20swimmer">Facebook: Save Swimmer</a>
+    </div>
+  </section>
+
+  <footer>
+    Save Swimmer - Seguridad conectada para aguas abiertas.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Save Swimmer - Feedback Comunidad</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #040b10;
+      --panel: #0d2029;
+      --panel2: #112b36;
+      --line: #244854;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --orange: #ff6a18;
+      --green: #49e285;
+      --yellow: #ffd166;
+      --red: #ff536a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #061016, #02070a);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0;
+    }
+    .app {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 42px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.03;
+    }
+    .brand {
+      color: var(--cyan);
+      font-weight: 700;
+      letter-spacing: 5px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .sub {
+      color: var(--muted);
+      line-height: 1.45;
+      margin: 8px 0 0;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    button, label.file {
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--text);
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    button.primary {
+      background: var(--cyan);
+      color: #031f25;
+      border-color: var(--cyan);
+    }
+    input[type=file] { display: none; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 96px;
+    }
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .card strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    form {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    form h2, .panel h2 {
+      font-size: 17px;
+      margin: 0 0 4px;
+    }
+    input, textarea, select {
+      width: 100%;
+      background: #061016;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 10px;
+      font: inherit;
+    }
+    textarea { min-height: 106px; resize: vertical; }
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .topic-list {
+      display: grid;
+      gap: 8px;
+    }
+    .topic {
+      display: grid;
+      grid-template-columns: 170px 1fr 44px;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+    }
+    .topic b { color: var(--text); overflow-wrap: anywhere; }
+    .bar {
+      height: 11px;
+      border-radius: 999px;
+      background: #061016;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--cyan);
+      border-radius: inherit;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: var(--cyan);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    td.comment {
+      color: var(--muted);
+      line-height: 1.35;
+      max-width: 380px;
+    }
+    .pill {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 7px;
+      margin: 0 4px 4px 0;
+      color: var(--muted);
+      background: rgba(6, 16, 22, 0.66);
+      font-size: 12px;
+    }
+    .priority-muy_alta { color: var(--red); font-weight: 700; }
+    .priority-alta { color: var(--yellow); font-weight: 700; }
+    .priority-media { color: var(--cyan); font-weight: 700; }
+    @media (max-width: 920px) {
+      header, .layout { display: block; }
+      .actions { justify-content: flex-start; margin-top: 12px; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      form { margin-bottom: 14px; }
+    }
+    @media (max-width: 560px) {
+      .grid, .row2 { grid-template-columns: 1fr; }
+      .topic { grid-template-columns: 1fr; }
+      table { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <div class="brand">SAVE SWIMMER</div>
+        <h1>Feedback de comunidad</h1>
+        <p class="sub">Registro de lo que nadadores, entrenadores y grupos piden. Sirve para priorizar producto, campana y futuras versiones.</p>
+      </div>
+      <div class="actions">
+        <label class="file">Cargar CSV<input id="fileInput" type="file" accept=".csv"></label>
+        <button id="downloadBtn" class="primary">Descargar CSV</button>
+        <button id="sampleBtn">Restaurar base</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div class="card"><span>Comentarios</span><strong id="totalComments">0</strong></div>
+      <div class="card"><span>Temas detectados</span><strong id="totalTopics">0</strong></div>
+      <div class="card"><span>Muy alta prioridad</span><strong id="highPriority">0</strong></div>
+      <div class="card"><span>Fuentes</span><strong id="totalSources">0</strong></div>
+    </section>
+
+    <div class="layout">
+      <form id="feedbackForm">
+        <h2>Agregar comentario</h2>
+        <div class="row2">
+          <input id="date" placeholder="Fecha" value="">
+          <input id="source" placeholder="Fuente" value="Facebook - Aguas Abiertas Peru">
+        </div>
+        <input id="name" placeholder="Nombre de quien comenta">
+        <textarea id="comment" placeholder="Comentario original"></textarea>
+        <input id="topics" placeholder="Temas separados por ; ej: geocerca;sos;velocidad">
+        <textarea id="validation" placeholder="Validacion / aprendizaje"></textarea>
+        <textarea id="impact" placeholder="Impacto en producto"></textarea>
+        <div class="row2">
+          <select id="priority">
+            <option value="muy_alta">muy_alta</option>
+            <option value="alta" selected>alta</option>
+            <option value="media">media</option>
+            <option value="baja">baja</option>
+          </select>
+          <select id="status">
+            <option value="contemplado" selected>contemplado</option>
+            <option value="evaluar">evaluar</option>
+            <option value="futuro">futuro</option>
+            <option value="descartado">descartado</option>
+          </select>
+        </div>
+        <button class="primary" type="submit">Agregar al registro</button>
+        <div class="hint">Tip: los temas son la clave. Usa palabras consistentes como geocerca, sos, velocidad, ritmo_brazadas, inmovilidad.</div>
+      </form>
+
+      <main>
+        <section class="panel">
+          <h2>Lo mas pedido</h2>
+          <div id="topicList" class="topic-list"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Registro</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Comentario</th>
+                <th>Temas</th>
+                <th>Prioridad</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="feedbackRows"></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const today = new Date().toISOString().slice(0, 10);
+    const STORAGE_KEY = "save_swimmer_feedback_v2";
+    const baseRows = [
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Alfredo Martin Salazar Cabrejos",
+        comentario: "Por el ritmo de braseadas y velocidad",
+        tema: "ritmo_brazadas;velocidad",
+        validacion: "Los nadadores/entrenadores piden metricas interpretables, no datos crudos",
+        impacto_producto: "Refuerza ritmo por ciclo, velocidad estimada, impulso y caida de rendimiento",
+        prioridad: "alta",
+        estado: "contemplado"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Jonathan Levano Silgado",
+        comentario: "La utilidad real del sistema estaria en combinar seguridad + contexto del nado, sin saturar de datos. Las funciones con mas valor practico serian: ubicacion en tiempo real, salida de zona segura (geocerca), deteccion de inmovilidad, patron anormal de movimiento y un boton SOS rapido.",
+        tema: "seguridad_contextual;ubicacion;geocerca;inmovilidad;patron_anormal;sos",
+        validacion: "Valida directamente la propuesta Save Swimmer: seguridad + contexto sin saturar",
+        impacto_producto: "Priorizar estados simples, geocerca, inmovilidad, patron anormal y SOS contextual",
+        prioridad: "muy_alta",
+        estado: "contemplado"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Cesar Andre Pacheco",
+        comentario: "Podrias quizas emplear el efecto Doppler, usando un dispositivo ancla en la orilla",
+        tema: "base_orilla;eventos;referencia_posicion",
+        validacion: "Sugiere interes por infraestructura de referencia desde playa",
+        impacto_producto: "No aplica a Lite publico; contemplar en Coach/Eventos como base/ancla de playa",
+        prioridad: "media",
+        estado: "futuro"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Espinoza Apaza Jose",
+        comentario: "A veces los nadadores nos desorientamos ya que la marcacion en ruta no es muy visible.",
+        tema: "orientacion;visibilidad;identificacion;geocerca;ruta",
+        validacion: "La orientacion y la visibilidad de ruta aparecen como dolor real de aguas abiertas",
+        impacto_producto: "Reforzar mapa, geocerca, referencia de ruta, luz 360 e identificacion QR/NFC futura",
+        prioridad: "alta",
+        estado: "contemplado"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Miguel Seminario V.",
+        comentario: "Orca tiene un wetsuit modelo OW SW, viene con un chip que tiene todo lo que buscas en tu desarrollo",
+        tema: "identificacion_nfc;competencia;wetsuit;emergencia_pasiva;diferenciacion",
+        validacion: "Existen referencias comerciales de identificacion pasiva en traje mediante NFC/Emerid",
+        impacto_producto: "Diferenciar Save Swimmer como sistema activo: movimiento, geocerca, ritmo, inmovilidad, alerta contextual y app",
+        prioridad: "alta",
+        estado: "investigar"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Itzel Salazar Pozos",
+        comentario: "Datos como frecuencia cardiaca, oxigenacion... Por si hay alguna emergencia medica poder ir por el competidor si se desmaya y no alcanzo a pedir ayuda.",
+        tema: "frecuencia_cardiaca;oxigenacion;emergencia_medica;desmayo;sos_automatico",
+        validacion: "Usuarios esperan ayuda cuando el nadador no puede pedir ayuda manualmente",
+        impacto_producto: "Para Lite priorizar deteccion indirecta; evaluar biometria como Pro/futuro por confiabilidad en agua",
+        prioridad: "alta",
+        estado: "futuro"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Jesus Perez",
+        comentario: "Cuando la boya de seguridad no se mueve",
+        tema: "inmovilidad;boya_seguridad;avance;alerta_simple;seguimiento_visual",
+        validacion: "La falta de avance es una senal clara y entendible de posible riesgo",
+        impacto_producto: "Agregar lenguaje de producto: nadador sin avance; combinar movimiento corporal y GPS futuro",
+        prioridad: "alta",
+        estado: "contemplado"
+      },
+      {
+        fecha: "2026-05-29",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Jesus Perez",
+        comentario: "Ya he presenciado dos muertos en competencias de aguas abiertas.",
+        tema: "fatalidad;competencia;emergencia_real;deteccion_temprana;seguridad_eventos",
+        validacion: "Existe experiencia directa de incidentes fatales en competencias de aguas abiertas",
+        impacto_producto: "Reforzar modo evento, protocolos de alerta, comunicacion sensible y deteccion temprana",
+        prioridad: "muy_alta",
+        estado: "documentar"
+      },
+      {
+        fecha: "2026-05-30",
+        fuente: "Facebook - Aguas Abiertas Peru",
+        nombre: "Barbara Mateos Munoz",
+        comentario: "Con mi reloj comparto mi trayectoria",
+        tema: "trayectoria;reloj_deportivo;gps;competencia_indirecta;diferenciacion",
+        validacion: "Algunos nadadores ya usan relojes para registrar o compartir ruta",
+        impacto_producto: "No vender Save Swimmer solo como trayectoria; diferenciar por seguridad contextual, geocerca, inmovilidad y alertas",
+        prioridad: "alta",
+        estado: "contemplado"
+      },
+      {
+        fecha: "2026-06-01",
+        fuente: "Encuesta Save Swimmer",
+        nombre: "Delfino Martinez Hernandez",
+        comentario: "No hay empresa que monitoree a nadadores en entrenamientos; en competencias se registra llegada pero dentro del mar no se sabe ubicacion ni condicion del atleta.",
+        tema: "monitoreo_entrenamiento;ubicacion;condicion_atleta;grupo;brecha_mercado",
+        validacion: "Primer formulario completo valida la brecha entre registro deportivo y monitoreo real de seguridad",
+        impacto_producto: "Priorizar Coach/Event: mapa activo, estado de atleta, geocerca, sin avance y control de grupos grandes",
+        prioridad: "muy_alta",
+        estado: "contemplado"
+      }
+    ];
+
+    const fields = ["fecha", "fuente", "nombre", "comentario", "tema", "validacion", "impacto_producto", "prioridad", "estado"];
+    let rows = loadRows();
+
+    document.getElementById("date").value = today;
+
+    function loadRows() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : baseRows.slice();
+      } catch {
+        return baseRows.slice();
+      }
+    }
+
+    function saveRows() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      if (/[",\n\r]/.test(text)) {
+        return `"${text.replaceAll('"', '""')}"`;
+      }
+      return text;
+    }
+
+    function toCsv(data) {
+      return [fields.join(",")]
+        .concat(data.map(row => fields.map(field => csvEscape(row[field])).join(",")))
+        .join("\n");
+    }
+
+    function parseCsv(text) {
+      const out = [];
+      let row = [], cell = "", quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i], next = text[i + 1];
+        if (quoted && ch === '"' && next === '"') { cell += '"'; i++; continue; }
+        if (ch === '"') { quoted = !quoted; continue; }
+        if (!quoted && ch === ",") { row.push(cell); cell = ""; continue; }
+        if (!quoted && (ch === "\n" || ch === "\r")) {
+          if (ch === "\r" && next === "\n") i++;
+          row.push(cell); cell = "";
+          if (row.some(v => v.length)) out.push(row);
+          row = [];
+          continue;
+        }
+        cell += ch;
+      }
+      row.push(cell);
+      if (row.some(v => v.length)) out.push(row);
+      const header = out.shift() || [];
+      return out.map(values => Object.fromEntries(header.map((key, index) => [key, values[index] || ""])));
+    }
+
+    function topicsOf(row) {
+      return String(row.tema || "")
+        .split(";")
+        .map(t => t.trim())
+        .filter(Boolean);
+    }
+
+    function render() {
+      const topicCounts = new Map();
+      const sources = new Set();
+      let high = 0;
+      rows.forEach(row => {
+        sources.add(row.fuente || "Sin fuente");
+        if (row.prioridad === "muy_alta") high++;
+        topicsOf(row).forEach(topic => topicCounts.set(topic, (topicCounts.get(topic) || 0) + 1));
+      });
+      const sortedTopics = [...topicCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+      const max = Math.max(1, ...sortedTopics.map(([, count]) => count));
+
+      document.getElementById("totalComments").textContent = rows.length;
+      document.getElementById("totalTopics").textContent = topicCounts.size;
+      document.getElementById("highPriority").textContent = high;
+      document.getElementById("totalSources").textContent = sources.size;
+
+      document.getElementById("topicList").innerHTML = sortedTopics.length
+        ? sortedTopics.map(([topic, count]) => `
+          <div class="topic">
+            <b>${escapeHtml(topic)}</b>
+            <div class="bar"><i style="width:${Math.max(8, count / max * 100)}%"></i></div>
+            <span>${count}</span>
+          </div>
+        `).join("")
+        : `<p class="sub">Todavia no hay temas registrados.</p>`;
+
+      document.getElementById("feedbackRows").innerHTML = rows.map(row => `
+        <tr>
+          <td>${escapeHtml(row.fecha)}</td>
+          <td>${escapeHtml(row.nombre)}</td>
+          <td class="comment">${escapeHtml(row.comentario)}</td>
+          <td>${topicsOf(row).map(topic => `<span class="pill">${escapeHtml(topic)}</span>`).join("")}</td>
+          <td class="priority-${escapeHtml(row.prioridad)}">${escapeHtml(row.prioridad)}</td>
+          <td>${escapeHtml(row.estado)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    document.getElementById("feedbackForm").addEventListener("submit", event => {
+      event.preventDefault();
+      rows.unshift({
+        fecha: document.getElementById("date").value || today,
+        fuente: document.getElementById("source").value,
+        nombre: document.getElementById("name").value,
+        comentario: document.getElementById("comment").value,
+        tema: document.getElementById("topics").value,
+        validacion: document.getElementById("validation").value,
+        impacto_producto: document.getElementById("impact").value,
+        prioridad: document.getElementById("priority").value,
+        estado: document.getElementById("status").value
+      });
+      saveRows();
+      event.target.reset();
+      document.getElementById("date").value = today;
+      document.getElementById("source").value = "Facebook - Aguas Abiertas Peru";
+      render();
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const blob = new Blob([toCsv(rows)], { type: "text/csv;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "feedback_comunidad_aguas_abiertas.csv";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById("fileInput").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      rows = parseCsv(await file.text());
+      saveRows();
+      render();
+    });
+
+    document.getElementById("sampleBtn").addEventListener("click", () => {
+      rows = baseRows.slice();
+      saveRows();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

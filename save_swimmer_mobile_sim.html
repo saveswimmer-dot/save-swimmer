@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Swimmer Mobile Demo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #040b10;
+      --phone: #07151c;
+      --panel: #0d2029;
+      --panel2: #112b36;
+      --line: #244854;
+      --line2: #1a3944;
+      --text: #edf8fb;
+      --muted: #91acb5;
+      --cyan: #28d7ec;
+      --orange: #ff6a18;
+      --green: #49e285;
+      --yellow: #ffd166;
+      --red: #ff536a;
+      --blue: #82aaff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #061016, #02070a);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0;
+    }
+
+    button { font: inherit; }
+
+    .phone {
+      width: min(430px, 100vw);
+      height: min(900px, 100vh);
+      background: var(--phone);
+      border: 1px solid #1d3a45;
+      border-radius: 34px;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      position: relative;
+    }
+
+    .notch {
+      width: 118px;
+      height: 26px;
+      background: #02070a;
+      border-radius: 0 0 18px 18px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    header {
+      padding: 26px 18px 14px;
+      background: rgba(7, 25, 34, 0.96);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-name {
+      letter-spacing: 5px;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.05;
+    }
+
+    .brand-name span {
+      display: block;
+      color: var(--cyan);
+      letter-spacing: 4px;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .state-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .state-pill i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(73, 226, 133, 0.8);
+    }
+
+    .screen {
+      overflow: auto;
+      padding: 14px;
+      scrollbar-width: none;
+    }
+
+    .screen::-webkit-scrollbar { display: none; }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 25px;
+      line-height: 1.08;
+    }
+
+    h2 {
+      margin: 16px 0 8px;
+      font-size: 14px;
+      color: var(--cyan);
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0 0 14px;
+    }
+
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .big-state {
+      font-size: 36px;
+      line-height: 0.98;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .big-state.warn { color: var(--yellow); }
+    .big-state.danger { color: var(--red); }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .badge {
+      min-height: 31px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      background: rgba(6, 16, 22, 0.72);
+      border-radius: 999px;
+      padding: 7px 9px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge strong { color: var(--text); }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px;
+      min-height: 88px;
+    }
+
+    .card span {
+      color: var(--muted);
+      font-size: 12px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 21px;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+    }
+
+    .card small {
+      color: var(--muted);
+      display: block;
+      margin-top: 6px;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .map {
+      height: 264px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(rgba(5, 12, 17, 0.13), rgba(5, 12, 17, 0.22)),
+        url("assets/costa_verde_agua_dulce.jpg") center / cover no-repeat;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .map:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(4, 11, 16, 0.06), rgba(4, 11, 16, 0.32));
+      pointer-events: none;
+    }
+
+    .map-label {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    .geofence {
+      position: absolute;
+      left: 8%;
+      top: 29%;
+      width: 50%;
+      height: 39%;
+      border: 2px dashed rgba(40, 215, 236, 0.9);
+      border-radius: 48%;
+      transform: rotate(-14deg);
+      z-index: 1;
+    }
+
+    .route {
+      position: absolute;
+      left: 15%;
+      top: 39%;
+      width: 38%;
+      height: 21%;
+      border-top: 4px solid var(--green);
+      border-right: 4px solid var(--green);
+      border-radius: 48% 42% 52% 36%;
+      transform: rotate(18deg);
+      z-index: 1;
+    }
+
+    .pin {
+      position: absolute;
+      left: 38%;
+      top: 46%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #061016;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.16), 0 0 18px rgba(73,226,133,0.85);
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .pin span {
+      position: absolute;
+      left: 50%;
+      top: -24px;
+      transform: translateX(-50%);
+      background: rgba(7, 21, 28, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 6px;
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .base-pin {
+      position: absolute;
+      right: 12%;
+      top: 50%;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--orange);
+      border: 3px solid #061016;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.16), 0 0 18px rgba(255,106,24,0.75);
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .base-pin span {
+      position: absolute;
+      right: -4px;
+      top: -25px;
+      background: rgba(7, 21, 28, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 6px;
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .group-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .summary-pill {
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .summary-pill strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .summary-pill span {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .list {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    details.group {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    details.group summary {
+      min-height: 50px;
+      cursor: pointer;
+      padding: 12px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 700;
+      list-style: none;
+    }
+
+    details.group summary::-webkit-details-marker { display: none; }
+
+    details.group summary span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .group-body {
+      display: grid;
+      gap: 8px;
+      padding: 0 9px 9px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 9px;
+      align-items: center;
+      min-height: 58px;
+      padding: 9px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .group .row {
+      margin: 0;
+      background: rgba(6, 16, 22, 0.58);
+    }
+
+    .row b {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .row span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--panel2);
+      color: var(--cyan);
+      border: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    .status {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .status.warn { color: var(--yellow); }
+    .status.danger { color: var(--red); }
+
+    .pace {
+      display: grid;
+      gap: 8px;
+    }
+
+    .pace-row {
+      display: grid;
+      grid-template-columns: 58px 1fr 62px;
+      align-items: center;
+      gap: 8px;
+      background: rgba(6, 16, 22, 0.74);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .pace-row strong { font-size: 13px; }
+    .pace-row span { color: var(--muted); font-size: 12px; }
+    .pace-row em {
+      font-style: normal;
+      text-align: right;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .pace-row em.warn { color: var(--yellow); }
+    .pace-row em.stop { color: var(--red); }
+
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #061016;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      margin-top: 9px;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--cyan);
+      border-radius: inherit;
+    }
+
+    .bar i.green { background: var(--green); }
+    .bar i.yellow { background: var(--yellow); }
+    .bar i.red { background: var(--red); }
+
+    .timeline {
+      display: grid;
+      gap: 9px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      padding: 9px 0;
+    }
+
+    .event:last-child { border-bottom: 0; }
+
+    .event time {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .event strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .event span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .decision {
+      border-left: 3px solid var(--cyan);
+      padding: 10px 12px;
+      background: rgba(6, 16, 22, 0.72);
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 9px;
+      background: rgba(7, 25, 34, 0.98);
+      border-top: 1px solid var(--line);
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 8px 4px;
+      min-height: 52px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .tab svg {
+      display: block;
+      width: 22px;
+      height: 22px;
+      margin: 0 auto 4px;
+      stroke: currentColor;
+    }
+
+    .tab.active {
+      background: var(--panel2);
+      color: var(--cyan);
+    }
+
+    @media (max-width: 430px) {
+      .phone {
+        width: 100vw;
+        height: 100vh;
+        border: 0;
+        border-radius: 0;
+      }
+
+      .notch { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <header>
+      <div class="brand">
+        <div class="brand-name">SAVE<span>SWIMMER</span></div>
+        <div class="state-pill"><i></i>VISION LITE</div>
+      </div>
+    </header>
+
+    <main class="screen">
+      <section class="view active" id="nadador">
+        <h1>Mi nado</h1>
+        <p class="sub">Resumen del atleta al terminar o compartir una sesion.</p>
+
+        <div class="hero">
+          <div class="big-state">Sesion segura</div>
+          <p class="sub">Dentro del geocerco de Playa Agua Dulce. Ritmo funcional y salida registrada.</p>
+          <div class="badges">
+            <div class="badge">Agua <strong>FINALIZO</strong></div>
+            <div class="badge">Zona <strong>DENTRO</strong></div>
+            <div class="badge">Bateria <strong>91%</strong></div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="card"><span>Tiempo</span><strong id="mobileTime">00:24:16</strong><small>sesion actual</small></div>
+          <div class="card"><span>Distancia</span><strong>1.82 km</strong><small>ruta estimada</small></div>
+          <div class="card"><span>Ritmo medio</span><strong>02:04</strong><small>por cada 100 m</small></div>
+          <div class="card"><span>Compartido</span><strong>Coach</strong><small>permiso activo</small></div>
+        </div>
+
+        <div class="card">
+          <span>Lectura de nado</span>
+          <strong>Rotacion estable</strong>
+          <small>Mejor que tu promedio semanal. El impulso bajo al final, sin alerta critica.</small>
+          <div class="bar"><i class="green" style="width:78%"></i></div>
+        </div>
+
+        <h2>Ritmo cada 100 m</h2>
+        <div class="pace">
+          <div class="pace-row"><strong>0-100</strong><span>02:01 / 100 m</span><em>OK</em></div>
+          <div class="pace-row"><strong>100-200</strong><span>02:00 / 100 m</span><em>OK</em></div>
+          <div class="pace-row"><strong>200-300</strong><span>02:05 / 100 m</span><em>OK</em></div>
+          <div class="pace-row"><strong>300-400</strong><span>02:13 / 100 m</span><em class="warn">BAJA</em></div>
+        </div>
+
+        <h2>Ruta</h2>
+        <div class="map">
+          <div class="map-label"><div class="badge">Playa <strong>Agua Dulce</strong></div></div>
+          <div class="geofence"></div>
+          <div class="route"></div>
+          <div class="pin"><span>Vitto</span></div>
+        </div>
+      </section>
+
+      <section class="view" id="entrenador">
+        <h1>Entrenador</h1>
+        <p class="sub">Control de grupo desde playa, geocerco y detalle de cada atleta.</p>
+
+        <div class="group-summary">
+          <div class="summary-pill"><strong>8</strong><span>activos</span></div>
+          <div class="summary-pill"><strong style="color:var(--green)">5</strong><span>normal</span></div>
+          <div class="summary-pill"><strong style="color:var(--yellow)">2</strong><span>observar</span></div>
+          <div class="summary-pill"><strong style="color:var(--red)">1</strong><span>alerta</span></div>
+        </div>
+
+        <div class="map">
+          <div class="map-label">
+            <div class="badge">Grupo <strong>Agua Dulce</strong></div>
+            <div class="badge">Geocerco <strong>ON</strong></div>
+          </div>
+          <div class="geofence"></div>
+          <div class="route"></div>
+          <div class="base-pin"><span>Coach</span></div>
+          <div class="pin" style="left:24%;top:42%;"><span>01</span></div>
+          <div class="pin" style="left:34%;top:49%;"><span>03</span></div>
+          <div class="pin" style="left:46%;top:53%;background:var(--yellow);"><span>02</span></div>
+          <div class="pin" style="left:54%;top:35%;background:var(--red);"><span>05</span></div>
+          <div class="pin" style="left:28%;top:61%;"><span>04</span></div>
+          <div class="pin" style="left:42%;top:66%;background:var(--yellow);"><span>06</span></div>
+        </div>
+
+        <div class="card">
+          <span>Atleta seleccionado</span>
+          <strong>Claudia R.</strong>
+          <small>380 m de playa. Ultima senal 2 s. Dentro del geocerco.</small>
+          <div class="decision">Accion sugerida: monitorear. Ritmo estable, movimiento continuo y retorno dentro de zona.</div>
+        </div>
+
+        <details class="group" open>
+          <summary>Alumnos con dispositivo <span>8 activos</span></summary>
+          <div class="group-body">
+            <div class="row"><div class="avatar">01</div><div><b>Claudia R.</b><span>Costa Verde. Ritmo estable.</span></div><div class="status">OK</div></div>
+            <div class="row"><div class="avatar">02</div><div><b>Mateo S.</b><span>Ritmo bajo en los ultimos 100 m.</span></div><div class="status warn">WATCH</div></div>
+            <div class="row"><div class="avatar">03</div><div><b>Ana V.</b><span>Grupo Barranco. Dentro de zona.</span></div><div class="status">OK</div></div>
+          </div>
+        </details>
+
+        <details class="group">
+          <summary>Sesiones compartidas <span>2 en vivo</span></summary>
+          <div class="group-body">
+            <div class="row"><div class="avatar">04</div><div><b>Diego P.</b><span>Nado solitario. Permiso temporal.</span></div><div class="status">LIVE</div></div>
+            <div class="row"><div class="avatar">06</div><div><b>Sofia L.</b><span>Retorno a playa. BT cercano.</span></div><div class="status warn">CERCA</div></div>
+          </div>
+        </details>
+
+        <details class="group">
+          <summary>Alertas del grupo <span>1 prioridad</span></summary>
+          <div class="group-body">
+            <div class="row"><div class="avatar">05</div><div><b>Luna M.</b><span>Fuera de geocerco. Revisar posicion.</span></div><div class="status danger">P1</div></div>
+          </div>
+        </details>
+
+        <div class="grid2">
+          <div class="card"><span>Movimiento</span><strong id="mMotion">Nadando</strong><small>avance detectado</small></div>
+          <div class="card"><span>Velocidad</span><strong id="mSpeed">1.8 km/h</strong><small>ultimos 60 s</small></div>
+          <div class="card"><span>Ritmo</span><strong id="mRhythm">Estable</strong><small>parcial actual</small></div>
+          <div class="card"><span>Accion</span><strong id="mAction">Monitorear</strong><small id="mReason">sin intervencion</small></div>
+        </div>
+
+        <h2>Ritmo cada 100 m</h2>
+        <div class="pace">
+          <div class="pace-row"><strong>0-100</strong><span>01:58 / 100 m</span><em>OK</em></div>
+          <div class="pace-row"><strong>100-200</strong><span>02:01 / 100 m</span><em>OK</em></div>
+          <div class="pace-row"><strong>200-300</strong><span>02:07 / 100 m</span><em class="warn">BAJA</em></div>
+          <div class="pace-row"><strong>300-400</strong><span>02:16 / 100 m</span><em class="warn">ALERTA</em></div>
+          <div class="pace-row"><strong>400-500</strong><span>sin avance 12 s</span><em class="stop">PARO</em></div>
+        </div>
+      </section>
+
+      <section class="view" id="familia">
+        <h1>Familia</h1>
+        <p class="sub">Estado simple para acompanamiento sin datos tecnicos.</p>
+
+        <div class="hero">
+          <div class="big-state" id="familyTitle">Claudia esta nadando</div>
+          <p class="sub" id="familySubtitle">Agua activa y telefono lejos: seguimiento remoto activo.</p>
+          <div class="badges">
+            <div class="badge">Agua <strong id="fWater">SI</strong></div>
+            <div class="badge">Bluetooth <strong id="fBle">LEJOS</strong></div>
+            <div class="badge">Datos <strong id="fTx">ACTIVOS</strong></div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="card"><span>Sensor de agua</span><strong id="fWaterCard">Mojado</strong><small>contexto acuatico</small></div>
+          <div class="card"><span>Bluetooth</span><strong id="fBleCard">No</strong><small>proximidad a telefono</small></div>
+          <div class="card"><span>Interpretacion</span><strong id="fMeaning">Nadando</strong><small id="fReason">fuera de alcance cercano</small></div>
+          <div class="card"><span>Transmision</span><strong id="fTxCard">Activa</strong><small id="fTxReason">seguimiento de sesion</small></div>
+        </div>
+
+        <div class="card">
+          <span>Logica familiar</span>
+          <strong>Agua + Bluetooth</strong>
+          <small>El estado combina sensor de agua, cercania del telefono y actividad para evitar alarmas innecesarias.</small>
+          <div class="decision" id="familyDecision">Agua + sin BT cercano: asumimos nado activo y mantenemos transmision.</div>
+        </div>
+
+        <h2>Secuencia</h2>
+        <div class="timeline">
+          <div class="event"><time>08:42</time><div><strong>En tierra</strong><span>Seco + BT cerca. Sin sesion deportiva.</span></div></div>
+          <div class="event"><time>08:46</time><div><strong>Dispositivo mojado</strong><span>Agua detectada. Se activa lectura corporal.</span></div></div>
+          <div class="event"><time>08:51</time><div><strong>Ritmo detectado</strong><span>Se confirma sesion de nado.</span></div></div>
+          <div class="event"><time>09:22</time><div><strong>Salida</strong><span>Seco + BT cerca. Resumen y ahorro.</span></div></div>
+        </div>
+      </section>
+
+      <section class="view" id="competencias">
+        <h1>Evento</h1>
+        <p class="sub">Vista publica o de organizacion para carreras, travesias y equipos.</p>
+
+        <div class="map">
+          <div class="map-label">
+            <div class="badge">Atletas <strong>128</strong></div>
+            <div class="badge">Alertas <strong>3</strong></div>
+          </div>
+          <div class="geofence"></div>
+          <div class="route"></div>
+          <div class="pin" style="left:24%;top:42%;"><span>57</span></div>
+          <div class="pin" style="left:46%;top:53%;background:var(--yellow);"><span>24</span></div>
+          <div class="pin" style="left:54%;top:35%;background:var(--red);"><span>88</span></div>
+        </div>
+
+        <div class="grid2">
+          <div class="card"><span>Salida</span><strong>08:00</strong><small>largada confirmada</small></div>
+          <div class="card"><span>Geocerco</span><strong>3.2 km</strong><small>circuito activo</small></div>
+          <div class="card"><span>Online</span><strong>121</strong><small>ultimos 20 s</small></div>
+          <div class="card"><span>Protocolo</span><strong>P1</strong><small>revision inmediata</small></div>
+        </div>
+
+        <h2>Prioridades</h2>
+        <div class="list">
+          <div class="row"><div class="avatar">57</div><div><b>Luna M.</b><span>Fuera de geocerco. Sector norte.</span></div><div class="status danger">P1</div></div>
+          <div class="row"><div class="avatar">24</div><div><b>Mateo S.</b><span>Vertical persistente durante 18 s.</span></div><div class="status warn">P2</div></div>
+          <div class="row"><div class="avatar">88</div><div><b>Equipo Azul</b><span>Perdida de enlace remoto.</span></div><div class="status warn">P2</div></div>
+        </div>
+
+        <div class="card">
+          <span>Escalamiento</span>
+          <strong>Local primero</strong>
+          <small>SOS externo queda reservado para eventos extremos y protocolos definidos por organizacion o autoridad.</small>
+        </div>
+      </section>
+    </main>
+
+    <nav>
+      <button class="tab active" data-view="nadador">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3c2.5 2.4 4 5 4 8a4 4 0 0 1-8 0c0-3 1.5-5.6 4-8Z"/><path d="M4 19c2.5-2 5-2 8 0s5.5 2 8 0"/></svg>
+        Nadador
+      </button>
+      <button class="tab" data-view="entrenador">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Coach
+      </button>
+      <button class="tab" data-view="familia">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        Familia
+      </button>
+      <button class="tab" data-view="competencias">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10"/><path d="M17 4v5a5 5 0 0 1-10 0V4"/></svg>
+        Evento
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let tick = 0;
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((tab) => tab.classList.remove("active"));
+        document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
+        button.classList.add("active");
+        $(button.dataset.view).classList.add("active");
+      });
+    });
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function contextForTick(value) {
+      const phase = Math.floor((value / 28) % 5);
+      return [
+        ["Claudia se prepara", "Seco + Bluetooth cerca: todavia no hay sesion.", false, true, "MINIMOS", "En tierra", "Reducida", "Seco + BT cerca: no transmite sesion."],
+        ["Claudia entro al agua", "Agua detectada: lectura corporal inicial.", true, true, "ACTIVOS", "Cerca de playa", "Activa", "Agua + BT cerca: prepara sesion sin escalar alerta."],
+        ["Claudia esta nadando", "Agua activa y telefono lejos: seguimiento remoto activo.", true, false, "ACTIVOS", "Nadando", "Activa", "Agua + sin BT cercano: asumimos nado activo y mantenemos transmision."],
+        ["Claudia esta cerca", "Agua activa + Bluetooth cerca: retorno a playa.", true, true, "ACTIVOS", "Regresando", "Activa", "Agua + BT cerca: posible salida o descanso cerca de costa."],
+        ["Claudia salio del agua", "Seco + Bluetooth cerca: sesion finalizada.", false, true, "REDUCIDOS", "Finalizo", "Reducida", "Seco + BT cerca: cerrar sesion y ahorrar bateria."]
+      ][phase];
+    }
+
+    function update() {
+      tick += 1;
+      const seconds = 24 * 60 + 16 + tick;
+      $("mobileTime").textContent = `00:${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`;
+
+      const rhythmWave = Math.abs(Math.sin(tick / 32));
+      const rhythm = rhythmWave > 0.92 ? "Paro" : rhythmWave > 0.72 ? "Baja" : "Estable";
+      const speed = 1.65 + Math.sin(tick / 18) * 0.18 + Math.sin(tick / 7) * 0.05;
+      $("mSpeed").textContent = `${speed.toFixed(1)} km/h`;
+      $("mRhythm").textContent = rhythm;
+      $("mMotion").textContent = rhythm === "Paro" ? "Sin avance" : "Nadando";
+      $("mAction").textContent = rhythm === "Paro" ? "Intervenir" : rhythm === "Baja" ? "Observar" : "Monitorear";
+      $("mReason").textContent = rhythm === "Paro" ? "sin avance" : rhythm === "Baja" ? "ritmo bajo" : "sin intervencion";
+
+      const ctx = contextForTick(tick);
+      $("familyTitle").textContent = ctx[0];
+      $("familySubtitle").textContent = ctx[1];
+      $("fWater").textContent = ctx[2] ? "SI" : "NO";
+      $("fBle").textContent = ctx[3] ? "CERCA" : "LEJOS";
+      $("fTx").textContent = ctx[4];
+      $("fWaterCard").textContent = ctx[2] ? "Mojado" : "Seco";
+      $("fBleCard").textContent = ctx[3] ? "Si" : "No";
+      $("fMeaning").textContent = ctx[5];
+      $("fReason").textContent = ctx[3] ? "cerca del telefono/base" : "fuera de alcance cercano";
+      $("fTxCard").textContent = ctx[6];
+      $("fTxReason").textContent = ctx[4] === "REDUCIDOS" ? "ahorro de bateria y datos" : "seguimiento de sesion";
+      $("familyDecision").textContent = ctx[7];
+    }
+
+    setInterval(update, 650);
+    update();
+  </script>
+</body>
+</html>

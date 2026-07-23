@@ -1,0 +1,45 @@
+PRUEBA: SS-PR-20260527-SD-V037-016
+FECHA: 2026-05-27
+FIRMWARE: SS-LITE-BLE-SD-V1-037
+ARCHIVO: INCOMPLETA_SS000024.CSV
+USUARIO: v37
+
+RESULTADO
+- Tamano: 105535 bytes
+- SHA256: A28223BA4EAE927ED2357FA0941EF33926115494858D09B16276DF49DFA46A05
+- Filas recuperadas: 1264
+- Filas incompletas: 0
+- Duracion registrada: 130.37 s
+- Footer #END_SESSION: ausente
+
+PATRON OBSERVADO
+- V037 logro superar ampliamente los cortes de V036 cercanos a 70 s.
+- Se observan saltos periodicos cada aproximadamente 10 s, coincidentes con
+  el flush SD configurado en V037.
+- Saltos principales:
+  fila 99->100, 10.49 s, delta 0.42 s
+  fila 196->197, 20.44 s, delta 0.35 s
+  fila 294->295, 30.56 s, delta 0.42 s
+  fila 391->392, 40.59 s, delta 0.43 s
+  fila 488->489, 50.61 s, delta 0.43 s
+  fila 585->586, 60.63 s, delta 0.42 s
+  fila 682->683, 70.65 s, delta 0.43 s
+  fila 779->780, 80.68 s, delta 0.43 s
+  fila 876->877, 90.71 s, delta 0.43 s
+  fila 973->974, 100.74 s, delta 0.43 s
+  fila 1070->1071, 110.74 s, delta 0.40 s
+  fila 1167->1168, 120.77 s, delta 0.43 s
+
+INTERPRETACION
+- La escritura si ocurre por bloques de aproximadamente 10 segundos.
+- No parece que el buffer completo acumulado desde el inicio se reenvie cada
+  vez; lo que crece es el archivo fisico en FAT32.
+- Cada flush obliga a la SD a escribir datos y actualizar estructuras internas.
+- El tiempo de bloqueo se mantiene cercano a 0.4 s por flush.
+- La sesion falla sin footer, pero todas las filas recuperadas estan completas.
+
+DECISION TECNICA PROPUESTA
+- V037 mejora el tiempo util, pero todavia no es estable.
+- El siguiente firmware debe probar menor verificacion durante la sesion:
+  escribir y flush por bloque, pero hacer readback completo solo al cerrar o
+  cada varios bloques, para evitar abortos por confirmacion inmediata.

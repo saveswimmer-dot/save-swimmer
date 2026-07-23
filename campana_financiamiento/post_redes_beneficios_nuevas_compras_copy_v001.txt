@@ -1,0 +1,17 @@
+UN PASO MAS PARA ENTENDER CADA RECORRIDO
+
+Sumamos nuevas herramientas al prototipo Save Swimmer para comenzar a responder dos preguntas importantes:
+
+¿Por donde se realizo el recorrido?
+¿Cuanto tiempo puede funcionar el dispositivo antes de necesitar una recarga?
+
+Ahora iniciaremos pruebas de ubicacion, distancia y duracion real del prototipo.
+
+Todavia no son funciones terminadas. Son nuevos datos que nos ayudaran a mejorar el dispositivo, preparar pruebas de campo y tomar decisiones basadas en resultados reales.
+
+Seguimos avanzando, una prueba a la vez.
+
+Save Swimmer
+Seguridad conectada para aguas abiertas.
+
+#SaveSwimmer #AguasAbiertas #SeguridadAcuatica #Natacion #TecnologiaPeruana #Desarrollo

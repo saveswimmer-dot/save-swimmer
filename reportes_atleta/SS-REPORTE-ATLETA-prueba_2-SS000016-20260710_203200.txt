@@ -1,0 +1,15 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: prueba 2
+Archivo: SS000016.CSV
+Duración: 00:46 | Muestras: 308
+Tipo de sesión: PRUEBA_TECNICA | prueba técnica: hubo movimiento útil, pero no alcanza para llamarlo nado continuo.
+
+Rotación: asimetría. un lado giró más que el otro. Lado dominante: IZQ.
+Alineación: estable. el cuerpo se mantuvo bastante parejo.
+Impulso: suave. empuje suave; puede ser nado tranquilo o poca energía de impulso.
+Ritmo: sin nado confirmado | Movimientos detectados: 6
+GPS: 6 puntos válidos | Distancia aproximada: 1 m
+Mejor tramo: 00:00 a 00:30
+Cambio observado: al final cambió la alineación; revisar si aparece cansancio.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

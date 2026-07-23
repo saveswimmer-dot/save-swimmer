@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <style>
+      .bg{fill:#020b10}
+      .card{fill:#0d2832;stroke:#1c5564;stroke-width:2}
+      .panel{fill:#06171d;stroke:#174451;stroke-width:2}
+      .grid{stroke:#234e58;stroke-width:2;opacity:.75}
+      .grid-soft{stroke:#234e58;stroke-width:1.5;opacity:.4}
+      .txt{font-family:Arial, Helvetica, sans-serif;fill:#eaf8fb}
+      .muted{fill:#a8c0c6}
+      .cyan{fill:#2fd8e8}
+      .orange{fill:#ff7a1a}
+      .green{fill:#5df0a0}
+      .red{fill:#ff5d75}
+      .line-cyan{stroke:#2fd8e8;stroke-width:8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .line-cyan-thin{stroke:#2fd8e8;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .line-green{stroke:#5df0a0;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .line-orange{stroke:#ff7a1a;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .ghost{stroke:#2fd8e8;stroke-width:3;fill:none;opacity:.22;stroke-linecap:round}
+      .dash{stroke-dasharray:14 12}
+      .body{fill:none;stroke:#dff8fb;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+      .body-soft{fill:none;stroke:#dff8fb;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1080" height="1920"/>
+
+  <text class="txt" x="60" y="112" font-size="64" font-weight="700" letter-spacing="8">SAVE SWIMMER</text>
+  <text class="cyan" x="60" y="168" font-size="34" font-weight="700" letter-spacing="5">LECTURA CORPORAL</text>
+  <rect x="720" y="82" width="285" height="72" rx="8" fill="#10313c" stroke="#1d5968"/>
+  <circle cx="760" cy="118" r="9" class="green"/>
+  <text class="txt" x="780" y="130" font-size="28" font-weight="700">BLE + GPS activo</text>
+
+  <rect class="card" x="48" y="210" width="984" height="500" rx="10"/>
+  <text class="txt muted" x="80" y="270" font-size="31">Rotacion dorsal</text>
+  <text class="txt" x="80" y="318" font-size="44" font-weight="700">Espalda y hombros contra linea de agua</text>
+  <rect class="panel" x="80" y="350" width="920" height="300" rx="6"/>
+
+  <line class="grid" x1="125" y1="505" x2="955" y2="505"/>
+  <text class="muted txt" x="130" y="488" font-size="24">linea de agua / 0</text>
+  <line class="line-green dash" x1="180" y1="570" x2="900" y2="570" opacity=".65"/>
+  <line class="line-green dash" x1="180" y1="440" x2="900" y2="440" opacity=".65"/>
+  <text class="green txt" x="185" y="426" font-size="23">objetivo 32-45</text>
+  <text class="orange txt" x="755" y="426" font-size="23">sobre 50</text>
+
+  <!-- Swimmer frontal/rear roll diagram -->
+  <path class="body-soft" d="M170 510 C245 492 305 494 380 520"/>
+  <path class="body-soft" d="M700 488 C775 474 835 476 910 500"/>
+  <circle cx="540" cy="500" r="58" fill="#123946" stroke="#dff8fb" stroke-width="7"/>
+  <path class="body" d="M360 558 C430 518 493 496 540 500 C595 503 655 478 732 420"/>
+  <path class="body" d="M360 558 C306 618 272 662 248 706"/>
+  <path class="body" d="M732 420 C800 356 846 318 918 300"/>
+  <path class="body-soft" d="M398 555 C450 612 515 635 608 595"/>
+  <line class="ghost" x1="350" y1="525" x2="730" y2="480"/>
+  <line class="ghost" x1="360" y1="475" x2="720" y2="535"/>
+  <line class="line-cyan" x1="360" y1="558" x2="732" y2="420"/>
+  <circle cx="360" cy="558" r="15" class="orange"/>
+  <circle cx="732" cy="420" r="15" class="cyan"/>
+  <text class="orange txt" x="210" y="585" font-size="24">hombro izq bajo</text>
+  <text class="cyan txt" x="748" y="410" font-size="24">hombro der alto</text>
+  <path d="M790 500 A250 250 0 0 0 713 404" fill="none" stroke="#2fd8e8" stroke-width="4"/>
+  <text class="cyan txt" x="798" y="505" font-size="25">38°</text>
+  <text class="muted txt" x="80" y="686" font-size="27">Lectura: buen rolido hacia derecha | promedio 30s dentro de objetivo</text>
+
+  <rect class="card" x="48" y="750" width="984" height="420" rx="10"/>
+  <text class="txt muted" x="80" y="810" font-size="31">Alineacion corporal</text>
+  <text class="txt" x="80" y="858" font-size="44" font-weight="700">Cabeza - torso - cadera - piernas</text>
+  <rect class="panel" x="80" y="890" width="920" height="220" rx="6"/>
+  <line class="grid" x1="125" y1="1000" x2="955" y2="1000"/>
+  <text class="muted txt" x="130" y="984" font-size="24">linea de flotacion</text>
+  <line class="line-green dash" x1="175" y1="1000" x2="905" y2="1000" opacity=".65"/>
+  <path class="ghost" d="M185 1004 C300 952 425 970 545 997 C670 1024 790 1032 905 1004"/>
+  <path class="line-cyan" d="M185 977 C300 947 430 965 548 1000 C672 1038 790 1054 905 1042"/>
+  <circle cx="205" cy="977" r="34" fill="#123946" stroke="#2fd8e8" stroke-width="4"/>
+  <ellipse cx="395" cy="977" rx="105" ry="38" fill="#123946" stroke="#2fd8e8" stroke-width="3" opacity=".85"/>
+  <circle cx="562" cy="1002" r="18" class="cyan"/>
+  <line class="line-cyan-thin" x1="580" y1="1010" x2="755" y2="1038"/>
+  <line class="line-cyan-thin" x1="755" y1="1038" x2="900" y2="1042"/>
+  <rect x="78" y="1125" width="330" height="55" rx="28" fill="#123b33" stroke="#2b8b61"/>
+  <circle cx="112" cy="1152" r="10" class="green"/>
+  <text class="green txt" x="135" y="1163" font-size="26" font-weight="700">alineacion estable</text>
+
+  <rect class="card" x="48" y="1210" width="984" height="340" rx="10"/>
+  <text class="txt muted" x="80" y="1270" font-size="31">Impulso MAG</text>
+  <text class="txt" x="80" y="1318" font-size="44" font-weight="700">Empuje y energia del movimiento</text>
+  <rect class="panel" x="80" y="1350" width="920" height="150" rx="6"/>
+  <line class="grid-soft" x1="120" y1="1425" x2="960" y2="1425"/>
+  <line class="grid-soft" x1="250" y1="1365" x2="250" y2="1485"/>
+  <line class="grid-soft" x1="420" y1="1365" x2="420" y2="1485"/>
+  <line class="grid-soft" x1="590" y1="1365" x2="590" y2="1485"/>
+  <line class="grid-soft" x1="760" y1="1365" x2="760" y2="1485"/>
+  <path class="line-green" d="M125 1453 L165 1433 L205 1400 L245 1445 L285 1435 L325 1381 L365 1425 L405 1441 L445 1410 L485 1459 L525 1423 L565 1385 L605 1435 L645 1447 L685 1403 L725 1377 L765 1437 L805 1433 L845 1393 L885 1425 L945 1405"/>
+  <text class="muted txt" x="95" y="1523" font-size="23">0s</text>
+  <text class="muted txt" x="910" y="1523" font-size="23">30s</text>
+
+  <rect x="48" y="1595" width="984" height="220" rx="10" fill="#0d2832" stroke="#1c5564" stroke-width="2"/>
+  <text class="cyan txt" x="80" y="1663" font-size="34" font-weight="700">Lectura para atleta / coach</text>
+  <text class="txt" x="80" y="1723" font-size="38" font-weight="700">Rotacion visible y dentro del objetivo.</text>
+  <text class="txt" x="80" y="1773" font-size="38" font-weight="700">Alineacion estable. Impulso normal.</text>
+</svg>

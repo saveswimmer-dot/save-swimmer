@@ -1,0 +1,15 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: CLAUDIA RI
+Archivo: SS000038.CSV
+Duración: 00:31 | Muestras: 235
+Tipo de sesión: NO_CLASIFICADO | datos no clasificados: revisar contexto de prueba antes de sacar conclusiones.
+
+Rotación: baja. giraste poco el cuerpo; puede faltar rolido para preparar mejor la brazada.
+Alineación: irregular. hubo mucha variación; puede aparecer cansancio o pérdida de línea corporal.
+Impulso: normal. empuje controlado y parejo.
+Ritmo: sin nado confirmado | Movimientos detectados: 0
+GPS: 0 puntos válidos | Distancia aproximada: 0 m
+Mejor tramo: 00:00 a 00:30
+Cambio observado: al final cambió la alineación; revisar si aparece cansancio.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

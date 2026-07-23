@@ -1,0 +1,14 @@
+﻿SAVE SWIMMER - REPORTE AUTOMÁTICO DE SESIÓN
+Atleta: CLAUDIA RI
+Archivo: SS000038.CSV
+Duración: 00:31 | Muestras: 235
+
+Rotación: asimetría. un lado giró más que el otro. Lado dominante: IZQ.
+Alineación: irregular. hubo mucha variación; puede aparecer cansancio o pérdida de línea corporal.
+Impulso: normal. empuje controlado y parejo.
+Ritmo: 2.1 s/ciclo | Brazadas/ciclos detectados: 14
+GPS: 0 puntos válidos | Distancia aproximada: 0 m
+Mejor tramo: 00:00 a 00:30
+Cambio observado: al final cambió la alineación; revisar si aparece cansancio.
+
+Nota: lectura técnica/deportiva experimental. No es diagnóstico médico.

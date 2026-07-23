@@ -1,0 +1,47 @@
+SAVE SWIMMER - PRUEBA V046 SD + RESUMEN + INA219
+================================================
+
+Firmware:
+SS-LITE-BLE-SD-V1-046
+
+Objetivo de la version:
+- Mantener CSV crudo tecnico a 10 Hz en microSD.
+- Evitar pausas largas por readback/remontaje durante la sesion.
+- Crear resumen rapido SMxxxxxx.CSV con muestra representativa cada 5 segundos.
+- Descargar por BLE el resumen rapido como flujo normal.
+- Dejar el CSV completo como descarga diagnostica lenta o retiro directo de microSD.
+
+Al iniciar, el monitor serial debe mostrar:
+- I2C DEVICE FOUND AT 0x40
+- I2C DEVICE FOUND AT 0x68
+- INA219 CONNECTED
+- MPU6050 CONNECTED
+
+Al cerrar sesion, la app debe informar:
+- SESSION:STOPPED
+- FILE=/SSxxxxxx.CSV
+- SUMMARY=/SMxxxxxx.CSV
+- SUMMARY_CLEAN=YES
+
+Archivos esperados en microSD:
+- SSxxxxxx.CSV = sesion completa cruda
+- SMxxxxxx.CSV = resumen liviano para app
+- INDEX.CSV
+- BOOT.CSV
+
+App recomendada:
+Save Swimmer Field Viewer FIELD V0.3.35
+
+Prueba minima:
+1. Cargar V046 al ESP.
+2. Instalar FIELD V0.3.35.
+3. Iniciar sesion de 10 minutos con bateria.
+4. Cerrar sesion.
+5. Descargar "resumen rapido por BLE".
+6. Medir tiempo de descarga.
+7. Revisar si el CSV completo tiene menos pausas #SD_GAP que V045.
+
+Criterio esperado:
+- El resumen debe descargar en segundos o pocos minutos, no en 35 minutos.
+- El CSV completo debe conservar mas continuidad que V045.
+- CURRENT_MA y POWER_MW deben seguir presentes en CSV crudo y resumen.

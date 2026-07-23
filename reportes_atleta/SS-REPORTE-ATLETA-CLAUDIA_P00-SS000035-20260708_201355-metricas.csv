@@ -1,0 +1,22 @@
+﻿metric,value
+archivo,SS000035.CSV
+atleta,CLAUDIA P00
+firmware,SS-LITE-BLE-SD-V1-052
+modo,TEST
+duracion_s,23
+muestras,151
+rot_der_deg,0.18
+rot_izq_deg,1.23
+rot_prom_deg,0.7
+simetria_diff_deg,1.05
+alineacion_prom_deg,0.5
+base_pitch_deg,-1.3
+base_roll_deg,86
+base_ud,0.66
+impulso_prom,0.09
+brazadas_estimadas,0
+ritmo_s,--
+gps_puntos,0
+distancia_m,0
+mejor_tramo_inicio_s,0.68
+mejor_tramo_fin_s,23.68

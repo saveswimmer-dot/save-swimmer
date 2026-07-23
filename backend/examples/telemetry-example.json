@@ -1,0 +1,21 @@
+{
+  "serial": "SS-LT-000001",
+  "user": "Paula",
+  "mode": "FIELD_TEST",
+  "time": "2026-05-21T18:20:00-05:00",
+  "lat": -12.1609,
+  "lon": -77.0309,
+  "lr": 0.3,
+  "fb": 1.2,
+  "ud": 9.4,
+  "mag": 9.8,
+  "pitch": -2.1,
+  "roll": 8.4,
+  "battery": 82,
+  "water": true,
+  "motion": "SWIMMING",
+  "risk": "NORMAL",
+  "speed": 1.12,
+  "pace100m": 96,
+  "signal": -72
+}

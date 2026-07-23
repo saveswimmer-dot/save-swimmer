@@ -1,0 +1,25 @@
+﻿metric,value
+archivo,INCOMPLETA_SS000006 (1).CSV
+atleta,prueba ver 54
+firmware,SS-LITE-BLE-SD-V1-054
+modo,TEST
+duracion_s,50
+muestras,434
+rot_der_deg,41.58
+rot_izq_deg,74.34
+rot_prom_deg,57.96
+rotation_zone,alta_contextual
+simetria_diff_deg,32.76
+alineacion_prom_deg,4
+base_pitch_deg,1.6
+base_roll_deg,0.6
+base_ud,9.09
+impulso_prom,3.82
+brazadas_estimadas,31
+session_type,PRUEBA_TECNICA
+false_positive_warning,revisar_antes_de_contar_brazadas
+ritmo_s,1.52
+gps_puntos,434
+distancia_m,8
+mejor_tramo_inicio_s,30.38
+mejor_tramo_fin_s,60.38

@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Swimmer BLE Viewer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071015;
+      --panel: #102028;
+      --panel-2: #152b35;
+      --text: #e8f4f7;
+      --muted: #8facb5;
+      --line: #26444e;
+      --cyan: #35d1dc;
+      --green: #4be37c;
+      --yellow: #ffd166;
+      --red: #ff5c70;
+      --blue: #75a7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: #091820;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button.primary {
+      background: var(--cyan);
+      color: #032126;
+      border-color: var(--cyan);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+      padding: 14px;
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      background: #0b1920;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 74px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .metric small {
+      color: var(--muted);
+    }
+
+    canvas {
+      width: 100%;
+      height: 280px;
+      display: block;
+      background: #081419;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .viewer {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .axis-box {
+      position: relative;
+      height: 380px;
+      background: #081419;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .axis-line {
+      position: absolute;
+      background: var(--line);
+      opacity: 0.95;
+    }
+
+    .axis-line.x {
+      left: 8%;
+      right: 8%;
+      top: 50%;
+      height: 2px;
+    }
+
+    .axis-line.y {
+      top: 8%;
+      bottom: 8%;
+      left: 50%;
+      width: 2px;
+    }
+
+    .axis-label {
+      position: absolute;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(8, 20, 25, 0.75);
+      padding: 4px 6px;
+      border-radius: 6px;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .axis-label.up { left: 50%; top: 6%; }
+    .axis-label.down { left: 50%; top: 94%; }
+    .axis-label.left { left: 8%; top: 50%; }
+    .axis-label.right { left: 92%; top: 50%; }
+    .axis-label.front { left: 28%; top: 82%; }
+    .axis-label.back { left: 72%; top: 82%; }
+
+    .dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 24px rgba(53, 209, 220, 0.75);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: left 80ms linear, top 80ms linear, background 120ms ease;
+    }
+
+    .plate {
+      width: 130px;
+      height: 72px;
+      border: 2px solid var(--cyan);
+      border-radius: 8px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      transform-origin: center;
+      opacity: 0.85;
+      transition: transform 80ms linear, border-color 120ms ease;
+      pointer-events: none;
+    }
+
+    .raw {
+      min-height: 74px;
+      color: var(--muted);
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+      background: #081419;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #0b1920;
+      font-weight: 700;
+      margin: 0 6px 8px 0;
+    }
+
+    .ok { color: var(--green); }
+    .watch { color: var(--yellow); }
+    .danger { color: var(--red); }
+
+    @media (max-width: 860px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .status-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Save Swimmer BLE Viewer</h1>
+      <div id="connectionText" class="ok">Desconectado</div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="connectBtn">Conectar BLE</button>
+      <button id="clearBtn">Limpiar gráficos</button>
+      <button id="downloadBtn">Descargar CSV</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="viewer">
+      <section>
+        <h2>Telemetría</h2>
+        <div class="status-row">
+          <div class="metric"><span>LR lateral</span><strong id="lr">--</strong><small>m/s2</small></div>
+          <div class="metric"><span>FB frente/atrás</span><strong id="fb">--</strong><small>m/s2</small></div>
+          <div class="metric"><span>UD arriba/abajo</span><strong id="ud">--</strong><small>m/s2</small></div>
+          <div class="metric"><span>MAG magnitud</span><strong id="mag">--</strong><small>m/s2</small></div>
+        </div>
+        <canvas id="chart" width="900" height="280"></canvas>
+      </section>
+
+      <section>
+        <h2>Paquete recibido</h2>
+        <div class="raw" id="raw">Esperando datos BLE...</div>
+      </section>
+    </div>
+
+    <div class="viewer">
+      <section>
+        <h2>Eje corporal de 6 puntos</h2>
+        <div class="axis-box">
+          <div class="axis-line x"></div>
+          <div class="axis-line y"></div>
+          <div class="axis-label up">ARRIBA</div>
+          <div class="axis-label down">ABAJO</div>
+          <div class="axis-label left">IZQUIERDA</div>
+          <div class="axis-label right">DERECHA</div>
+          <div class="axis-label front">FRENTE</div>
+          <div class="axis-label back">ESPALDA</div>
+          <div class="plate" id="plate"></div>
+          <div class="dot" id="dot"></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Interpretación</h2>
+        <div class="pill">Serial: <span id="serial">&nbsp;--</span></div>
+        <div class="pill">Firmware: <span id="fw">&nbsp;--</span></div>
+        <div class="pill">Estado: <span id="state">&nbsp;--</span></div>
+        <div class="pill">Agua: <span id="water">&nbsp;--</span></div>
+        <div class="pill">Batería: <span id="batt">&nbsp;--</span></div>
+        <div class="pill">Orientación: <span id="body">&nbsp;--</span></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const SERVICE_UUID = "8f1c1000-5a7e-4b3d-9c21-a10000000001";
+    const TELEMETRY_UUID = "8f1c1001-5a7e-4b3d-9c21-a10000000001";
+    const MAX_POINTS = 160;
+
+    const $ = (id) => document.getElementById(id);
+    const decoder = new TextDecoder("utf-8");
+    const samples = [];
+    let csvRows = ["time,serial,fw,lr,fb,ud,mag,state,water,batt,body,raw"];
+
+    function parseTelemetry(text) {
+      const out = {};
+      if (text.startsWith("A:")) {
+        const values = text.slice(2).split(",").map((value) => Number(value) / 10);
+        out.LR = values[0];
+        out.FB = values[1];
+        out.UD = values[2];
+        out.MAG = values[3];
+        return out;
+      }
+      text.split(",").forEach((part) => {
+        const index = part.indexOf(":");
+        if (index < 0) return;
+        const key = part.slice(0, index).trim().toUpperCase();
+        const value = part.slice(index + 1).trim();
+        out[key] = value;
+      });
+      return out;
+    }
+
+    function numberValue(value) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function classifyBody(lr, fb, ud, mag) {
+      const absLR = Math.abs(lr);
+      const absFB = Math.abs(fb);
+      const absUD = Math.abs(ud);
+      const dominant = Math.max(absLR, absFB, absUD);
+
+      if (mag < 2) return "SIN LECTURA";
+      if (dominant === absUD && ud > 0) return "ESPALDA ARRIBA / ESTABLE";
+      if (dominant === absUD && ud < 0) return "INVERTIDO";
+      if (dominant === absLR) return lr > 0 ? "LATERAL DERECHA" : "LATERAL IZQUIERDA";
+      if (dominant === absFB) return fb > 0 ? "FRENTE ARRIBA" : "ESPALDA ARRIBA";
+      return "TRANSICION";
+    }
+
+    function setMetric(id, value) {
+      $(id).textContent = Number.isFinite(value) ? value.toFixed(2) : "--";
+    }
+
+    function updateAxis(lr, fb, ud, body) {
+      const x = Math.max(8, Math.min(92, 50 + lr * 4.2));
+      const y = Math.max(8, Math.min(92, 50 - fb * 4.2));
+      const rotate = Math.max(-80, Math.min(80, lr * 6));
+      const color = body.includes("INVERTIDO") ? "var(--red)" : body.includes("LATERAL") ? "var(--yellow)" : "var(--cyan)";
+
+      $("dot").style.left = `${x}%`;
+      $("dot").style.top = `${y}%`;
+      $("dot").style.background = color;
+      $("plate").style.transform = `translate(-50%, -50%) rotate(${rotate}deg)`;
+      $("plate").style.borderColor = color;
+    }
+
+    function drawChart() {
+      const canvas = $("chart");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 28;
+      const min = -16;
+      const max = 16;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#081419";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "#26444e";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = pad + ((h - pad * 2) / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(w - pad, y);
+        ctx.stroke();
+      }
+
+      function plot(key, color) {
+        if (samples.length < 2) return;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        samples.forEach((sample, index) => {
+          const x = pad + ((w - pad * 2) * index) / (MAX_POINTS - 1);
+          const clamped = Math.max(min, Math.min(max, sample[key]));
+          const y = h - pad - ((clamped - min) / (max - min)) * (h - pad * 2);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      }
+
+      plot("lr", "#35d1dc");
+      plot("fb", "#ffd166");
+      plot("ud", "#75a7ff");
+      plot("mag", "#4be37c");
+
+      ctx.fillStyle = "#8facb5";
+      ctx.font = "12px Arial";
+      ctx.fillText("LR", 36, 18);
+      ctx.fillText("FB", 78, 18);
+      ctx.fillText("UD", 120, 18);
+      ctx.fillText("MAG", 162, 18);
+    }
+
+    function handleTelemetry(text) {
+      const data = parseTelemetry(text);
+      const lr = numberValue(data.LR ?? data.X);
+      const fb = numberValue(data.FB ?? data.Y);
+      const ud = numberValue(data.UD ?? data.Z);
+      const mag = numberValue(data.MAG ?? data.M);
+      const body = classifyBody(lr, fb, ud, mag);
+
+      $("raw").textContent = text;
+      $("serial").textContent = " " + (data.SERIAL || "--");
+      $("fw").textContent = " " + (data.FW || "--");
+      $("state").textContent = " " + (data.STATE || "--");
+      $("water").textContent = " " + (data.WATER || "--");
+      $("batt").textContent = " " + (data.BATT || data.B || "--");
+      $("body").textContent = " " + body;
+
+      setMetric("lr", lr);
+      setMetric("fb", fb);
+      setMetric("ud", ud);
+      setMetric("mag", mag);
+      updateAxis(lr, fb, ud, body);
+
+      samples.push({ lr, fb, ud, mag });
+      if (samples.length > MAX_POINTS) samples.shift();
+      drawChart();
+
+      const now = new Date().toISOString();
+      csvRows.push([
+        now,
+        data.SERIAL || "",
+        data.FW || "",
+        lr,
+        fb,
+        ud,
+        mag,
+        data.STATE || "",
+        data.WATER || "",
+        data.BATT || "",
+        body,
+        JSON.stringify(text)
+      ].join(","));
+    }
+
+    async function connectBle() {
+      if (!navigator.bluetooth) {
+        alert("Este navegador no soporta Web Bluetooth. Usa Chrome o Edge en Android/Windows.");
+        return;
+      }
+
+      $("connectionText").textContent = "Buscando dispositivo...";
+
+      const device = await navigator.bluetooth.requestDevice({
+        filters: [{ services: [SERVICE_UUID] }],
+        optionalServices: [SERVICE_UUID]
+      });
+
+      device.addEventListener("gattserverdisconnected", () => {
+        $("connectionText").textContent = "Desconectado";
+        $("connectionText").className = "danger";
+      });
+
+      $("connectionText").textContent = "Conectando...";
+      const server = await device.gatt.connect();
+      const service = await server.getPrimaryService(SERVICE_UUID);
+      const characteristic = await service.getCharacteristic(TELEMETRY_UUID);
+
+      await characteristic.startNotifications();
+      characteristic.addEventListener("characteristicvaluechanged", (event) => {
+        const value = decoder.decode(event.target.value);
+        handleTelemetry(value);
+      });
+
+      $("connectionText").textContent = `Conectado a ${device.name || "Save Swimmer"}`;
+      $("connectionText").className = "ok";
+    }
+
+    $("connectBtn").addEventListener("click", async () => {
+      try {
+        await connectBle();
+      } catch (error) {
+        $("connectionText").textContent = "No conectado";
+        $("connectionText").className = "danger";
+        alert(error.message || error);
+      }
+    });
+
+    $("clearBtn").addEventListener("click", () => {
+      samples.length = 0;
+      csvRows = ["time,serial,fw,lr,fb,ud,mag,state,water,batt,body,raw"];
+      drawChart();
+    });
+
+    $("downloadBtn").addEventListener("click", () => {
+      const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `save_swimmer_${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    drawChart();
+  </script>
+</body>
+</html>

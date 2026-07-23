@@ -1,0 +1,10 @@
+Categoria,Detalle,Monto estimado PEN,Comentario
+Electronica base,ESP32-S3 sensores IMU microSD regulacion cables capacitores,650,Reposicion y pruebas multiples
+Energia,baterias TP4056 proteccion cargadores pruebas de consumo,500,Incluye fallas y reemplazos de prototipo
+Sensorizacion,sensor de agua GPS/GNSS temperatura o pruebas complementarias,650,Para version Lite de campo
+Carcasa y sellado,cajas prototipo resina siliconas juntas pruebas IP caseras,900,No equivale a certificacion IP final
+App y firmware,iteraciones pruebas Android dashboard procesamiento CSV,500,Cubre tiempo herramientas y validacion
+Pruebas de playa,transporte consumibles permisos impresiones formatos voluntarios,700,Para sesiones controladas
+Presentacion,empaque prototipo stickers material visual demo,450,Para mostrar a aliados entrenadores y posibles compradores
+Contingencia,fallas de modulos tarjetas SD cables baterias y reposicion,650,Prototipo consume piezas
+Total meta inicial,,5000,Meta sugerida de campana

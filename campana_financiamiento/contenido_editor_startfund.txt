@@ -1,0 +1,129 @@
+CONTENIDO PARA PEGAR EN EL EDITOR DE STARTFUND
+Version: 2026-05-28
+
+IMAGEN 1 SUGERIDA:
+contenido_01_problema_1280x720.jpg
+
+TITULO:
+El problema en aguas abiertas
+
+TEXTO:
+En aguas abiertas, muchas veces el entrenador observa desde la playa, la familia espera noticias y el nadador se encuentra lejos de la orilla.
+
+El mar puede cambiar rapido: oleaje, frio, corriente, fatiga, baja visibilidad y distancia hacen que la informacion llegue tarde.
+
+Save Swimmer busca aportar una capa adicional de informacion: transformar movimiento corporal y contexto acuatico en estados simples, utiles y accionables.
+
+Estados que buscamos interpretar:
+- Nadando
+- Dentro de zona
+- Ritmo estable
+- Ritmo bajo
+- Sin avance
+- Regresando
+- Sesion finalizada
+
+
+IMAGEN 2 SUGERIDA:
+contenido_02_avance_real_1280x720.jpg
+
+TITULO:
+Ya existe un avance real
+
+TEXTO:
+Save Swimmer no parte de cero. Ya estamos probando hardware, firmware, app y datos reales.
+
+Avances actuales:
+- Firmware funcional con ESP32-S3.
+- Lectura de movimiento corporal con IMU.
+- Conexion Bluetooth con app Android.
+- Registro de sesiones en microSD.
+- Datos reales exportados en CSV.
+- App tecnica de campo para pruebas.
+- App demo para visualizar la experiencia final.
+- Primeras lecturas de ritmo, rotacion, impulso y regularidad.
+
+El prototipo actual es de laboratorio. Todavia no es el producto final, pero ya permite validar si los datos sirven para construir una version Lite de campo.
+
+
+IMAGEN 3 SUGERIDA:
+contenido_03_meta_1280x720.jpg
+
+TITULO:
+Para que usaremos los fondos
+
+TEXTO:
+La meta inicial es S/ 5,000.
+
+Ese monto nos permite avanzar la version Lite de campo y reducir errores propios del prototipo actual.
+
+Uso estimado:
+- Componentes electronicos y sensores.
+- Sensor de agua.
+- GPS/GNSS de prueba.
+- Baterias y sistema de energia.
+- Carcasa inicial.
+- Materiales de sellado.
+- Mejoras de firmware y app.
+- Pruebas controladas en playa.
+- Documentacion de resultados.
+
+Metas por etapa:
+- S/ 1,500: estabilizar prototipo actual.
+- S/ 3,000: avanzar version Lite de campo.
+- S/ 5,000: realizar pruebas con nadadores.
+- S/ 8,000: estudiar camino a PCB y carcasa compacta.
+
+
+TITULO:
+Que hace diferente a Save Swimmer
+
+TEXTO:
+Save Swimmer no intenta ser un reloj deportivo ni un monitor fitness.
+
+La idea es ubicar el dispositivo en espalda alta, entre escapulas, porque desde esa posicion se puede observar mejor la orientacion global del torso, la oscilacion y la periodicidad del nado.
+
+No buscamos medir todo el cuerpo. Buscamos interpretar patrones utiles:
+- orientacion corporal
+- movimiento sostenido
+- ritmo
+- rotacion
+- regularidad
+- impulso
+- permanencia dentro de zona
+- inicio y fin de sesion
+
+El objetivo es que el nadador, el entrenador o la familia no vean datos crudos, sino informacion clara.
+
+
+TITULO:
+Etapa actual del proyecto
+
+TEXTO:
+Save Swimmer esta en etapa de prototipo y validacion.
+
+Eso significa que los fondos no compran un producto final. Ayudan a financiar desarrollo, pruebas y aprendizaje tecnico para llegar a una version mas robusta.
+
+Importante:
+Save Swimmer todavia no es un dispositivo certificado de emergencia, rescate, uso medico ni salvamento.
+
+La vision es construir tecnologia que, con pruebas, mejora tecnica y certificaciones futuras, pueda aportar una capa adicional de seguridad para nadadores de aguas abiertas.
+
+
+TITULO:
+Como puedes apoyar
+
+TEXTO:
+Puedes apoyar con un aporte, compartiendo la campana o conectandonos con nadadores, entrenadores, clubes, marcas o personas interesadas en seguridad acuática.
+
+Cada aporte ayuda a convertir un prototipo de mesa en una version de campo.
+
+Gracias por apoyar tecnologia hecha desde Peru para mejorar la seguridad en aguas abiertas.
+
+Contacto:
+saveswimmer@gmail.com
+
+Redes:
+Instagram: https://www.instagram.com/saveswimmer/
+TikTok: https://www.tiktok.com/@saveswimmer
+Facebook: Save Swimmer
